@@ -1,222 +1,76 @@
 [gd_scene format=3 uid="uid://b2namakqqiiyq"]
 
-[ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_427jc"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jjseg"]
-texture = ExtResource("1_427jc")
-texture_region_size = Vector2i(8, 8)
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-5:0/0 = 0
-6:0/0 = 0
-7:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-4:1/0 = 0
-5:1/0 = 0
-6:1/0 = 0
-7:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-3:2/0 = 0
-4:2/0 = 0
-5:2/0 = 0
-6:2/0 = 0
-7:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-3:3/0 = 0
-4:3/0 = 0
-5:3/0 = 0
-6:3/0 = 0
-7:3/0 = 0
-0:6/0 = 0
-1:6/0 = 0
-2:6/0 = 0
-3:6/0 = 0
-4:6/0 = 0
-5:6/0 = 0
-6:6/0 = 0
-7:6/0 = 0
-0:7/0 = 0
-1:7/0 = 0
-2:7/0 = 0
-3:7/0 = 0
-4:7/0 = 0
-5:7/0 = 0
-6:7/0 = 0
-7:7/0 = 0
-8:0/0 = 0
-8:1/0 = 0
-8:6/0 = 0
-8:7/0 = 0
-8:8/0 = 0
-8:9/0 = 0
-8:10/0 = 0
-8:11/0 = 0
-8:12/0 = 0
-8:13/0 = 0
-8:14/0 = 0
-8:15/0 = 0
-9:0/0 = 0
-9:1/0 = 0
-9:6/0 = 0
-9:7/0 = 0
-9:8/0 = 0
-9:9/0 = 0
-9:10/0 = 0
-9:11/0 = 0
-9:12/0 = 0
-9:13/0 = 0
-9:14/0 = 0
-9:15/0 = 0
-10:0/0 = 0
-10:1/0 = 0
-10:6/0 = 0
-10:7/0 = 0
-10:8/0 = 0
-10:9/0 = 0
-10:10/0 = 0
-10:11/0 = 0
-10:12/0 = 0
-10:13/0 = 0
-10:14/0 = 0
-10:15/0 = 0
-11:0/0 = 0
-11:1/0 = 0
-11:6/0 = 0
-11:7/0 = 0
-11:8/0 = 0
-11:9/0 = 0
-11:10/0 = 0
-11:11/0 = 0
-11:12/0 = 0
-11:13/0 = 0
-11:14/0 = 0
-11:15/0 = 0
-12:0/0 = 0
-12:1/0 = 0
-12:6/0 = 0
-12:7/0 = 0
-12:8/0 = 0
-12:9/0 = 0
-12:10/0 = 0
-12:11/0 = 0
-12:12/0 = 0
-12:13/0 = 0
-12:14/0 = 0
-12:15/0 = 0
-13:0/0 = 0
-13:1/0 = 0
-13:6/0 = 0
-13:7/0 = 0
-13:8/0 = 0
-13:9/0 = 0
-13:10/0 = 0
-13:11/0 = 0
-13:12/0 = 0
-13:13/0 = 0
-13:14/0 = 0
-13:15/0 = 0
-14:0/0 = 0
-14:1/0 = 0
-14:6/0 = 0
-14:7/0 = 0
-14:8/0 = 0
-14:9/0 = 0
-14:10/0 = 0
-14:11/0 = 0
-14:12/0 = 0
-14:13/0 = 0
-14:14/0 = 0
-14:15/0 = 0
-15:0/0 = 0
-15:1/0 = 0
-15:6/0 = 0
-15:7/0 = 0
-15:8/0 = 0
-15:9/0 = 0
-15:10/0 = 0
-15:11/0 = 0
-15:12/0 = 0
-15:13/0 = 0
-15:14/0 = 0
-15:15/0 = 0
-0:8/0 = 0
-0:9/0 = 0
-0:10/0 = 0
-0:11/0 = 0
-0:12/0 = 0
-0:13/0 = 0
-0:14/0 = 0
-0:15/0 = 0
-1:8/0 = 0
-1:9/0 = 0
-1:10/0 = 0
-1:11/0 = 0
-1:12/0 = 0
-1:13/0 = 0
-1:14/0 = 0
-1:15/0 = 0
-2:8/0 = 0
-2:9/0 = 0
-2:10/0 = 0
-2:11/0 = 0
-2:12/0 = 0
-2:13/0 = 0
-2:14/0 = 0
-2:15/0 = 0
-3:8/0 = 0
-3:9/0 = 0
-3:10/0 = 0
-3:11/0 = 0
-3:12/0 = 0
-3:13/0 = 0
-3:14/0 = 0
-3:15/0 = 0
-4:8/0 = 0
-4:9/0 = 0
-4:10/0 = 0
-4:11/0 = 0
-4:12/0 = 0
-4:13/0 = 0
-4:14/0 = 0
-4:15/0 = 0
-5:8/0 = 0
-5:9/0 = 0
-5:10/0 = 0
-5:11/0 = 0
-5:12/0 = 0
-5:13/0 = 0
-5:14/0 = 0
-5:15/0 = 0
-6:8/0 = 0
-6:9/0 = 0
-6:10/0 = 0
-6:11/0 = 0
-6:12/0 = 0
-6:13/0 = 0
-6:14/0 = 0
-6:15/0 = 0
-7:8/0 = 0
-7:9/0 = 0
-7:10/0 = 0
-7:11/0 = 0
-7:12/0 = 0
-7:13/0 = 0
-7:14/0 = 0
-7:15/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_1hqyc"]
-sources/1 = SubResource("TileSetAtlasSource_jjseg")
+[ext_resource type="PackedScene" uid="uid://tq2waqkyfdur" path="res://Assets/Scenes/Rooms/room9.tscn" id="2_jjseg"]
+[ext_resource type="PackedScene" uid="uid://177g2l4b2c6d" path="res://Assets/Scenes/Rooms/room1.tscn" id="2_kk4t4"]
+[ext_resource type="PackedScene" uid="uid://xp5qhciii4y8" path="res://Assets/Scenes/Rooms/room2.tscn" id="3_tabvt"]
+[ext_resource type="PackedScene" uid="uid://bmujjvpxnxicp" path="res://Assets/Scenes/Rooms/room3.tscn" id="4_3iwok"]
+[ext_resource type="PackedScene" uid="uid://ciqjax2m5iu3i" path="res://Assets/Scenes/Rooms/room4.tscn" id="5_5arw8"]
+[ext_resource type="PackedScene" uid="uid://cdah3twphvjo7" path="res://Assets/Scenes/Rooms/room5.tscn" id="6_xx0cq"]
+[ext_resource type="PackedScene" uid="uid://c2juv6gd00gjr" path="res://Assets/Scenes/Rooms/room6.tscn" id="7_1spb2"]
+[ext_resource type="PackedScene" uid="uid://dcbdayb4gbq18" path="res://Assets/Scenes/Rooms/room7.tscn" id="8_qu5k5"]
+[ext_resource type="PackedScene" uid="uid://bkxp4s5ilx0ha" path="res://Assets/Scenes/Rooms/room8.tscn" id="9_b4jvr"]
+[ext_resource type="PackedScene" uid="uid://bqx46roijseng" path="res://Assets/Scenes/Rooms/room10.tscn" id="10_02wtx"]
+[ext_resource type="PackedScene" uid="uid://b7bnswiywwu3i" path="res://Assets/Scenes/Rooms/room11.tscn" id="11_hqyhv"]
+[ext_resource type="PackedScene" uid="uid://cf0yio4ocgff2" path="res://Assets/Scenes/Rooms/room12.tscn" id="12_q3qt3"]
+[ext_resource type="PackedScene" uid="uid://8hn50q48sno3" path="res://Assets/Scenes/Rooms/room13.tscn" id="13_p1src"]
+[ext_resource type="PackedScene" uid="uid://dvk3ywhvhrcd4" path="res://Assets/Scenes/Rooms/room14.tscn" id="14_mmdi8"]
+[ext_resource type="PackedScene" uid="uid://cdujifkxf83vm" path="res://Assets/Scenes/Rooms/room15.tscn" id="15_0sj4n"]
+[ext_resource type="PackedScene" uid="uid://de73edq1j48gb" path="res://Assets/Scenes/Rooms/room16.tscn" id="16_vhkvk"]
+[ext_resource type="PackedScene" uid="uid://dyhqfy0ovr7rv" path="res://Assets/Scenes/Rooms/room_special.tscn" id="17_3iwok"]
+[ext_resource type="PackedScene" uid="uid://bamksisfgow6v" path="res://Assets/Scenes/Rooms/room_basement.tscn" id="18_5arw8"]
 
 [node name="Dungeon1" type="Node2D" unique_id=386369034]
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1630337525]
-tile_set = SubResource("TileSet_1hqyc")
+[node name="room1" parent="." unique_id=753680689 instance=ExtResource("2_kk4t4")]
+position = Vector2(-128, -88)
+
+[node name="room2" parent="." unique_id=1063940994 instance=ExtResource("3_tabvt")]
+position = Vector2(-384, -88)
+
+[node name="room3" parent="." unique_id=599710037 instance=ExtResource("4_3iwok")]
+position = Vector2(128, -88)
+
+[node name="room4" parent="." unique_id=2055252661 instance=ExtResource("5_5arw8")]
+position = Vector2(-128, -264)
+
+[node name="room5" parent="." unique_id=671090097 instance=ExtResource("6_xx0cq")]
+position = Vector2(-128, -440)
+
+[node name="room6" parent="." unique_id=1745662618 instance=ExtResource("7_1spb2")]
+position = Vector2(-384, -440)
+
+[node name="room7" parent="." unique_id=782276010 instance=ExtResource("8_qu5k5")]
+position = Vector2(128, -440)
+
+[node name="room8" parent="." unique_id=1879895654 instance=ExtResource("9_b4jvr")]
+position = Vector2(-384, -616)
+
+[node name="room10" parent="." unique_id=1508861911 instance=ExtResource("2_jjseg")]
+position = Vector2(-128, -616)
+
+[node name="room11" parent="." unique_id=454570420 instance=ExtResource("10_02wtx")]
+position = Vector2(-128, -792)
+
+[node name="room12" parent="." unique_id=1910418955 instance=ExtResource("11_hqyhv")]
+position = Vector2(-128, -968)
+
+[node name="room13" parent="." unique_id=435775721 instance=ExtResource("12_q3qt3")]
+position = Vector2(-384, -968)
+
+[node name="room14" parent="." unique_id=1203313447 instance=ExtResource("13_p1src")]
+position = Vector2(128, -616)
+
+[node name="room15" parent="." unique_id=1991680527 instance=ExtResource("14_mmdi8")]
+position = Vector2(384, -616)
+
+[node name="room16" parent="." unique_id=1965363454 instance=ExtResource("15_0sj4n")]
+position = Vector2(384, -792)
+
+[node name="room17" parent="." unique_id=1611217033 instance=ExtResource("16_vhkvk")]
+position = Vector2(640, -792)
+
+[node name="roomSpecial" parent="." unique_id=1977389969 instance=ExtResource("17_3iwok")]
+position = Vector2(-640, -616)
+
+[node name="roomBasement" parent="." unique_id=391949384 instance=ExtResource("18_5arw8")]
+position = Vector2(-656, -968)
