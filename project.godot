@@ -17,7 +17,11 @@ config/icon="res://icon.svg"
 [display]
 
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep_width"
+
+[dotnet]
+
+project/assembly_name="Legend of Lonk"
 
 [physics]
 
