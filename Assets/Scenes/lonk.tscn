@@ -3,21 +3,21 @@
 [ext_resource type="Script" uid="uid://ctww4kg4v45wm" path="res://Assets/Scenes/Lonk.cs" id="1_qq4k7"]
 [ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_kq13k"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq4k7"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(1, 11, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kq13k"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(18, 11, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_64qf5"]
 atlas = ExtResource("2_kq13k")
-region = Rect2(0, 9, 17, 20)
+region = Rect2(35, 11, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lunqy"]
 atlas = ExtResource("2_kq13k")
-region = Rect2(17, 9, 17, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
-atlas = ExtResource("2_kq13k")
-region = Rect2(34, 9, 17, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bh83t"]
-atlas = ExtResource("2_kq13k")
-region = Rect2(51, 9, 17, 20)
+region = Rect2(52, 11, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sulnf"]
 atlas = ExtResource("2_kq13k")
@@ -31,17 +31,27 @@ region = Rect2(85, 9, 17, 20)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_qq4k7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kq13k")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_64qf5")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lunqy")
+}],
+"loop": 1,
+"name": &"walk_horizontal",
+"speed": 5.0
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1j3ky")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bh83t")
-}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sulnf")
 }, {
@@ -49,18 +59,22 @@ animations = [{
 "texture": SubResource("AtlasTexture_03c5t")
 }],
 "loop": 1,
-"name": &"default",
+"name": &"walk_up",
 "speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
 size = Vector2(15, 16)
 
-[node name="Lonk" type="CharacterBody2D" unique_id=1971914912]
+[node name="Lonk" type="Area2D" unique_id=686843034]
 script = ExtResource("1_qq4k7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 sprite_frames = SubResource("SpriteFrames_4rkw1")
+animation = &"walk_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=762002191]
 shape = SubResource("RectangleShape2D_3x3eq")
+
+[node name="Foot Position" type="Node2D" parent="." unique_id=1299246935]
+position = Vector2(0, 7)
