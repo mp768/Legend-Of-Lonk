@@ -617,17 +617,20 @@ func _generate_map() -> void:
 	var ground_layer = TileMapLayer.new()
 	ground_layer.name = "GroundLayer"
 	ground_layer.tile_set = non_colliding_tileset
+	ground_layer.add_to_group("ground", true)
 
 	# Wall Layer (Solid Collision from reference_tileset)
 	var wall_layer = TileMapLayer.new()
 	wall_layer.name = "WallLayer"
 	wall_layer.tile_set = reference_tileset
+	wall_layer.add_to_group("wall", true)
 
 	# Overhead Layer (Z-Layer 10, No Collision)
 	var overhead_layer = TileMapLayer.new()
 	overhead_layer.name = "OverheadLayer"
 	overhead_layer.z_index = 10
 	overhead_layer.tile_set = non_colliding_tileset
+	overhead_layer.add_to_group("overhead", true)
 
 	root_node.add_child(ground_layer)
 	root_node.add_child(wall_layer)

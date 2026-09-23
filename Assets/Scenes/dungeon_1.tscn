@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://de73edq1j48gb" path="res://Assets/Scenes/Rooms/room16.tscn" id="16_vhkvk"]
 [ext_resource type="PackedScene" uid="uid://dyhqfy0ovr7rv" path="res://Assets/Scenes/Rooms/room_special.tscn" id="17_3iwok"]
 [ext_resource type="PackedScene" uid="uid://bamksisfgow6v" path="res://Assets/Scenes/Rooms/room_basement.tscn" id="18_5arw8"]
+[ext_resource type="PackedScene" uid="uid://m85sx2wsp7bb" path="res://Assets/Scenes/lonk.tscn" id="19_5arw8"]
 
 [node name="Dungeon1" type="Node2D" unique_id=386369034]
 
@@ -74,3 +75,6 @@ position = Vector2(-640, -616)
 
 [node name="roomBasement" parent="." unique_id=391949384 instance=ExtResource("18_5arw8")]
 position = Vector2(-656, -968)
+
+[node name="Lonk" parent="." unique_id=686843034 instance=ExtResource("19_5arw8")]
+position = Vector2(0, -9)

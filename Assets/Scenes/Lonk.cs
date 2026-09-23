@@ -16,6 +16,10 @@ public partial class Lonk : Area2D
 
 	private MovementDirection previousMovementDirection = MovementDirection.HORIZONTAL;
 
+	// The position we do movement with. The "Position" field on the native Node2D is just
+	// going to be used for visuals.
+	private Vector2 actualPosition;
+
 	// I recorded how many frames it took for Link's movement sprite to update and it
 	// was every 6 movement frames.
 	private const int MOVEMENT_SUB_ANIMATION_FRAME_MAX = 6;
@@ -24,6 +28,8 @@ public partial class Lonk : Area2D
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+		actualPosition = Position;
 
 		var footPositionNode = GetNode<Node2D>("Foot Position");
 		footPostitionOffset = footPositionNode.Position;
@@ -64,7 +70,7 @@ public partial class Lonk : Area2D
 
 		if (verticalResult.Count > 0)
 		{
-			var vCollider = verticalResult["collider"].As<CollisionObject2D>();
+			var vCollider = verticalResult["collider"].As<Node>();
 
 			if (vCollider != null)
 				hitVertical = vCollider.IsInGroup(Constants.COLLIDING_OBJECT_GROUP_TAG);
@@ -72,7 +78,7 @@ public partial class Lonk : Area2D
 
 		if (horizontalResult.Count > 0)
 		{
-			var hCollider = horizontalResult["collider"].As<CollisionObject2D>();
+			var hCollider = horizontalResult["collider"].As<Node>();
 
 			if (hCollider != null)
 				hitHorizontal = hCollider.IsInGroup(Constants.COLLIDING_OBJECT_GROUP_TAG);
@@ -88,9 +94,9 @@ public partial class Lonk : Area2D
 		// axis of movement, he would always bind himself to the nearest visual tile,
 		// so 8x8.
 
-		Position = new Vector2(
-			Mathf.Round(Position.X / 8.0f) * 8.0f,
-			Mathf.Round(Position.Y / 8.0f) * 8.0f
+		GlobalPosition = new Vector2(
+			Mathf.Round((GlobalPosition.X + 1) / 8.0f) * 8.0f,
+			Mathf.Round((GlobalPosition.Y + 1) / 8.0f) * 8.0f
 		);
 	}
 
@@ -124,7 +130,7 @@ public partial class Lonk : Area2D
 				sprite.Animation = "walk_up";
 			}
 
-			Position += new Vector2(0, inputDirection.Y * 1.5f);
+			actualPosition += new Vector2(0, inputDirection.Y * 1.5f);
 		}
 		else if (!hHit && inputDirection.X != 0)
 		{
@@ -138,7 +144,9 @@ public partial class Lonk : Area2D
 			sprite.Animation = "walk_horizontal";
 			sprite.FlipH = inputDirection.X < 0;
 
-			Position += new Vector2(inputDirection.X * 1.5f, 0);
+			actualPosition += new Vector2(inputDirection.X * 1.5f, 0);
 		}
+
+		Position = new Vector2I((int)actualPosition.X, (int)actualPosition.Y);
 	}
 }
