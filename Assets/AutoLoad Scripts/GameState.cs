@@ -12,15 +12,15 @@ public partial class GameState : Node
 
 	// Gamestate function to invoke when trying to use keys to open doors or something
 	// returns true / false to know if it worked
-	public bool use_key(int use_keys)
+	public bool use_key()
 	{
-		if (_keys == -1 || _keys - use_keys >= 0)
+		if (_keys != 0)
 		{
 			// Logic: if -1, keep it at -1 to signify inf keys
 			// else, subtract use_keys from number of keys
 			// this avoids the problem of _keys becomming infinite (keys = 0 - use_keys)
 			// because we don't run this when _keys = 0 
-			_keys = Mathf.Max(-1, _keys - use_keys);
+			_keys = Mathf.Max(-1, _keys - 1);
 			return true;
 		} 
 		return false;
