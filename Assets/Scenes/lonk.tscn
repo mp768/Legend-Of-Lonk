@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ctww4kg4v45wm" path="res://Assets/Scenes/Lonk.cs" id="1_qq4k7"]
 [ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_kq13k"]
 [ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_kq13k"]
+[ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_64qf5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qq4k7"]
 atlas = ExtResource("2_kq13k")
@@ -67,11 +68,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
 size = Vector2(6, 6)
 
-[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_sprite")]
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent")]
 script = ExtResource("1_qq4k7")
 _movementComponent = NodePath("GridMovementComponent")
-spriteOffset = Vector2i(0, -2)
-_sprite = NodePath("AnimatedSprite2D")
+_animationComponent = NodePath("GridAnimationComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
@@ -89,3 +89,8 @@ position = Vector2(8, 8)
 [node name="GridMovementComponent" type="Node" parent="." unique_id=1637290316]
 script = ExtResource("3_kq13k")
 metadata/_custom_type_script = "uid://cjxeab0s0wtq4"
+
+[node name="GridAnimationComponent" type="Node" parent="." unique_id=861480329 node_paths=PackedStringArray("sprite")]
+script = ExtResource("4_64qf5")
+sprite = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://14fuplk8jxpr"
