@@ -69,6 +69,7 @@ animations = [{
 size = Vector2(6, 6)
 
 [node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent")]
+collision_layer = 0
 script = ExtResource("1_qq4k7")
 _movementComponent = NodePath("GridMovementComponent")
 _animationComponent = NodePath("GridAnimationComponent")
