@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c8qwh3d7iiqiw"]
 
+[ext_resource type="Script" uid="uid://l67c5dwk75ee" path="res://Assets/Scenes/UIDisplay.cs" id="1_3vdnv"]
 [ext_resource type="PackedScene" uid="uid://b2namakqqiiyq" path="res://Assets/Scenes/dungeon_1.tscn" id="1_uxxti"]
 
 [node name="GameViewer" type="Control" unique_id=1013581540]
@@ -26,6 +27,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
+script = ExtResource("1_3vdnv")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HUD Background" unique_id=1747688452]
 propagate_maximum_size = false

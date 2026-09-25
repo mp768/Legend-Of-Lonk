@@ -19,6 +19,16 @@ public partial class GameSignals : Node
     [Signal]
     public delegate void SetCheatModeEventHandler(bool set); // signal for setting cheat code 
 
+    [Signal]
+    public delegate void RupeeUIUpdateEventHandler(int rupee); // signal for updating the rupee count on the UI 
+
+    [Signal]
+    public delegate void HealthUIUpdateEventHandler(int health); // signal for updating the health on the UI
+
+    [Signal]
+    public delegate void KeysUIUpdateEventHandler(int keys); // signal for updating the key count on the UI
+
+
     // FIX THESE SIGNALS BELOW OR REMOVE ENTIRELY
 
     [Signal]

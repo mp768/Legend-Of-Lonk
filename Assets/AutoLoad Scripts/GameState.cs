@@ -9,9 +9,6 @@ public partial class GameState : Node
 	int _rupees = 0;
 	int weapon = 0; // Idk what to do about this field, saving it as ints first (maybe an enum)
 
-	// stroing the playerCharacter as a reference in GameState
-
-
 	/* KEYS FUNCTIONS*/
 
 	// Gamestate function to invoke when trying to use keys to open doors or something
