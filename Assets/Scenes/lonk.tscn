@@ -2,22 +2,24 @@
 
 [ext_resource type="Script" uid="uid://ctww4kg4v45wm" path="res://Assets/Scenes/Lonk.cs" id="1_qq4k7"]
 [ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_kq13k"]
+[ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_kq13k"]
+[ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_64qf5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq4k7"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(1, 11, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kq13k"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(18, 11, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_64qf5"]
 atlas = ExtResource("2_kq13k")
-region = Rect2(0, 9, 17, 20)
+region = Rect2(35, 11, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lunqy"]
 atlas = ExtResource("2_kq13k")
-region = Rect2(17, 9, 17, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
-atlas = ExtResource("2_kq13k")
-region = Rect2(34, 9, 17, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bh83t"]
-atlas = ExtResource("2_kq13k")
-region = Rect2(51, 9, 17, 20)
+region = Rect2(52, 11, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sulnf"]
 atlas = ExtResource("2_kq13k")
@@ -31,17 +33,27 @@ region = Rect2(85, 9, 17, 20)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_qq4k7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kq13k")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_64qf5")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lunqy")
+}],
+"loop": 1,
+"name": &"walk_horizontal",
+"speed": 5.0
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1j3ky")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bh83t")
-}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sulnf")
 }, {
@@ -49,18 +61,45 @@ animations = [{
 "texture": SubResource("AtlasTexture_03c5t")
 }],
 "loop": 1,
-"name": &"default",
+"name": &"walk_up",
 "speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
-size = Vector2(15, 16)
+size = Vector2(6, 6)
 
-[node name="Lonk" type="CharacterBody2D" unique_id=1971914912]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mrrlb"]
+size = Vector2(14, 15)
+
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox")]
+collision_layer = 0
 script = ExtResource("1_qq4k7")
+_movementComponent = NodePath("GridMovementComponent")
+_animationComponent = NodePath("GridAnimationComponent")
+_hitBox = NodePath("Hitbox")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
+position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_4rkw1")
+animation = &"walk_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=762002191]
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_3x3eq")
+
+[node name="GridMovementComponent" type="Node" parent="." unique_id=1637290316]
+script = ExtResource("3_kq13k")
+metadata/_custom_type_script = "uid://cjxeab0s0wtq4"
+
+[node name="GridAnimationComponent" type="Node" parent="." unique_id=861480329 node_paths=PackedStringArray("sprite")]
+script = ExtResource("4_64qf5")
+sprite = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://14fuplk8jxpr"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=540156816]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_mrrlb")

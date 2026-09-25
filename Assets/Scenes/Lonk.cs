@@ -1,45 +1,87 @@
 using Godot;
-using System;
 
 public partial class Lonk : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	[Export] private GridMovementComponent _movementComponent;
+	[Export] private GridAnimationComponent _animationComponent;
+	[Export] private Area2D _hitBox;
+
+	private enum Axis { None, Horizontal, Vertical }
+	private Axis _primaryAxis = Axis.None;
+
+	public override void _Ready()
+	{
+		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
+		_hitBox.AreaEntered += OnAreaEntered;
+		_hitBox.BodyEntered += OnWeaponBodyEntered;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
-		Vector2 direction = Vector2.Zero;
-		//up + down has priority over left/right
+		float fDelta = (float)delta;
+		Vector2 inputDir = GetCardinalInput(fDelta);
 
-		int up = Input.IsActionPressed("up") ? 1 : 0 ;
-		int down = Input.IsActionPressed("down") ? 1: 0;
-		int left = Input.IsActionPressed("left") ? 1: 0;
-		int right = Input.IsActionPressed("right") ? 1: 0;
+		_movementComponent?.Move(inputDir, delta);
+		_animationComponent?.UpdateAnimation(inputDir);
+	}
 
-		// up || down	
-		if (up + down >= 1) // int equivalent of booleans where at least one of them is true
+	private void OnAreaEntered(Area2D area)
+	{
+		// TODO: Implement health decrease here.
+		// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+	}
+
+	private void OnWeaponBodyEntered(Node node)
+	{
+		// TODO: Confirm it was a weapon we collided with, then pull its velocity to send the object backwards.
+	}
+
+	private Vector2 GetCardinalInput(float delta)
+	{
+		float x = Input.GetAxis("left", "right");
+		float y = Input.GetAxis("up", "down");
+
+		bool hasX = !Mathf.IsZeroApprox(x);
+		bool hasY = !Mathf.IsZeroApprox(y);
+
+		if (!hasX && !hasY)
 		{
-			direction += Vector2.Up * up + Vector2.Down * down;
-		// left || right
-		} else if (left + right >= 1) {
-			direction += Vector2.Left * left + Vector2.Right * right;
+			_primaryAxis = Axis.None;
+			return Vector2.Zero;
 		}
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		
-		if (direction != Vector2.Zero)
+		Vector2 vertDir = hasY ? new Vector2(0.0f, Mathf.Sign(y)) : Vector2.Zero;
+		Vector2 horzDir = hasX ? new Vector2(Mathf.Sign(x), 0.0f) : Vector2.Zero;
+
+		if (hasY && hasX && _movementComponent != null)
 		{
-			velocity.X = direction.X * Speed;
-			velocity.Y = direction.Y * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			if (_primaryAxis == Axis.Horizontal)
+			{
+				Vector2 horzVel = _movementComponent.CalculateGridAlignedVelocity(horzDir, delta, snapPosition: false);
+				if (!TestMove(GlobalTransform, horzVel * delta))
+				{
+					return horzDir;
+				}
+				return vertDir;
+			}
+			else if (_primaryAxis == Axis.Vertical)
+			{
+				Vector2 vertVel = _movementComponent.CalculateGridAlignedVelocity(vertDir, delta, snapPosition: false);
+				if (!TestMove(GlobalTransform, vertVel * delta))
+				{
+					return vertDir;
+				}
+				return horzDir;
+			}
 		}
 
-		Velocity = velocity;
-		MoveAndSlide();
+		if (hasY)
+		{
+			_primaryAxis = Axis.Vertical;
+			return vertDir;
+		}
+
+		_primaryAxis = Axis.Horizontal;
+		return horzDir;
 	}
 }
