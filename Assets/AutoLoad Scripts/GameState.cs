@@ -109,9 +109,6 @@ public partial class GameState : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, weapon, (int)UILabels.WEAPONS);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
