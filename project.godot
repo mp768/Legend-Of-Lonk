@@ -15,6 +15,11 @@ run/main_scene="uid://c8qwh3d7iiqiw"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameSignals="*uid://bs3xi6s8g58ro"
+GameState="*uid://bciwytr8i4r2c"
+
 [display]
 
 window/size/viewport_width=256
