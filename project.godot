@@ -61,6 +61,12 @@ right={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Walls"
+2d_physics/layer_2="Causes-Damage"
+2d_physics/layer_3="Receive-Damage"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
