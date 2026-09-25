@@ -2,39 +2,58 @@
 
 [ext_resource type="PackedScene" uid="uid://b2namakqqiiyq" path="res://Assets/Scenes/dungeon_1.tscn" id="1_uxxti"]
 
-[node name="GameViewer" type="Node2D" unique_id=395795122]
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=850796233]
-offset_right = 256.0
-offset_bottom = 104.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1935746576]
-layout_mode = 2
-text = "Rupees: 0"
-scroll_active = false
-
-[node name="RichTextLabel2" type="RichTextLabel" parent="VBoxContainer" unique_id=1677194217]
-layout_mode = 2
-text = "Rupees: 0"
-scroll_active = false
+[node name="GameViewer" type="Control" unique_id=1013581540]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HUD Background" type="ColorRect" parent="." unique_id=363900914]
-offset_right = 256.0
-offset_bottom = 144.0
+propagate_maximum_size = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.27
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD Background" unique_id=850796233]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HUD Background/VBoxContainer" unique_id=1935746576]
+layout_mode = 2
+text = "Rupees: 0"
+scroll_active = false
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="HUD Background/VBoxContainer" unique_id=1677194217]
+layout_mode = 2
+text = "Rupees: 0"
+scroll_active = false
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=800053097]
-offset_top = 65.0
-offset_right = 40.0
-offset_bottom = 105.0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.3
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
 mouse_target = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=2054380392]
+handle_input_locally = false
 size = Vector2i(256, 175)
+render_target_update_mode = 4
 
 [node name="Dungeon1" parent="SubViewportContainer/SubViewport" unique_id=386369034 instance=ExtResource("1_uxxti")]
 position = Vector2(128, 87)
