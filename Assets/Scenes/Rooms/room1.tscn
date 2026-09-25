@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_267gw"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_g2kf4"]
+[ext_resource type="PackedScene" uid="uid://bqn83m3s5fhrs" path="res://Assets/Scenes/Locked Doors/Door Locked Up.tscn" id="3_g2kf4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_267gw"]
 texture = ExtResource("1_267gw")
@@ -866,3 +867,6 @@ tile_set = ExtResource("2_g2kf4")
 z_index = 10
 tile_map_data = PackedByteArray("AAAPAAAAAQArAA4AAAAQAAAAAQArAA4AAAAPAAEAAQAsAAYAAAAQAAEAAQAsAAYAAAAAAAoAAQArAA4AAAABAAoAAQAhAAgAAAAeAAoAAQAjAAkAAAAfAAoAAQArAA4AAAAAAAsAAQArAA4AAAABAAsAAQAhAAgAAAAeAAsAAQAjAAkAAAAfAAsAAQArAA4AAAAPABQAAQAuAAcAAAAQABQAAQAuAAcAAAAPABUAAQArAA4AAAAQABUAAQArAA4AAAAOABQAAQAuAAcAAAAOABUAAQArAA4AAAARABQAAQAuAAcAAAARABUAAQArAA4AAAAAAAkAAQArAA4AAAABAAkAAQAhAAgAAAAAAAwAAQArAA4AAAABAAwAAQAhAAgAAAAOAAAAAQArAA4AAAAOAAEAAQAsAAYAAAARAAAAAQArAA4AAAARAAEAAQAsAAYAAAAeAAkAAQAjAAkAAAAfAAkAAQArAA4AAAAeAAwAAQAjAAkAAAAfAAwAAQArAA4AAAA=")
 tile_set = SubResource("TileSet_g2kf4")
+
+[node name="DoorLockedUp" parent="." unique_id=578636461 instance=ExtResource("3_g2kf4")]
+position = Vector2(128, 24)

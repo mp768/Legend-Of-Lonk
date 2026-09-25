@@ -97,8 +97,8 @@ sprite = NodePath("../AnimatedSprite2D")
 metadata/_custom_type_script = "uid://14fuplk8jxpr"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=540156816]
-collision_layer = 4
-collision_mask = 2
+collision_layer = 20
+collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
 position = Vector2(0, -2)

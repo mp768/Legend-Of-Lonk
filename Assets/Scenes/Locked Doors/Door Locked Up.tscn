@@ -1,0 +1,21 @@
+[gd_scene format=4 uid="uid://bqn83m3s5fhrs"]
+
+[ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="1_cjunv"]
+[ext_resource type="Script" uid="uid://71kyc0j5edxp" path="res://Assets/Scripts/LockedDoor.cs" id="2_qapbe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mrrlb"]
+size = Vector2(16, 1)
+
+[node name="DoorLockedUp" type="TileMapLayer" unique_id=578636461 node_paths=PackedStringArray("_lockedDoor")]
+tile_map_data = PackedByteArray("AAD/////AQAsAAgAAAD//wAAAQAsAAkAAAAAAP//AQAtAAgAAAAAAAAAAQAtAAkAAAABAP//AQAtAAcAAAABAAAAAQAuAAYAAAD+////AQAsAAcAAAD+/wAAAQAtAAYAAAD+//7/AQAsAAYAAAD///7/AQAsAAYAAAAAAP7/AQAsAAYAAAABAP7/AQAsAAYAAAA=")
+tile_set = ExtResource("1_cjunv")
+script = ExtResource("2_qapbe")
+_lockedDoor = NodePath("Trigger")
+
+[node name="Trigger" type="Area2D" parent="." unique_id=991821447]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger" unique_id=469768239]
+position = Vector2(0, 8.5)
+shape = SubResource("RectangleShape2D_mrrlb")
