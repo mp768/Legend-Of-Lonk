@@ -72,7 +72,8 @@ right={
 2d_physics/layer_2="Causes-Damage"
 2d_physics/layer_3="Receive-Damage"
 2d_physics/layer_4="Collectible"
-2d_physics/layer_5="Player"
+2d_physics/layer_5="Interaction"
+2d_physics/layer_6="Low-Wall"
 
 [physics]
 
