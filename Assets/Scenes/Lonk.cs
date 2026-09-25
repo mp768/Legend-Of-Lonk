@@ -9,8 +9,15 @@ public partial class Lonk : CharacterBody2D
 	private enum Axis { None, Horizontal, Vertical }
 	private Axis _primaryAxis = Axis.None;
 
+	private Health lonk_hp;
+	
 	public override void _Ready()
 	{
+		lonk_hp = new Health(6);
+
+		// Connect cheat code signal
+		GameSignals.Instance.SetCheatMode += setCheatMode;
+
 		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
 		_hitBox.AreaEntered += OnAreaEntered;
 		_hitBox.BodyEntered += OnWeaponBodyEntered;
@@ -29,6 +36,11 @@ public partial class Lonk : CharacterBody2D
 	{
 		// TODO: Implement health decrease here.
 		// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+	}
+
+	private void setCheatMode(bool set)
+	{
+		lonk_hp.HealthCheat(set);
 	}
 
 	private void OnWeaponBodyEntered(Node node)

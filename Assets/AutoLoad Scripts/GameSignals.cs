@@ -15,6 +15,12 @@ public partial class GameSignals : Node
     // "EmitSignal(SignalName.XYZ, ..any args go here)" to invoke the callback, calling all connected listeners.
     //
     
+    /* CHEAT CODE SIGNALS */
+    [Signal]
+    public delegate void SetCheatModeEventHandler(bool set); // signal for setting cheat code 
+
+    // FIX THESE SIGNALS BELOW OR REMOVE ENTIRELY
+
     [Signal]
     public delegate void GameOverEventHandler(); // signal for when game is over
 
