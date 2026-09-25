@@ -41,28 +41,32 @@ grow_vertical = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HUD Background/VBoxContainer" unique_id=2004079416]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer" unique_id=964713874]
+[node name="Health" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer" unique_id=964713874]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Hearts: "
 
-[node name="Label2" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer" unique_id=105223339]
+[node name="Rupees" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer" unique_id=105223339]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Rupees:"
+text = "Rupees: 0"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HUD Background/VBoxContainer" unique_id=90835896]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1291187204]
+[node name="Keys" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1291187204]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Keys: "
+text = "Keys: 0"
 
-[node name="Label2" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515132]
+[node name="Weapon" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515132]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Weapon: "
+text = "Weapon: 0"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer" unique_id=800053097]
 layout_mode = 2

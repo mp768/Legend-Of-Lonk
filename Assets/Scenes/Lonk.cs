@@ -10,10 +10,12 @@ public partial class Lonk : CharacterBody2D
 	private Axis _primaryAxis = Axis.None;
 
 	private Health lonk_hp;
-	
+
+	private const int UIHEALTH = 0;
 	public override void _Ready()
 	{
 		lonk_hp = new Health(6);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, lonk_hp.health, UIHEALTH);
 
 		// Connect cheat code signal
 		GameSignals.Instance.SetCheatMode += setCheatMode;
@@ -41,6 +43,7 @@ public partial class Lonk : CharacterBody2D
 	private void setCheatMode(bool set)
 	{
 		lonk_hp.HealthCheat(set);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, lonk_hp.health, UIHEALTH);
 	}
 
 	private void OnWeaponBodyEntered(Node node)

@@ -3,6 +3,14 @@ using System;
 
 public partial class GameState : Node
 {	
+	enum UILabels
+	{
+		HEALTH = 0,
+		RUPEES = 1,
+		KEYS = 2,
+		WEAPONS = 3,
+	}
+
 	// Game state values to keep constant throughout the game
 	// -1 sinifies infinity for our use case
 	int _keys = 0;
@@ -22,6 +30,7 @@ public partial class GameState : Node
 			// this avoids the problem of _keys becomming infinite (keys = 0 - use_keys)
 			// because we don't run this when _keys = 0 
 			_keys = Mathf.Max(-1, _keys - 1);
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
 			return true;
 		} 
 		return false;
@@ -33,6 +42,7 @@ public partial class GameState : Node
 		if (_keys >= 0)
 		{
 			_keys ++;
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
 		}
 	}
 
@@ -47,6 +57,7 @@ public partial class GameState : Node
 			// this avoids the problem of _rupees becomming infinite (keys = 0 - num_rupees)
 			// because we don't run this when _rupees = 0 
 			_rupees = Mathf.Max(-1, _rupees - num_rupees);
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
 			return true;
 		} 
 		return false;
@@ -58,6 +69,7 @@ public partial class GameState : Node
 		if (_rupees >= 0)
 		{
 			_rupees += num_rupees;
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
 		}
 	}
 
@@ -76,7 +88,8 @@ public partial class GameState : Node
 			_rupees = 9999;
 		}
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.SetCheatMode, set);
-
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
 	}
 
 	// function to reset game state to all 0
@@ -87,11 +100,18 @@ public partial class GameState : Node
 		
 		// change this once weapons is figured out
 		weapon = 0;
+
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, weapon, (int)UILabels.WEAPONS);
 	}
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, weapon, (int)UILabels.WEAPONS);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
