@@ -10,17 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HUD Background" type="ColorRect" parent="." unique_id=363900914]
-propagate_maximum_size = true
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.27
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0, 0, 0, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD Background" unique_id=850796233]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=850796233]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,31 +19,58 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HUD Background/VBoxContainer" unique_id=1935746576]
+[node name="HUD Background" type="ColorRect" parent="VBoxContainer" unique_id=363900914]
 layout_mode = 2
-text = "Rupees: 0"
-scroll_active = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="HUD Background/VBoxContainer" unique_id=1677194217]
-layout_mode = 2
-text = "Rupees: 0"
-scroll_active = false
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=800053097]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HUD Background" unique_id=1747688452]
+propagate_maximum_size = false
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HUD Background/VBoxContainer" unique_id=2004079416]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer" unique_id=964713874]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hearts: "
+
+[node name="Label2" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer" unique_id=105223339]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rupees:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HUD Background/VBoxContainer" unique_id=90835896]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1291187204]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Keys: "
+
+[node name="Label2" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515132]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Weapon: "
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer" unique_id=800053097]
+layout_mode = 2
+size_flags_vertical = 3
 mouse_target = true
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=2054380392]
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer" unique_id=2054380392]
 handle_input_locally = false
 size = Vector2i(256, 175)
 render_target_update_mode = 4
 
-[node name="Dungeon1" parent="SubViewportContainer/SubViewport" unique_id=386369034 instance=ExtResource("1_uxxti")]
+[node name="Dungeon1" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=386369034 instance=ExtResource("1_uxxti")]
 position = Vector2(128, 87)
