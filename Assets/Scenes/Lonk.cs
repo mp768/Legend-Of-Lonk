@@ -3,27 +3,21 @@ using System;
 
 public partial class Lonk : CharacterBody2D
 {
-    [Export] public float MoveSpeed = 60.0f;
-	[Export] private Vector2I spriteOffset;
-
+    [Export] private GridMovementComponent _movementComponent;
+    [Export] private Vector2I spriteOffset;
     [Export] private AnimatedSprite2D _sprite;
 
     private int _movementFrameCounter = 0;
-
-	// This is the frequency I observed when looking at footage of someone playing the game.
     private const int ANIMATION_STEP_FREQUENCY = 6;
 
-	// The grid size that link snaps to when changing axes.
-    private const float GRID_SIZE = 8.0f;
-
-	private enum Axis { None, Horizontal, Vertical }
-	private Axis _primaryAxis = Axis.None;
+    private enum Axis { None, Horizontal, Vertical }
+    private Axis _primaryAxis = Axis.None;
 
     public override void _Ready()
     {
         if (_sprite != null)
         {
-            _sprite.Stop(); // This allows us to take control of the animation manually.
+            _sprite.Stop(); 
         }
     }
 
@@ -32,21 +26,17 @@ public partial class Lonk : CharacterBody2D
         float fDelta = (float)delta;
         Vector2 inputDir = GetCardinalInput(fDelta);
 
+        // Delegate the actual movement & snapping to the component
+        _movementComponent.Move(inputDir, delta);
+
         if (inputDir != Vector2.Zero)
         {
-            // Apply strict grid alignment velocity on the perpendicular axis
-            Velocity = CalculateGridAlignedVelocity(inputDir, fDelta, snapPosition: true);
-
-            MoveAndSlide();
-
             UpdateFacingAndAnimation(inputDir);
             AdvanceAnimationFrame();
         }
         else
         {
-            Velocity = Vector2.Zero;
             _movementFrameCounter = 0;
-            MoveAndSlide();
         }
 
         // Keep visuals fixed while not messing with the physics position.
@@ -59,117 +49,53 @@ public partial class Lonk : CharacterBody2D
         }
     }
 
-	private Vector2 GetCardinalInput(float delta)
-	{
-		float x = Input.GetAxis("left", "right");
-		float y = Input.GetAxis("up", "down");
-
-		bool hasX = !Mathf.IsZeroApprox(x);
-		bool hasY = !Mathf.IsZeroApprox(y);
-
-		if (!hasX && !hasY)
-		{
-			_primaryAxis = Axis.None;
-			return Vector2.Zero;
-		}
-
-		Vector2 vertDir = hasY ? new Vector2(0.0f, Mathf.Sign(y)) : Vector2.Zero;
-		Vector2 horzDir = hasX ? new Vector2(Mathf.Sign(x), 0.0f) : Vector2.Zero;
-
-		// If both directions are held, prioritize the initial axis, fallback to perpendicular if blocked
-		if (hasY && hasX)
-		{
-			if (_primaryAxis == Axis.Horizontal)
-			{
-				Vector2 horzVel = CalculateGridAlignedVelocity(horzDir, delta, snapPosition: false);
-				if (!TestMove(GlobalTransform, horzVel * delta))
-				{
-					return horzDir; // Horizontal path is clear
-				}
-				return vertDir; // Horizontal blocked by wall. fall back to vertical
-			}
-			else if (_primaryAxis == Axis.Vertical)
-			{
-				Vector2 vertVel = CalculateGridAlignedVelocity(vertDir, delta, snapPosition: false);
-				if (!TestMove(GlobalTransform, vertVel * delta))
-				{
-					return vertDir; // Vertical path is clear
-				}
-				return horzDir; // Vertical blocked by wall. fall back to horizontal
-			}
-		}
-
-		if (hasY)
-		{
-			_primaryAxis = Axis.Vertical;
-			return vertDir;
-		}
-
-		_primaryAxis = Axis.Horizontal;
-		return horzDir;
-	}
-
-    /// <summary>
-    /// Steers and snaps Link's perpendicular axis onto the nearest grid box.
-    /// </summary>
-    private Vector2 CalculateGridAlignedVelocity(Vector2 inputDir, float delta, bool snapPosition = true)
+    private Vector2 GetCardinalInput(float delta)
     {
-        Vector2 velocity = inputDir * MoveSpeed;
+        float x = Input.GetAxis("left", "right");
+        float y = Input.GetAxis("up", "down");
 
-        // Moving VERTICALLY: Pull X axis toward nearest grid box
-        if (inputDir.Y != 0.0f)
+        bool hasX = !Mathf.IsZeroApprox(x);
+        bool hasY = !Mathf.IsZeroApprox(y);
+
+        if (!hasX && !hasY)
         {
-            float targetX = Mathf.Round(Position.X / GRID_SIZE) * GRID_SIZE;
-            float diffX = targetX - Position.X;
-
-            if (Mathf.Abs(diffX) > 0.01f)
-            {
-                if (Mathf.Abs(diffX) <= MoveSpeed * delta)
-                {
-                    if (snapPosition)
-                    {
-                        Position = new Vector2(targetX, Position.Y);
-                        velocity.X = 0.0f;
-                    }
-                    else
-                    {
-                        velocity.X = diffX / delta;
-                    }
-                }
-                else
-                {
-                    velocity.X = Mathf.Sign(diffX) * MoveSpeed;
-                }
-            }
+            _primaryAxis = Axis.None;
+            return Vector2.Zero;
         }
-        // Moving HORIZONTALLY: Pull Y axis toward nearest grid box
-        else if (inputDir.X != 0.0f)
-        {
-            float targetY = Mathf.Round(Position.Y / GRID_SIZE) * GRID_SIZE;
-            float diffY = targetY - Position.Y;
 
-            if (Mathf.Abs(diffY) > 0.01f)
+        Vector2 vertDir = hasY ? new Vector2(0.0f, Mathf.Sign(y)) : Vector2.Zero;
+        Vector2 horzDir = hasX ? new Vector2(Mathf.Sign(x), 0.0f) : Vector2.Zero;
+
+        if (hasY && hasX)
+        {
+            if (_primaryAxis == Axis.Horizontal)
             {
-                if (Mathf.Abs(diffY) <= MoveSpeed * delta)
+                Vector2 horzVel = _movementComponent.CalculateGridAlignedVelocity(horzDir, delta, snapPosition: false);
+                if (!TestMove(GlobalTransform, horzVel * delta))
                 {
-                    if (snapPosition)
-                    {
-                        Position = new Vector2(Position.X, targetY);
-                        velocity.Y = 0.0f;
-                    }
-                    else
-                    {
-                        velocity.Y = diffY / delta;
-                    }
+                    return horzDir;
                 }
-                else
+                return vertDir; 
+            }
+            else if (_primaryAxis == Axis.Vertical)
+            {
+                Vector2 vertVel = _movementComponent.CalculateGridAlignedVelocity(vertDir, delta, snapPosition: false);
+                if (!TestMove(GlobalTransform, vertVel * delta))
                 {
-                    velocity.Y = Mathf.Sign(diffY) * MoveSpeed;
+                    return vertDir;
                 }
+                return horzDir; 
             }
         }
 
-        return velocity;
+        if (hasY)
+        {
+            _primaryAxis = Axis.Vertical;
+            return vertDir;
+        }
+
+        _primaryAxis = Axis.Horizontal;
+        return horzDir;
     }
 
     private void UpdateFacingAndAnimation(Vector2 inputDir)
