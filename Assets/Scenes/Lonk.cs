@@ -13,6 +13,7 @@ public partial class Lonk : CharacterBody2D
 	{
 		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
 		_hitBox.AreaEntered += OnAreaEntered;
+		_hitBox.BodyEntered += OnWeaponBodyEntered;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -27,6 +28,12 @@ public partial class Lonk : CharacterBody2D
 	private void OnAreaEntered(Area2D area)
 	{
 		// TODO: Implement health decrease here.
+		// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+	}
+
+	private void OnWeaponBodyEntered(Node node)
+	{
+		// TODO: Confirm it was a weapon we collided with, then pull its velocity to send the object backwards.
 	}
 
 	private Vector2 GetCardinalInput(float delta)
