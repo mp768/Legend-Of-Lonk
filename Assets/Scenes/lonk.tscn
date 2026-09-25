@@ -64,17 +64,23 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
-size = Vector2(15, 16)
+size = Vector2(7, 6)
 
-[node name="Lonk" type="Area2D" unique_id=686843034]
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_sprite")]
 script = ExtResource("1_qq4k7")
+spriteOffset = Vector2i(0, -2)
+verticalSpriteOffset = Vector2i(-1, -2)
+_sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
+position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_4rkw1")
 animation = &"walk_up"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=762002191]
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_3x3eq")
 
 [node name="Foot Position" type="Node2D" parent="." unique_id=1299246935]
-position = Vector2(0, 7)
+position = Vector2(8, 8)
