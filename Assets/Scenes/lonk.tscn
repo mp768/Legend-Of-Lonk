@@ -192,8 +192,7 @@ _swordUp = NodePath("SwordDown")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_4rkw1")
-animation = &"sword_horizontal"
-frame = 1
+animation = &"walk_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=762002191]
 position = Vector2(0, 4)
