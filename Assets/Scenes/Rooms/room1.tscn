@@ -2835,6 +2835,7 @@ tile_set = SubResource("TileSet_g2kf4")
 
 [node name="DoorLockedUp" parent="." unique_id=578636461 instance=ExtResource("3_g2kf4")]
 position = Vector2(128, 24)
+key_count = 1
 
 [node name="Camera Center" type="Marker2D" parent="." unique_id=1971571936]
 position = Vector2(128, 88)

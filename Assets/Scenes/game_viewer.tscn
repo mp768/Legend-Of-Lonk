@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c8qwh3d7iiqiw"]
 
-[ext_resource type="Script" uid="uid://l67c5dwk75ee" path="res://Assets/Scenes/UIDisplay.cs" id="1_3vdnv"]
+[ext_resource type="Script" uid="uid://bvmsjjxqi5yke" path="res://Assets/Scripts/UIDisplay.cs" id="1_3vdnv"]
 [ext_resource type="PackedScene" uid="uid://b2namakqqiiyq" path="res://Assets/Scenes/dungeon_1.tscn" id="1_uxxti"]
 
 [node name="GameViewer" type="Control" unique_id=1013581540]
@@ -79,4 +79,3 @@ size = Vector2i(256, 175)
 render_target_update_mode = 4
 
 [node name="Dungeon1" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=386369034 instance=ExtResource("1_uxxti")]
-position = Vector2(128, 87)

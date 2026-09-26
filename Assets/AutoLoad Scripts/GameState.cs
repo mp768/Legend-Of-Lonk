@@ -22,6 +22,9 @@ public partial class GameState : Node
 	int weapon = 0; // Idk what to do about this field, saving it as ints first (maybe an enum)
 
 	private int MAX_COLLECT = 9999;
+
+	private bool cheats_on = false;
+
 	/* KEYS FUNCTIONS*/
 
 	// Gamestate function to invoke when trying to use keys to open doors or something
@@ -94,9 +97,11 @@ public partial class GameState : Node
 	/* CHEATCODE FUNCTIONS AND OTHER UTILS */
 
 	// function to give the player infinite resources
-	public void setCheatMode(bool set)
+	public void setCheatMode()
 	{
-		if (set)
+		cheats_on = !cheats_on;
+
+		if (cheats_on)
 		{
 			_keys = -1;
 			_rupees = -1;	
@@ -105,9 +110,9 @@ public partial class GameState : Node
 			_keys = 9999;
 			_rupees = 9999;
 		}
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.SetCheatMode, set);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.SetCheatMode, cheats_on);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_keys), (int)UILabels.KEYS);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_rupees), (int)UILabels.RUPEES);
 	}
 
 	// function to reset game state to all 0
@@ -123,6 +128,15 @@ public partial class GameState : Node
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, weapon, (int)UILabels.WEAPONS);
 	}
+
+	public override void _UnhandledInput(InputEvent @event)
+    {
+        // Check if the input event is the cheat mode button
+        if (@event.IsActionPressed("cheat_mode"))
+        {
+            setCheatMode();
+        }
+    }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

@@ -63,7 +63,6 @@ public partial class Lonk : CharacterBody2D
 			}
 		}
 		
-		
 	}
 
 	private void setCheatMode(bool set)
