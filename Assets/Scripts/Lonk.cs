@@ -191,6 +191,7 @@ public partial class Lonk : CharacterBody2D
 			{
 				case Affectables.EffectType.DAMAGE:
 					InterruptAttack();
+					GD.Print("What is value? ", affectable.Value);
 					health.applyHealthEffect(-affectable.Value);
 					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 

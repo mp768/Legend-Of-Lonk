@@ -77,8 +77,6 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 			{
 				health.applyHealthEffect(-affectable.Value);
 
-				GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
-
 				var direction = affectable.Direction ?? -directionMapping[currentDirectionIndex];
 
 				_movementComponent?.ApplyForce(direction, 0.25f);
