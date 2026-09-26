@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dd8wfpu8nrjek"]
+
+[ext_resource type="Script" uid="uid://dh1q4o1o417qj" path="res://Assets/Scripts/Key.cs" id="1_kdues"]
+[ext_resource type="Texture2D" uid="uid://d322o7n0p0pv0" path="res://Assets/Sprites/NES - The Legend of Zelda - Miscellaneous - Items & Weapons.png" id="2_wy8f1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
+size = Vector2(8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el2co"]
+atlas = ExtResource("2_wy8f1")
+region = Rect2(240, 0, 8, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v3va1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el2co")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Key" type="Area2D" unique_id=1118756736]
+script = ExtResource("1_kdues")
+Value = 1
+Type = 3
+metadata/_custom_type_script = "uid://bp31qibi82v65"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=975586454]
+shape = SubResource("RectangleShape2D_3x3eq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=534007604]
+sprite_frames = SubResource("SpriteFrames_v3va1")
+offset = Vector2(0, 0.5)

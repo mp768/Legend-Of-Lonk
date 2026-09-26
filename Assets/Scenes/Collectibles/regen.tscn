@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cwscvihu18f6c"]
+
+[ext_resource type="Script" uid="uid://dj455w0m6m1sn" path="res://Assets/Scripts/Regen.cs" id="1_74mmo"]
+[ext_resource type="Texture2D" uid="uid://d322o7n0p0pv0" path="res://Assets/Sprites/NES - The Legend of Zelda - Miscellaneous - Items & Weapons.png" id="2_3nepm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
+size = Vector2(13, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6xd8"]
+atlas = ExtResource("2_3nepm")
+region = Rect2(25, 1, 13, 13)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3x3eq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6xd8")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Regen" type="Area2D" unique_id=1967340452]
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("1_74mmo")
+Value = 1
+Type = 1
+metadata/_custom_type_script = "uid://bp31qibi82v65"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1851524961]
+shape = SubResource("RectangleShape2D_3x3eq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=830940745]
+sprite_frames = SubResource("SpriteFrames_3x3eq")

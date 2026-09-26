@@ -12,14 +12,12 @@ public partial class GameState : Node
 		HEALTH = 0,
 		RUPEES = 1,
 		KEYS = 2,
-		WEAPONS = 3,
 	}
 
 	// Game state values to keep constant throughout the game
 	// -1 sinifies infinity for our use case
 	int _keys = 0;
 	int _rupees = 0;
-	int weapon = 0; // Idk what to do about this field, saving it as ints first (maybe an enum)
 
 	private int MAX_COLLECT = 9999;
 
@@ -116,18 +114,14 @@ public partial class GameState : Node
 	}
 
 	// function to reset game state to all 0
-	public void resetGameState()
-	{
-		_keys = 0;
-		_rupees = 0;
-		
-		// change this once weapons is figured out
-		weapon = 0;
+	// public void resetGameState()
+	// {
+	// 	_keys = 0;
+	// 	_rupees = 0;
 
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, weapon, (int)UILabels.WEAPONS);
-	}
+	// 	GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
+	// 	GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
+	// }
 
 	public override void _UnhandledInput(InputEvent @event)
     {
