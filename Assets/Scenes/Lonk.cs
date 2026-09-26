@@ -93,7 +93,7 @@ public partial class Lonk : CharacterBody2D
 			if (frameIndex == 1)
 			{
 				spriteOffset = new(6, -2);	
-				_swordLeft.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
+				_swordLeft.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Always));
 			}
 		}
 		else if (dir.X < 0)
@@ -106,7 +106,7 @@ public partial class Lonk : CharacterBody2D
 			if (frameIndex == 1)
 			{
 				spriteOffset = new(-6, -2);	
-				_swordRight.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
+				_swordRight.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Always));
 			}
 
 		}
@@ -118,7 +118,7 @@ public partial class Lonk : CharacterBody2D
 
 			// Activate sword for sword frame.
 			if (frameIndex == 1) {
-				_swordUp.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
+				_swordUp.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Always));
 			}
 		}
 		else if (dir.Y > 0)
@@ -129,7 +129,7 @@ public partial class Lonk : CharacterBody2D
 
 			// Activate sword for sword frame.
 			if (frameIndex == 1) {
-				_swordDown.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
+				_swordDown.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Always));
 			}
 		}
 

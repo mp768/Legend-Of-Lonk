@@ -217,7 +217,7 @@ position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_mrrlb")
 
 [node name="SwordLeft" type="Area2D" parent="." unique_id=1373139688]
-collision_layer = 8
+collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
@@ -228,7 +228,7 @@ position = Vector2(-14, -1)
 shape = SubResource("RectangleShape2D_gnji1")
 
 [node name="SwordRight" type="Area2D" parent="." unique_id=944364592]
-collision_layer = 8
+collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
@@ -239,7 +239,7 @@ position = Vector2(14, -1)
 shape = SubResource("RectangleShape2D_gnji1")
 
 [node name="SwordUp" type="Area2D" parent="." unique_id=2094334075]
-collision_layer = 8
+collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
@@ -250,7 +250,7 @@ position = Vector2(0, -15.25)
 shape = SubResource("RectangleShape2D_lunqy")
 
 [node name="SwordDown" type="Area2D" parent="." unique_id=1805650943]
-collision_layer = 8
+collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
