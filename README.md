@@ -1,9 +1,9 @@
 # Project 1 Milestone done with Godot
 
 Controls:
-- WASD for movement
+- Arrow Keys for movement
 - 'X' for Sword Attack
-- 'Z' for use item
+- 'Z' for Alternate Attack
 
 Original Unity-based instructions:
 - One Windows executable  (.exe, with _Data folder, UnityPlayer.dll, and Mono or MonoBleedingEdge folder next to it) of your completed tutorial project.
@@ -17,5 +17,5 @@ Godot equivalents:
 - `Build/Mac` contains the Mac app.
 - `Assets` contains all scene and script data (although it's actually not needed in Godot, as everything in the project folder is considered "Assets", we just organized it this way for familarity sake).
 - `project.godot` is the equivalent to `ProjectSettings` folder in Unity.
-- an `addons` folder would be the cloest equivalent to Unity's `Packages` folder. However, since we didn't use any plugins or addons, it doesn't exist here.
+- an `addons` folder would be the closest equivalent to Unity's `Packages` folder. However, since we didn't use any plugins or addons, it doesn't exist here.
  
