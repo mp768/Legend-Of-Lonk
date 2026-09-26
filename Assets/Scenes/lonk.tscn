@@ -175,7 +175,7 @@ size = Vector2(14, 15)
 size = Vector2(13, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lunqy"]
-size = Vector2(4.5, 9.5)
+size = Vector2(4.5, 11.75)
 
 [node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox", "_swordLeft", "_swordRight", "_swordDown", "_swordUp")]
 collision_layer = 16
@@ -186,8 +186,8 @@ _animationComponent = NodePath("GridAnimationComponent")
 _hitBox = NodePath("Hitbox")
 _swordLeft = NodePath("SwordLeft")
 _swordRight = NodePath("SwordRight")
-_swordDown = NodePath("SwordUp")
-_swordUp = NodePath("SwordDown")
+_swordDown = NodePath("SwordDown")
+_swordUp = NodePath("SwordUp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
@@ -245,7 +245,7 @@ Value = 1
 metadata/_custom_type_script = "uid://bp31qibi82v65"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordUp" unique_id=1899777721]
-position = Vector2(0, -15.25)
+position = Vector2(-1, -17)
 shape = SubResource("RectangleShape2D_lunqy")
 
 [node name="SwordDown" type="Area2D" parent="." unique_id=1805650943]
@@ -256,5 +256,5 @@ Value = 1
 metadata/_custom_type_script = "uid://bp31qibi82v65"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordDown" unique_id=567352282]
-position = Vector2(0, 12)
+position = Vector2(0, 13)
 shape = SubResource("RectangleShape2D_lunqy")
