@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel;
 
 public partial class GameState : Node
 {	
@@ -20,10 +21,23 @@ public partial class GameState : Node
 	int _rupees = 0;
 	int weapon = 0; // Idk what to do about this field, saving it as ints first (maybe an enum)
 
+	private int MAX_COLLECT = 9999;
 	/* KEYS FUNCTIONS*/
 
 	// Gamestate function to invoke when trying to use keys to open doors or something
 	// returns true / false to know if it worked
+
+	// to deal with infinite counts	
+	public int mask(int val)
+	{
+		if (val == -1)
+		{
+			return 9999;
+		}
+		return val;
+	}
+
+	// clamped to only go up to 9999
 	public bool use_key(int num_keys)
 	{
 		if (_keys == -1 || _keys - num_keys >= 0)
@@ -33,7 +47,7 @@ public partial class GameState : Node
 			// this avoids the problem of _keys becomming infinite (keys = 0 - use_keys)
 			// because we don't run this when _keys = 0 
 			_keys = Mathf.Max(-1, _keys - num_keys);
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_keys), (int)UILabels.KEYS);
 			return true;
 		} 
 		return false;
@@ -44,8 +58,8 @@ public partial class GameState : Node
 		// avoids incrementing _keys on -1 (inf)
 		if (_keys >= 0)
 		{
-			_keys ++;
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
+			_keys = Mathf.Min(_keys ++, MAX_COLLECT);
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_keys), (int)UILabels.KEYS);
 		}
 	}
 
@@ -60,19 +74,20 @@ public partial class GameState : Node
 			// this avoids the problem of _rupees becomming infinite (keys = 0 - num_rupees)
 			// because we don't run this when _rupees = 0 
 			_rupees = Mathf.Max(-1, _rupees - num_rupees);
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_rupees), (int)UILabels.RUPEES);
 			return true;
 		} 
 		return false;
 	}
 
+	// clamped to only go up to 9999
 	public void gain_rupee(int num_rupees)
 	{
 		// avoids incrementing _keys on -1 (inf)
 		if (_rupees >= 0)
 		{
-			_rupees += num_rupees;
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
+			_rupees = Mathf.Min(_rupees + num_rupees, MAX_COLLECT);
+			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_rupees), (int)UILabels.RUPEES);
 		}
 	}
 
