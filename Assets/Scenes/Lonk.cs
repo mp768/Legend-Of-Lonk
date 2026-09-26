@@ -6,6 +6,11 @@ public partial class Lonk : CharacterBody2D
 	[Export] private GridAnimationComponent _animationComponent;
 	[Export] private Area2D _hitBox;
 
+	[Export] private Affectables _swordLeft;
+	[Export] private Affectables _swordRight;
+	[Export] private Affectables _swordDown;
+	[Export] private Affectables _swordUp;
+
 	private enum Axis { None, Horizontal, Vertical }
 	private Axis _primaryAxis = Axis.None;
 
@@ -88,6 +93,7 @@ public partial class Lonk : CharacterBody2D
 			if (frameIndex == 1)
 			{
 				spriteOffset = new(6, -2);	
+				_swordLeft.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
 			}
 		}
 		else if (dir.X < 0)
@@ -100,19 +106,31 @@ public partial class Lonk : CharacterBody2D
 			if (frameIndex == 1)
 			{
 				spriteOffset = new(-6, -2);	
+				_swordRight.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
 			}
+
 		}
 		else if (dir.Y < 0)
 		{
 			animName = "sword_up";
 			stopAnimName = "walk_up";
 			spriteOffset = new(0, -10);
+
+			// Activate sword for sword frame.
+			if (frameIndex == 1) {
+				_swordUp.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
+			}
 		}
 		else if (dir.Y > 0)
 		{
 			animName = "sword_down";
 			stopAnimName = "walk_down";
 			spriteOffset = new(0, 5);
+
+			// Activate sword for sword frame.
+			if (frameIndex == 1) {
+				_swordDown.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Inherit));
+			}
 		}
 
 		// Play single attack frame
@@ -125,6 +143,11 @@ public partial class Lonk : CharacterBody2D
 		{
 			_isAttacking = false;
 			_animationComponent?.SetAnimationAndFrame(stopAnimName, 0, new(0, -2));
+
+			_swordLeft.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
+			_swordRight.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
+			_swordUp.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
+			_swordDown.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
 		}
 	}
 
@@ -132,6 +155,11 @@ public partial class Lonk : CharacterBody2D
 	{
 		_attackSessionId++;
 		_isAttacking = false;
+
+		_swordLeft.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
+		_swordRight.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
+		_swordUp.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
+		_swordDown.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
 	}
 
 	private void OnAreaEntered(Area2D area)
