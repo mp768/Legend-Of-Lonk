@@ -23,7 +23,6 @@ public partial class Lonk : CharacterBody2D
 
 		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
 		_hitBox.AreaEntered += OnAreaEntered;
-		_hitBox.BodyEntered += OnWeaponBodyEntered;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -71,18 +70,6 @@ public partial class Lonk : CharacterBody2D
 	{
 		lonk_hp.HealthCheat(set);
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, lonk_hp.health, UIHEALTH);
-	}
-
-	private void OnWeaponBodyEntered(Node node)
-	{
-		
-		var collisionNode = node as CollisionObject2D;
-
-		// TODO: Confirm it was a weapon we collided with, then pull its velocity to send the object backwards.
-		if (node is CollisionObject2D body)
-		{
-			lonk_hp.applyHealthEffect((int)projectile.Get("damage"));
-		}
 	}
 
 	private Vector2 GetCardinalInput(float delta)
