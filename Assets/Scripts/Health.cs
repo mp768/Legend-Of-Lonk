@@ -10,9 +10,6 @@ public partial class Health : Node
 	[Signal]
 	public delegate void WhenZeroEventHandler();
 
-	[Signal]
-	public delegate void WhenZeroEventHandler();
-
 	public Health(int maxHP)
 	{
 		this.health = maxHP;
