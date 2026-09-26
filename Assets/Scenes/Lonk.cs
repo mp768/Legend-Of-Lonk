@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Godot;
 
 public partial class Lonk : CharacterBody2D
@@ -36,8 +37,34 @@ public partial class Lonk : CharacterBody2D
 
 	private void OnAreaEntered(Area2D area)
 	{
-		// TODO: Implement health decrease here.
-		// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+		if (area is Affectables affectable)
+		{
+			int amount = affectable.GetEffect();
+
+			switch (affectable.GetEffectType())
+			{
+				case Affectables.Effects.DAMAGE:
+				lonk_hp.applyHealthEffect(-amount);
+				// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+				break;
+
+				case Affectables.Effects.HEALTH:
+				lonk_hp.applyHealthEffect(amount);
+				break;
+
+				case Affectables.Effects.RUPEES:
+				GameState.Instance.gain_rupee(amount);
+				break;
+
+				case Affectables.Effects.KEYS:
+				GameState.Instance.gain_key();
+				break;
+
+
+			}
+		}
+		
+		
 	}
 
 	private void setCheatMode(bool set)
@@ -48,7 +75,14 @@ public partial class Lonk : CharacterBody2D
 
 	private void OnWeaponBodyEntered(Node node)
 	{
+		
+		var collisionNode = node as CollisionObject2D;
+
 		// TODO: Confirm it was a weapon we collided with, then pull its velocity to send the object backwards.
+		if (node is CollisionObject2D body)
+		{
+			lonk_hp.applyHealthEffect((int)projectile.Get("damage"));
+		}
 	}
 
 	private Vector2 GetCardinalInput(float delta)

@@ -16,7 +16,7 @@ public partial class Health : Node
 	public void applyHealthEffect(int dmg)
 	{
 		// damageMultiplier can be set to 0 to have no effect on player
-		health = Mathf.Clamp((health - dmg)* damageMultiplier, 0, maxHealth);
+		health = Mathf.Clamp((health + dmg)* damageMultiplier, 0, maxHealth);
 	}
 
 	public void HealthCheat(bool set)
