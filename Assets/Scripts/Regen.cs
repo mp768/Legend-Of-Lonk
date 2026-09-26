@@ -7,10 +7,10 @@ public partial class Regen : Affectables
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		AreaEntered += OnAreaEntered;
+		BodyEntered += OnBodyEntered;
 	}
 
-	private void OnAreaEntered(Area2D area)
+	private void OnBodyEntered(Node area)
 	{
 		QueueFree();
 	}

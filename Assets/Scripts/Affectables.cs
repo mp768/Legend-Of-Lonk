@@ -17,4 +17,9 @@ public partial class Affectables : Area2D
 	[Export] public int Value { get; set; }
 	public Vector2? Direction { get; set; }
 	[Export] public EffectType Type { get; set; }
+
+    public override void _Ready()
+    {
+        base._Ready();
+    }
 }

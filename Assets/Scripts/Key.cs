@@ -6,11 +6,13 @@ public partial class Key : Affectables
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		AreaEntered += OnAreaEntered;
+		base._Ready();
+		BodyEntered += OnBodyEntered;
 	}
 
-	private void OnAreaEntered(Area2D area)
+	private void OnBodyEntered(Node area)
 	{
+		GD.Print("entered");
 		QueueFree();
 	}
 
