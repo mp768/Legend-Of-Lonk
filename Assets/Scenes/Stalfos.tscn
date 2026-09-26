@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://duqbu1s7bj6l0"]
 
-[ext_resource type="Script" uid="uid://cybxtin5g484x" path="res://Assets/Scenes/Stalfos.cs" id="1_bfri6"]
+[ext_resource type="Script" uid="uid://cybxtin5g484x" path="res://Assets/Scripts/Stalfos.cs" id="1_bfri6"]
 [ext_resource type="Texture2D" uid="uid://ivqx0u1soxkj" path="res://Assets/Sprites/Stalfos.png" id="2_bfri6"]
 [ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_3vwrt"]
 [ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_uyfel"]
