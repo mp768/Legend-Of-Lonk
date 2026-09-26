@@ -4,6 +4,55 @@
 [ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_kq13k"]
 [ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_kq13k"]
 [ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_64qf5"]
+[ext_resource type="Script" uid="uid://bp31qibi82v65" path="res://Assets/Scripts/Affectables.cs" id="5_lunqy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(94, 45, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh83t"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(111, 45, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ib2td"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(128, 45, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5lw22"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(145, 45, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmlrr"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(94, 77, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kyqvu"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(110, 78, 29, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyt5f"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(139, 78, 24, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbrol"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(163, 77, 20, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5v8ow"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(94, 93, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mpct"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(111, 93, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7exsb"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(128, 93, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yg25s"]
+atlas = ExtResource("2_kq13k")
+region = Rect2(145, 93, 16, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
 atlas = ExtResource("2_kq13k")
@@ -170,13 +219,23 @@ size = Vector2(6, 6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mrrlb"]
 size = Vector2(14, 15)
 
-[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gnji1"]
+size = Vector2(13, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lunqy"]
+size = Vector2(4.5, 11.75)
+
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox", "_swordLeft", "_swordRight", "_swordDown", "_swordUp")]
 collision_layer = 16
 collision_mask = 33
 script = ExtResource("1_qq4k7")
 _movementComponent = NodePath("GridMovementComponent")
 _animationComponent = NodePath("GridAnimationComponent")
 _hitBox = NodePath("Hitbox")
+_swordLeft = NodePath("SwordLeft")
+_swordRight = NodePath("SwordRight")
+_swordDown = NodePath("SwordDown")
+_swordUp = NodePath("SwordUp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
@@ -204,3 +263,47 @@ collision_mask = 10
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_mrrlb")
+
+[node name="SwordLeft" type="Area2D" parent="." unique_id=1373139688]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_lunqy")
+Value = 1
+metadata/_custom_type_script = "uid://bp31qibi82v65"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordLeft" unique_id=1795324260]
+position = Vector2(-14, -1)
+shape = SubResource("RectangleShape2D_gnji1")
+
+[node name="SwordRight" type="Area2D" parent="." unique_id=944364592]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_lunqy")
+Value = 1
+metadata/_custom_type_script = "uid://bp31qibi82v65"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordRight" unique_id=1341199181]
+position = Vector2(14, -1)
+shape = SubResource("RectangleShape2D_gnji1")
+
+[node name="SwordUp" type="Area2D" parent="." unique_id=2094334075]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_lunqy")
+Value = 1
+metadata/_custom_type_script = "uid://bp31qibi82v65"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordUp" unique_id=1899777721]
+position = Vector2(-1, -17)
+shape = SubResource("RectangleShape2D_lunqy")
+
+[node name="SwordDown" type="Area2D" parent="." unique_id=1805650943]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_lunqy")
+Value = 1
+metadata/_custom_type_script = "uid://bp31qibi82v65"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordDown" unique_id=567352282]
+position = Vector2(0, 13)
+shape = SubResource("RectangleShape2D_lunqy")

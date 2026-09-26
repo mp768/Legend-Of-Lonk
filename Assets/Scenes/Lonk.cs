@@ -6,6 +6,11 @@ public partial class Lonk : CharacterBody2D
 	[Export] private GridAnimationComponent _animationComponent;
 	[Export] private Area2D _hitBox;
 
+	[Export] private Affectables _swordLeft;
+	[Export] private Affectables _swordRight;
+	[Export] private Affectables _swordDown;
+	[Export] private Affectables _swordUp;
+
 	private enum Axis { None, Horizontal, Vertical }
 	private Axis _primaryAxis = Axis.None;
 
@@ -26,6 +31,9 @@ public partial class Lonk : CharacterBody2D
 	{
 		health = new Health(6);
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+
+		// Ensure all sword hitboxes start disabled
+		DisableAllSwords();
 
 		// Connect cheat code signal
 		GameSignals.Instance.SetCheatMode += setCheatMode;
@@ -78,16 +86,18 @@ public partial class Lonk : CharacterBody2D
 		Vector2I spriteOffset = new(0, -2);
 		bool flipH = false;
 
+		Affectables activeSword = null;
+
 		if (dir.X > 0)
 		{
 			animName = "sword_horizontal";
 			stopAnimName = "walk_horizontal";
 			flipH = false;
 
-			// Specific offset for sword frame.
 			if (frameIndex == 1)
 			{
-				spriteOffset = new(6, -2);	
+				spriteOffset = new(6, -2);  
+				activeSword = _swordRight;
 			}
 		}
 		else if (dir.X < 0)
@@ -96,10 +106,10 @@ public partial class Lonk : CharacterBody2D
 			stopAnimName = "walk_horizontal";
 			flipH = true;
 
-			// Specific offset for sword frame.
 			if (frameIndex == 1)
 			{
-				spriteOffset = new(-6, -2);	
+				spriteOffset = new(-6, -2); 
+				activeSword = _swordLeft;
 			}
 		}
 		else if (dir.Y < 0)
@@ -107,12 +117,25 @@ public partial class Lonk : CharacterBody2D
 			animName = "sword_up";
 			stopAnimName = "walk_up";
 			spriteOffset = new(0, -10);
+
+			if (frameIndex == 1) {
+				activeSword = _swordUp;
+			}
 		}
 		else if (dir.Y > 0)
 		{
 			animName = "sword_down";
 			stopAnimName = "walk_down";
 			spriteOffset = new(0, 5);
+
+			if (frameIndex == 1) {
+				activeSword = _swordDown;
+			}
+		}
+
+		if (activeSword != null)
+		{
+			EnableSword(activeSword);
 		}
 
 		// Play single attack frame
@@ -125,6 +148,7 @@ public partial class Lonk : CharacterBody2D
 		{
 			_isAttacking = false;
 			_animationComponent?.SetAnimationAndFrame(stopAnimName, 0, new(0, -2));
+			DisableAllSwords();
 		}
 	}
 
@@ -132,6 +156,31 @@ public partial class Lonk : CharacterBody2D
 	{
 		_attackSessionId++;
 		_isAttacking = false;
+		DisableAllSwords();
+	}
+
+	private void EnableSword(Affectables sword)
+	{
+		if (sword == null) return;
+		sword.SetDeferred(Area2D.PropertyName.Monitoring, true);
+		sword.SetDeferred(Area2D.PropertyName.Monitorable, true);
+		sword.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Always));
+	}
+
+	private void DisableSword(Affectables sword)
+	{
+		if (sword == null) return;
+		sword.SetDeferred(Area2D.PropertyName.Monitoring, false);
+		sword.SetDeferred(Area2D.PropertyName.Monitorable, false);
+		sword.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
+	}
+
+	private void DisableAllSwords()
+	{
+		DisableSword(_swordLeft);
+		DisableSword(_swordRight);
+		DisableSword(_swordUp);
+		DisableSword(_swordDown);
 	}
 
 	private void OnAreaEntered(Area2D area)
@@ -166,7 +215,6 @@ public partial class Lonk : CharacterBody2D
 					break;
 			}
 		}
-		
 	}
 
 	private void setCheatMode(bool set)
