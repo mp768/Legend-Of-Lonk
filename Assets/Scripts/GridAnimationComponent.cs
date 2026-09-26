@@ -158,4 +158,32 @@ public partial class GridAnimationComponent : Node
             sprite.SelfModulate = Colors.White;
         }
     }
+
+    public void SetAnimationAndFrame(string animationName, int frameIndex, Vector2I newSpriteOffset, bool? flipH = null)
+    {
+        if (sprite == null) return;
+
+        if (sprite.SpriteFrames != null && sprite.SpriteFrames.HasAnimation(animationName))
+        {
+            sprite.Animation = animationName;
+
+            if (flipH.HasValue)
+            {
+                sprite.FlipH = flipH.Value;
+            }
+
+            int frameCount = sprite.SpriteFrames.GetFrameCount(animationName);
+            if (frameCount > 0)
+            {
+                sprite.Frame = Mathf.Clamp(frameIndex, 0, frameCount - 1);
+            }
+        }
+
+        var originalSpriteOffset = spriteOffset;
+        spriteOffset = newSpriteOffset;
+        UpdateSubpixelPosition();
+        spriteOffset = originalSpriteOffset;
+
+        _movementFrameCounter = 0; // Reset movement frame counter to sync step timing
+    }
 }
