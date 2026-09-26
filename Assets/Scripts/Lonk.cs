@@ -30,7 +30,10 @@ public partial class Lonk : CharacterBody2D
 	public override void _Ready()
 	{
 		health = new Health(6);
+
+
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+		health.WhenZero += GameOver;
 
 		_swordLeft.Direction = new(-1, 0);
 		_swordRight.Direction = new(1, 0);
@@ -275,5 +278,10 @@ public partial class Lonk : CharacterBody2D
 
 		_primaryAxis = Axis.Horizontal;
 		return horzDir;
+	}
+
+	private void GameOver()
+	{
+		GameState.Instance.resetGameState();
 	}
 }

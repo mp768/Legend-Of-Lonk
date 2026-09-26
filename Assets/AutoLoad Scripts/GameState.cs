@@ -7,6 +7,7 @@ public partial class GameState : Node
 
 	public static GameState Instance { get; private set; }
 
+	private PackedScene game;
 	enum UILabels
 	{
 		HEALTH = 0,
@@ -114,14 +115,18 @@ public partial class GameState : Node
 	}
 
 	// function to reset game state to all 0
-	// public void resetGameState()
-	// {
-	// 	_keys = 0;
-	// 	_rupees = 0;
+	public void resetGameState()
+	{
+		_keys = 0;
+		_rupees = 0;
 
-	// 	GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
-	// 	GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _rupees, (int)UILabels.RUPEES);
-	// }
+		Error error = GetTree().ReloadCurrentScene();
+		
+		if (error != Error.Ok)
+		{
+			GD.Print("Failed to reload scene");
+		}
+	}
 
 	public override void _UnhandledInput(InputEvent @event)
     {

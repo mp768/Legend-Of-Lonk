@@ -27,6 +27,9 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
 		_hitBox.AreaEntered += OnAreaEntered;
 
+		health.WhenZero += Erase;
+
+
 		var timer = new Timer()
 		{
 			WaitTime = 0.78f,
@@ -92,5 +95,10 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 			}
 		}
 		
+	}
+	
+	private void Erase()
+	{
+		QueueFree();
 	}
 }

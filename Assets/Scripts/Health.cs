@@ -7,6 +7,12 @@ public partial class Health : Node
 	public int maxHealth;
 	public int damageMultiplier = 1;
 
+	[Signal]
+	public delegate void WhenZeroEventHandler();
+
+	[Signal]
+	public delegate void WhenZeroEventHandler();
+
 	public Health(int maxHP)
 	{
 		this.health = maxHP;
@@ -18,6 +24,11 @@ public partial class Health : Node
 	{
 		// damageMultiplier can be set to 0 to have no effect on player
 		health = Mathf.Clamp(health + dmg* damageMultiplier, 0, maxHealth);
+		
+		if (health == 0)
+		{
+			EmitSignal(SignalName.WhenZero);
+		}
 	}
 
 	public void HealthCheat(bool set)
