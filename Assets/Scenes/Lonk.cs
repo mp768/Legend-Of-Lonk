@@ -9,9 +9,19 @@ public partial class Lonk : CharacterBody2D
 	private enum Axis { None, Horizontal, Vertical }
 	private Axis _primaryAxis = Axis.None;
 
+	private enum WeaponType { Sword, Bow }
+	private WeaponType _currentWeapon = WeaponType.Sword;
+
+	private Vector2 _previousDirection = Vector2.Down; // Default facing direction
+
 	private Health health;
 
 	private const int UIHEALTH = 0;
+
+	// Attack state tracking
+	private bool _isAttacking = false;
+	private int _attackSessionId = 0;
+
 	public override void _Ready()
 	{
 		health = new Health(6);
@@ -24,12 +34,27 @@ public partial class Lonk : CharacterBody2D
 		_hitBox.AreaEntered += OnAreaEntered;
 	}
 
-	// Player has no control for this.
-	private bool _noInput = false;
-	private Vector2 _previousDirection = Vector2.Zero;
-
 	public override void _PhysicsProcess(double delta)
 	{
+		// Handle attacks when not currently mid-attack
+		if (!_isAttacking)
+		{
+			if (Input.IsActionJustPressed("standard_attack"))
+			{
+				TriggerAttack(1); // Sword (Frame 1)
+			}
+			else if (Input.IsActionJustPressed("alternate_attack"))
+			{
+				TriggerAttack(0); // Bow / Item Throw (Frame 0)
+			}
+		}
+
+		if (_isAttacking)
+		{
+			_movementComponent?.Move(Vector2.Zero, delta);
+			return;
+		}
+
 		Vector2 inputDir = GetCardinalInput(delta);
 
 		if (inputDir != Vector2.Zero) {
@@ -40,6 +65,75 @@ public partial class Lonk : CharacterBody2D
 		_animationComponent?.UpdateAnimation(inputDir);
 	}
 
+	private async void TriggerAttack(int frameIndex)
+	{
+		_isAttacking = true;
+		int currentSession = ++_attackSessionId;
+
+		// Resolve facing direction (defaults to Down if stationary at start)
+		Vector2 dir = _previousDirection == Vector2.Zero ? Vector2.Down : _previousDirection;
+
+		string animName = "sword_down";
+		string stopAnimName = "walk_down";
+		Vector2I spriteOffset = new(0, -2);
+		bool flipH = false;
+
+		if (dir.X > 0)
+		{
+			animName = "sword_horizontal";
+			stopAnimName = "walk_horizontal";
+			flipH = false;
+
+			// Specific offset for sword frame.
+			if (frameIndex == 1)
+			{
+				spriteOffset = new(6, -2);	
+			}
+		}
+		else if (dir.X < 0)
+		{
+			animName = "sword_horizontal";
+			stopAnimName = "walk_horizontal";
+			flipH = true;
+
+			// Specific offset for sword frame.
+			if (frameIndex == 1)
+			{
+				spriteOffset = new(-6, -2);	
+			}
+		}
+		else if (dir.Y < 0)
+		{
+			animName = "sword_up";
+			stopAnimName = "walk_up";
+			spriteOffset = new(0, -10);
+		}
+		else if (dir.Y > 0)
+		{
+			animName = "sword_down";
+			stopAnimName = "walk_down";
+			spriteOffset = new(0, 5);
+		}
+
+		// Play single attack frame
+		_animationComponent?.SetAnimationAndFrame(animName, frameIndex, spriteOffset, flipH);
+
+		// Lock movement for 0.5s
+		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+
+		if (IsInstanceValid(this) && currentSession == _attackSessionId)
+		{
+			_isAttacking = false;
+			_animationComponent?.SetAnimationAndFrame(stopAnimName, 0, new(0, -2));
+		}
+	}
+
+	private void InterruptAttack()
+	{
+		_attackSessionId++;
+		_isAttacking = false;
+	}
+
 	private void OnAreaEntered(Area2D area)
 	{
 		if (area is Affectables affectable)
@@ -47,6 +141,7 @@ public partial class Lonk : CharacterBody2D
 			switch (affectable.Type)
 			{
 				case Affectables.EffectType.DAMAGE:
+					InterruptAttack();
 					health.applyHealthEffect(-affectable.Value);
 					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 
@@ -55,7 +150,6 @@ public partial class Lonk : CharacterBody2D
 					_movementComponent?.ApplyForce(direction, 0.25f);
 					_animationComponent?.StartColorFluctuation(0.25f);
 
-					// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
 					break;
 				
 				case Affectables.EffectType.HEALTH:
