@@ -16,15 +16,16 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 
 	private int currentDirectionIndex = 0;
 
-	private Health hp;
+	private Health health;
+
+	private const int UIHEALTH = 0;
 
 	public override void _Ready()
 	{
-		hp = new Health(6);
+		health = new Health(6);
 
 		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
 		_hitBox.AreaEntered += OnAreaEntered;
-		_hitBox.BodyEntered += OnWeaponBodyEntered;
 
 		var timer = new Timer()
 		{
@@ -70,8 +71,20 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 
 	private void OnAreaEntered(Area2D area)
 	{
-		// TODO: Implement health decrease here.
-		// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+		if (area is Affectables affectable)
+		{
+			if (affectable.Type is Affectables.EffectType.DAMAGE)
+			{
+				health.applyHealthEffect(-affectable.Value);
+				GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+
+				var direction = affectable.Direction ?? -directionMapping[currentDirectionIndex];
+
+				_movementComponent?.ApplyForce(direction, 0.25f);
+				_animationComponent?.StartColorFluctuation(0.25f);
+			}
+		}
+		
 	}
 
 	private void OnWeaponBodyEntered(Node node)
