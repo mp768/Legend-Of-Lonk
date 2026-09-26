@@ -14,7 +14,7 @@ public partial class Affectables : Area2D
 		KEYS,
 	}
 
-	public int Value { get; set; }
+	[Export] public int Value { get; set; }
 	public Vector2? Direction { get; set; }
-	public EffectType Type { get; set; }
+	[Export] public EffectType Type { get; set; }
 }

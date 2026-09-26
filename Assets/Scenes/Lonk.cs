@@ -26,26 +26,15 @@ public partial class Lonk : CharacterBody2D
 
 	// Player has no control for this.
 	private bool _noInput = false;
-	private Vector2 _movementDirection = Vector2.Zero;
+	private Vector2 _previousDirection = Vector2.Zero;
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 movementDir = Vector2.Zero;
+		Vector2 inputDir = GetCardinalInput(delta);
 
-		if (_noInput)
-		{
-			
+		if (inputDir != Vector2.Zero) {
+			_previousDirection = inputDir;
 		}
-		else
-		{	
-			Vector2 inputDir = GetCardinalInput(delta);
-
-			if (inputDir != Vector2.Zero) {
-				_movementDirection = inputDir;
-			}
-		}
-
-
 
 		_movementComponent?.Move(inputDir, delta);
 		_animationComponent?.UpdateAnimation(inputDir);
@@ -59,16 +48,19 @@ public partial class Lonk : CharacterBody2D
 			{
 				case Affectables.EffectType.DAMAGE:
 					health.applyHealthEffect(-affectable.Value);
+					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 
 					var direction = affectable.Direction ?? -_previousDirection;
 
-					
+					_movementComponent?.ApplyForce(direction, 0.25f);
+					_animationComponent?.StartColorFluctuation(0.25f);
 
 					// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
 					break;
 				
 				case Affectables.EffectType.HEALTH:
 					health.applyHealthEffect(affectable.Value);
+					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 					break;
 
 				case Affectables.EffectType.RUPEES:

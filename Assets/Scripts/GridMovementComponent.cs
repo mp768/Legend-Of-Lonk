@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 [GlobalClass]
 public partial class GridMovementComponent : Node
@@ -8,6 +7,14 @@ public partial class GridMovementComponent : Node
     private const float GRID_SIZE = 8.0f;
 
     private CharacterBody2D _body;
+
+    // Forced movement state variables
+    private float _forceTimer = 0.0f;
+    private Vector2 _forcedDirection = Vector2.Zero;
+    private float _forcedSpeed = -1.0f;
+
+    // Returns true if a forced movement effect is currently active.
+    public bool IsForcedMoving => _forceTimer > 0.0f;
 
     public override void _Ready()
     {
@@ -18,22 +25,38 @@ public partial class GridMovementComponent : Node
         }
     }
 
-    /// <summary>
-    /// Applies the calculated velocity and moves the CharacterBody2D. 
-    /// </summary>
+    // Applies the calculated velocity and moves the CharacterBody2D. 
+    // Hijacks controls if forced movement is active.
     public void Move(Vector2 direction, double delta)
     {
         if (_body == null) return;
 
-        if (direction != Vector2.Zero)
+        Vector2 effectiveDirection = direction;
+        float effectiveSpeed = MoveSpeed;
+
+        // Hijack input if force duration is active
+        if (IsForcedMoving)
         {
-            _body.Velocity = CalculateGridAlignedVelocity(direction, (float)delta, snapPosition: true);
+            _forceTimer -= (float)delta;
+            effectiveDirection = _forcedDirection;
+            effectiveSpeed = _forcedSpeed;
+        }
+
+        if (effectiveDirection != Vector2.Zero)
+        {
+            // Temporarily swap MoveSpeed to allow custom force speeds in CalculateGridAlignedVelocity
+            float originalSpeed = MoveSpeed;
+            MoveSpeed = effectiveSpeed;
+
+            _body.Velocity = CalculateGridAlignedVelocity(effectiveDirection, (float)delta, snapPosition: true);
+
+            MoveSpeed = originalSpeed;
         }
         else
         {
             _body.Velocity = Vector2.Zero;
         }
-        
+
         _body.MoveAndSlide();
     }
 
@@ -99,5 +122,14 @@ public partial class GridMovementComponent : Node
         }
 
         return velocity;
+    }
+
+    public void ApplyForce(Vector2 direction, float duration, float speed = -1.0f)
+    {
+        if (direction == Vector2.Zero || duration <= 0.0f) return;
+
+        _forcedDirection = direction.Normalized();
+        _forceTimer = duration;
+        _forcedSpeed = MoveSpeed;
     }
 }
