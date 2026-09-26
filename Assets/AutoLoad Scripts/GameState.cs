@@ -3,6 +3,9 @@ using System;
 
 public partial class GameState : Node
 {	
+
+	public static GameState Instance { get; private set; }
+
 	enum UILabels
 	{
 		HEALTH = 0,
@@ -21,15 +24,15 @@ public partial class GameState : Node
 
 	// Gamestate function to invoke when trying to use keys to open doors or something
 	// returns true / false to know if it worked
-	public bool use_key()
+	public bool use_key(int num_keys)
 	{
-		if (_keys != 0)
+		if (_keys == -1 || _keys - num_keys >= 0)
 		{
 			// Logic: if -1, keep it at -1 to signify inf keys
 			// else, subtract use_keys from number of keys
 			// this avoids the problem of _keys becomming infinite (keys = 0 - use_keys)
 			// because we don't run this when _keys = 0 
-			_keys = Mathf.Max(-1, _keys - 1);
+			_keys = Mathf.Max(-1, _keys - num_keys);
 			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, _keys, (int)UILabels.KEYS);
 			return true;
 		} 
@@ -109,6 +112,7 @@ public partial class GameState : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Instance = this;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

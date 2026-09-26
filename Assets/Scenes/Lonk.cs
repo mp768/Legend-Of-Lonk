@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Godot;
 
 public partial class Lonk : CharacterBody2D
@@ -22,7 +23,6 @@ public partial class Lonk : CharacterBody2D
 
 		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
 		_hitBox.AreaEntered += OnAreaEntered;
-		_hitBox.BodyEntered += OnWeaponBodyEntered;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -36,19 +36,40 @@ public partial class Lonk : CharacterBody2D
 
 	private void OnAreaEntered(Area2D area)
 	{
-		// TODO: Implement health decrease here.
-		// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+		if (area is Affectables affectable)
+		{
+			int amount = affectable.GetEffect();
+
+			switch (affectable.GetEffectType())
+			{
+				case Affectables.Effects.DAMAGE:
+				lonk_hp.applyHealthEffect(-amount);
+				// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+				break;
+
+				case Affectables.Effects.HEALTH:
+				lonk_hp.applyHealthEffect(amount);
+				break;
+
+				case Affectables.Effects.RUPEES:
+				GameState.Instance.gain_rupee(amount);
+				break;
+
+				case Affectables.Effects.KEYS:
+				GameState.Instance.gain_key();
+				break;
+
+
+			}
+		}
+		
+		
 	}
 
 	private void setCheatMode(bool set)
 	{
 		lonk_hp.HealthCheat(set);
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, lonk_hp.health, UIHEALTH);
-	}
-
-	private void OnWeaponBodyEntered(Node node)
-	{
-		// TODO: Confirm it was a weapon we collided with, then pull its velocity to send the object backwards.
 	}
 
 	private Vector2 GetCardinalInput(float delta)
