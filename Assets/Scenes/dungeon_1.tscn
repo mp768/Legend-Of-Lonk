@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b2namakqqiiyq"]
 
+[ext_resource type="Script" uid="uid://bwfh00ukyrwar" path="res://Assets/Scripts/RoomManager.cs" id="1_xx0cq"]
 [ext_resource type="PackedScene" uid="uid://tq2waqkyfdur" path="res://Assets/Scenes/Rooms/room9.tscn" id="2_jjseg"]
 [ext_resource type="PackedScene" uid="uid://177g2l4b2c6d" path="res://Assets/Scenes/Rooms/room1.tscn" id="2_kk4t4"]
 [ext_resource type="PackedScene" uid="uid://xp5qhciii4y8" path="res://Assets/Scenes/Rooms/room2.tscn" id="3_tabvt"]
@@ -20,61 +21,104 @@
 [ext_resource type="PackedScene" uid="uid://bamksisfgow6v" path="res://Assets/Scenes/Rooms/room_basement.tscn" id="18_5arw8"]
 [ext_resource type="PackedScene" uid="uid://m85sx2wsp7bb" path="res://Assets/Scenes/lonk.tscn" id="19_5arw8"]
 
-[node name="Dungeon1" type="Node2D" unique_id=386369034]
+[node name="Dungeon1" type="Node" unique_id=679708911 node_paths=PackedStringArray("MainCamera", "StartingRoom")]
+script = ExtResource("1_xx0cq")
+MainCamera = NodePath("Camera2D")
+StartingRoom = NodePath("room1")
+metadata/_custom_type_script = "uid://bwfh00ukyrwar"
 
-[node name="room1" parent="." unique_id=753680689 instance=ExtResource("2_kk4t4")]
+[node name="room1" parent="." unique_id=753680689 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("2_kk4t4")]
 position = Vector2(-128, -88)
+leftRoom = NodePath("../room2")
+rightRoom = NodePath("../room3")
+upRoom = NodePath("../room4")
+downRoom = NodePath(".")
 
-[node name="room2" parent="." unique_id=1063940994 instance=ExtResource("3_tabvt")]
+[node name="room2" parent="." unique_id=1063940994 node_paths=PackedStringArray("rightRoom") instance=ExtResource("3_tabvt")]
 position = Vector2(-384, -88)
+rightRoom = NodePath("../room1")
 
-[node name="room3" parent="." unique_id=599710037 instance=ExtResource("4_3iwok")]
+[node name="room3" parent="." unique_id=599710037 node_paths=PackedStringArray("leftRoom") instance=ExtResource("4_3iwok")]
 position = Vector2(128, -88)
+leftRoom = NodePath("../room1")
 
-[node name="room4" parent="." unique_id=2055252661 instance=ExtResource("5_5arw8")]
+[node name="room4" parent="." unique_id=2055252661 node_paths=PackedStringArray("upRoom", "downRoom") instance=ExtResource("5_5arw8")]
 position = Vector2(-128, -264)
+upRoom = NodePath("../room5")
+downRoom = NodePath("../room1")
 
-[node name="room5" parent="." unique_id=671090097 instance=ExtResource("6_xx0cq")]
+[node name="room5" parent="." unique_id=671090097 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("6_xx0cq")]
 position = Vector2(-128, -440)
+leftRoom = NodePath("../room6")
+rightRoom = NodePath("../room7")
+upRoom = NodePath("../room10")
+downRoom = NodePath("../room4")
 
-[node name="room6" parent="." unique_id=1745662618 instance=ExtResource("7_1spb2")]
+[node name="room6" parent="." unique_id=1745662618 node_paths=PackedStringArray("rightRoom", "upRoom") instance=ExtResource("7_1spb2")]
 position = Vector2(-384, -440)
+rightRoom = NodePath("../room5")
+upRoom = NodePath("../room8")
 
-[node name="room7" parent="." unique_id=782276010 instance=ExtResource("8_qu5k5")]
+[node name="room7" parent="." unique_id=782276010 node_paths=PackedStringArray("leftRoom", "upRoom") instance=ExtResource("8_qu5k5")]
 position = Vector2(128, -440)
+leftRoom = NodePath("../room5")
+upRoom = NodePath("../room14")
 
-[node name="room8" parent="." unique_id=1879895654 instance=ExtResource("9_b4jvr")]
+[node name="room8" parent="." unique_id=1879895654 node_paths=PackedStringArray("leftRoom", "rightRoom", "downRoom") instance=ExtResource("9_b4jvr")]
 position = Vector2(-384, -616)
+leftRoom = NodePath("../roomSpecial")
+rightRoom = NodePath("../room10")
+downRoom = NodePath("../room6")
 
-[node name="room10" parent="." unique_id=1508861911 instance=ExtResource("2_jjseg")]
+[node name="room10" parent="." unique_id=1508861911 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("2_jjseg")]
 position = Vector2(-128, -616)
+leftRoom = NodePath("../room8")
+rightRoom = NodePath("../room14")
+upRoom = NodePath("../room11")
+downRoom = NodePath("../room5")
 
-[node name="room11" parent="." unique_id=454570420 instance=ExtResource("10_02wtx")]
+[node name="room11" parent="." unique_id=454570420 node_paths=PackedStringArray("upRoom", "downRoom") instance=ExtResource("10_02wtx")]
 position = Vector2(-128, -792)
+upRoom = NodePath("../room12")
+downRoom = NodePath("../room10")
 
-[node name="room12" parent="." unique_id=1910418955 instance=ExtResource("11_hqyhv")]
+[node name="room12" parent="." unique_id=1910418955 node_paths=PackedStringArray("leftRoom", "downRoom") instance=ExtResource("11_hqyhv")]
 position = Vector2(-128, -968)
+leftRoom = NodePath("../room13")
+downRoom = NodePath("../room11")
 
-[node name="room13" parent="." unique_id=435775721 instance=ExtResource("12_q3qt3")]
+[node name="room13" parent="." unique_id=435775721 node_paths=PackedStringArray("rightRoom") instance=ExtResource("12_q3qt3")]
 position = Vector2(-384, -968)
+rightRoom = NodePath("../room12")
 
-[node name="room14" parent="." unique_id=1203313447 instance=ExtResource("13_p1src")]
+[node name="room14" parent="." unique_id=1203313447 node_paths=PackedStringArray("leftRoom", "rightRoom", "downRoom") instance=ExtResource("13_p1src")]
 position = Vector2(128, -616)
+leftRoom = NodePath("../room10")
+rightRoom = NodePath("../room15")
+downRoom = NodePath("../room7")
 
-[node name="room15" parent="." unique_id=1991680527 instance=ExtResource("14_mmdi8")]
+[node name="room15" parent="." unique_id=1991680527 node_paths=PackedStringArray("leftRoom", "upRoom") instance=ExtResource("14_mmdi8")]
 position = Vector2(384, -616)
+leftRoom = NodePath("../room14")
+upRoom = NodePath("../room16")
 
-[node name="room16" parent="." unique_id=1965363454 instance=ExtResource("15_0sj4n")]
+[node name="room16" parent="." unique_id=1965363454 node_paths=PackedStringArray("rightRoom", "downRoom") instance=ExtResource("15_0sj4n")]
 position = Vector2(384, -792)
+rightRoom = NodePath("../room17")
+downRoom = NodePath("../room15")
 
-[node name="room17" parent="." unique_id=1611217033 instance=ExtResource("16_vhkvk")]
+[node name="room17" parent="." unique_id=1611217033 node_paths=PackedStringArray("leftRoom") instance=ExtResource("16_vhkvk")]
 position = Vector2(640, -792)
+leftRoom = NodePath("../room16")
 
-[node name="roomSpecial" parent="." unique_id=1977389969 instance=ExtResource("17_3iwok")]
+[node name="roomSpecial" parent="." unique_id=1977389969 node_paths=PackedStringArray("rightRoom") instance=ExtResource("17_3iwok")]
 position = Vector2(-640, -616)
+rightRoom = NodePath("../room8")
 
 [node name="roomBasement" parent="." unique_id=391949384 instance=ExtResource("18_5arw8")]
 position = Vector2(-656, -968)
 
 [node name="Lonk" parent="." unique_id=686843034 instance=ExtResource("19_5arw8")]
 position = Vector2(0, -9)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=392307620]

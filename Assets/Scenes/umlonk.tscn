@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://cd6uiodirof18"]
+
+[ext_resource type="Script" uid="uid://bwsj562n1nvhn" path="res://Assets/Scenes/Umlonk.cs" id="1_ncvx0"]
+[ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_wxjw5"]
+[ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_oe36h"]
+[ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_o3iwl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq4k7"]
+atlas = ExtResource("2_wxjw5")
+region = Rect2(1, 11, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kq13k"]
+atlas = ExtResource("2_wxjw5")
+region = Rect2(18, 11, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64qf5"]
+atlas = ExtResource("2_wxjw5")
+region = Rect2(35, 11, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lunqy"]
+atlas = ExtResource("2_wxjw5")
+region = Rect2(52, 11, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sulnf"]
+atlas = ExtResource("2_wxjw5")
+region = Rect2(68, 9, 17, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03c5t"]
+atlas = ExtResource("2_wxjw5")
+region = Rect2(85, 9, 17, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4rkw1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qq4k7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kq13k")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64qf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lunqy")
+}],
+"loop": 1,
+"name": &"walk_horizontal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sulnf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03c5t")
+}],
+"loop": 1,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mrrlb"]
+size = Vector2(14, 15)
+
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox")]
+collision_layer = 16
+collision_mask = 33
+script = ExtResource("1_ncvx0")
+_movementComponent = NodePath("GridMovementComponent")
+_animationComponent = NodePath("GridAnimationComponent")
+_hitBox = NodePath("Hitbox")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_4rkw1")
+animation = &"walk_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=762002191]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_3x3eq")
+
+[node name="GridMovementComponent" type="Node" parent="." unique_id=1637290316]
+script = ExtResource("3_oe36h")
+metadata/_custom_type_script = "uid://cjxeab0s0wtq4"
+
+[node name="GridAnimationComponent" type="Node" parent="." unique_id=861480329 node_paths=PackedStringArray("sprite")]
+script = ExtResource("4_o3iwl")
+sprite = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://14fuplk8jxpr"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=540156816]
+collision_layer = 4
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_mrrlb")
