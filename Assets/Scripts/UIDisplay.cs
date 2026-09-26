@@ -27,7 +27,7 @@ public partial class UIDisplay : ColorRect
 
 		GameSignals.Instance.UpdateUI += updateUI;
 
-		updateUI(0, 0);
+		updateUI(0, 6);
 		updateUI(0, 1);
 		updateUI(0, 2);
 	}
