@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b26vitb6rc1eu"]
+
+[ext_resource type="Script" uid="uid://cgbhsbxqsmbyg" path="res://Rupee.cs" id="1_4aggp"]
+
+[node name="Rupee" type="Node2D" unique_id=632365208]
+script = ExtResource("1_4aggp")

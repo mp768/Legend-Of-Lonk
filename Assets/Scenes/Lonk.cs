@@ -71,7 +71,8 @@ public partial class Lonk : CharacterBody2D
 					GameState.Instance.gain_key();
 					break;
 			}
-		}	
+		}
+		
 	}
 
 	private void setCheatMode(bool set)
