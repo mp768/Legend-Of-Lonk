@@ -14,7 +14,25 @@ public partial class GameSignals : Node
     // or 
     // "EmitSignal(SignalName.XYZ, ..any args go here)" to invoke the callback, calling all connected listeners.
     //
+    
+    /* CHEAT CODE SIGNALS */
+    [Signal]
+    public delegate void SetCheatModeEventHandler(bool set); // signal for setting cheat code 
 
+    [Signal]
+    public delegate void UpdateUIEventHandler(int value,int label); // signal for updating specific UI data, since they all ints anyways
+
+    // [Signal]
+    // public delegate void RupeeUIUpdateEventHandler(int rupee); // signal for updating the rupee count on the UI 
+
+    // [Signal]
+    // public delegate void HealthUIUpdateEventHandler(int health); // signal for updating the health on the UI
+
+    // [Signal]
+    // public delegate void KeysUIUpdateEventHandler(int keys); // signal for updating the key count on the UI
+
+
+    // FIX THESE SIGNALS BELOW OR REMOVE ENTIRELY
     [Signal]
     public delegate void GameOverEventHandler(); // signal for when game is over
 
