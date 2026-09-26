@@ -32,6 +32,11 @@ public partial class Lonk : CharacterBody2D
 		health = new Health(6);
 		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 
+		_swordLeft.Direction = new(-1, 0);
+		_swordRight.Direction = new(1, 0);
+		_swordUp.Direction = new(0, -1);
+		_swordDown.Direction = new(0, 1);
+
 		// Ensure all sword hitboxes start disabled
 		DisableAllSwords();
 
@@ -191,14 +196,13 @@ public partial class Lonk : CharacterBody2D
 			{
 				case Affectables.EffectType.DAMAGE:
 					InterruptAttack();
-					GD.Print("What is value? ", affectable.Value);
 					health.applyHealthEffect(-affectable.Value);
 					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 
 					var direction = affectable.Direction ?? -_previousDirection;
 
-					_movementComponent?.ApplyForce(direction, 0.25f);
-					_animationComponent?.StartColorFluctuation(0.25f);
+					_movementComponent?.ApplyForce(direction, 0.35f);
+					_animationComponent?.StartColorFluctuation(0.30f);
 
 					break;
 				

@@ -36,7 +36,7 @@ size = Vector2(14, 15)
 
 [node name="Stalfos" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox")]
 collision_layer = 0
-collision_mask = 33
+collision_mask = 161
 script = ExtResource("1_bfri6")
 _movementComponent = NodePath("GridMovementComponent")
 _animationComponent = NodePath("GridAnimationComponent")
@@ -59,6 +59,7 @@ metadata/_custom_type_script = "uid://cjxeab0s0wtq4"
 [node name="GridAnimationComponent" type="Node" parent="." unique_id=861480329 node_paths=PackedStringArray("sprite")]
 script = ExtResource("4_uyfel")
 sprite = NodePath("../AnimatedSprite2D")
+stepFrequency = 12
 animHorizontal = "walk"
 animDown = "walk"
 animUp = "walk"

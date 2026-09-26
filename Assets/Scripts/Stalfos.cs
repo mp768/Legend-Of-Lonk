@@ -69,7 +69,7 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 		_animationComponent?.UpdateAnimation(inputDir);
 	}
 
-	private void OnAreaEntered(Area2D area)
+	private async void OnAreaEntered(Area2D area)
 	{
 		if (area is Affectables affectable)
 		{
@@ -79,8 +79,16 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 
 				var direction = affectable.Direction ?? -directionMapping[currentDirectionIndex];
 
-				_movementComponent?.ApplyForce(direction, 0.25f);
-				_animationComponent?.StartColorFluctuation(0.25f);
+				var initialStepFrequency = _animationComponent.stepFrequency;
+				_animationComponent.stepFrequency = 3;
+
+				_movementComponent?.ApplyForce(direction, 0.85f, 5000.5f);
+				_animationComponent?.StartColorFluctuation(0.85f);
+
+
+				await ToSignal(GetTree().CreateTimer(0.825f), SceneTreeTimer.SignalName.Timeout);
+
+				_animationComponent.stepFrequency = initialStepFrequency;
 			}
 		}
 		

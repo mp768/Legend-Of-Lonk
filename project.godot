@@ -90,6 +90,7 @@ alternate_attack={
 2d_physics/layer_5="Interaction"
 2d_physics/layer_6="Low-Wall"
 2d_physics/layer_7="Collector"
+2d_physics/layer_8="Enemy No Escape"
 
 [physics]
 

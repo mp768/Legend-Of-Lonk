@@ -1857,7 +1857,7 @@ tile_map_data = PackedByteArray("AAAAAAoAAQArAA4AAAABAAoAAQAhAAgAAAAAAAsAAQArAA4
 tile_set = SubResource("TileSet_iaasp")
 
 [node name="LeftExit" type="Area2D" parent="." unique_id=1693443748]
-collision_layer = 0
+collision_layer = 128
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftExit" unique_id=558819707]
@@ -1866,7 +1866,7 @@ shape = SubResource("RectangleShape2D_v1l3a")
 
 [node name="RightExit" type="Area2D" parent="." unique_id=848180416]
 position = Vector2(224, 0)
-collision_layer = 0
+collision_layer = 128
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightExit" unique_id=1806633655]
@@ -1875,7 +1875,7 @@ shape = SubResource("RectangleShape2D_v1l3a")
 
 [node name="UpExit" type="Area2D" parent="." unique_id=822062184]
 position = Vector2(112, -72)
-collision_layer = 0
+collision_layer = 128
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UpExit" unique_id=664064262]
@@ -1884,7 +1884,7 @@ shape = SubResource("RectangleShape2D_v1l3a")
 
 [node name="DownExit" type="Area2D" parent="." unique_id=702519386]
 position = Vector2(112, 72)
-collision_layer = 0
+collision_layer = 128
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=1931037255]
@@ -1893,3 +1893,4 @@ shape = SubResource("RectangleShape2D_v1l3a")
 
 [node name="Stalfos" parent="." unique_id=609894711 instance=ExtResource("4_v1l3a")]
 position = Vector2(152, 72)
+collision_layer = 16
