@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://duqbu1s7bj6l0"]
+
+[ext_resource type="Script" uid="uid://cybxtin5g484x" path="res://Assets/Scenes/Stalfos.cs" id="1_bfri6"]
+[ext_resource type="Texture2D" uid="uid://ivqx0u1soxkj" path="res://Assets/Sprites/Stalfos.png" id="2_bfri6"]
+[ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_3vwrt"]
+[ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_uyfel"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsp3l"]
+atlas = ExtResource("2_bfri6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vwrt"]
+atlas = ExtResource("2_bfri6")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q02sc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsp3l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vwrt")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mrrlb"]
+size = Vector2(14, 15)
+
+[node name="Stalfos" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox")]
+collision_layer = 16
+collision_mask = 33
+script = ExtResource("1_bfri6")
+_movementComponent = NodePath("GridMovementComponent")
+_animationComponent = NodePath("GridAnimationComponent")
+_hitBox = NodePath("Hitbox")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_q02sc")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=762002191]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_3x3eq")
+
+[node name="GridMovementComponent" type="Node" parent="." unique_id=1637290316]
+script = ExtResource("3_3vwrt")
+MoveSpeed = 45.0
+metadata/_custom_type_script = "uid://cjxeab0s0wtq4"
+
+[node name="GridAnimationComponent" type="Node" parent="." unique_id=861480329 node_paths=PackedStringArray("sprite")]
+script = ExtResource("4_uyfel")
+sprite = NodePath("../AnimatedSprite2D")
+animHorizontal = "walk"
+animDown = "walk"
+animUp = "walk"
+metadata/_custom_type_script = "uid://14fuplk8jxpr"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=540156816]
+collision_layer = 6
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_mrrlb")
