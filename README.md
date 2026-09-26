@@ -1,7 +1,7 @@
 # Project 1 Milestone done with Godot
 
 Controls:
-- Arrow Keys for movement
+- WASD **AND** Arrow Keys for movement
 - 'X' for Sword Attack
 - 'Z' for Alternate Attack
 
