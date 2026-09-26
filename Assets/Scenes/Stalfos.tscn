@@ -35,7 +35,7 @@ size = Vector2(6, 6)
 size = Vector2(14, 15)
 
 [node name="Stalfos" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox")]
-collision_layer = 16
+collision_layer = 0
 collision_mask = 33
 script = ExtResource("1_bfri6")
 _movementComponent = NodePath("GridMovementComponent")

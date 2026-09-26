@@ -3,7 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_1a83f"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_4wdh3"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_4wdh3"]
-[ext_resource type="PackedScene" uid="uid://cd6uiodirof18" path="res://Assets/Scenes/umlonk.tscn" id="4_nvwu0"]
+[ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="5_cayjm"]
+[ext_resource type="PackedScene" uid="uid://cwscvihu18f6c" path="res://Assets/Scenes/Collectibles/regen.tscn" id="6_h7rbo"]
+[ext_resource type="PackedScene" uid="uid://b26vitb6rc1eu" path="res://Assets/Scenes/Collectibles/rupee.tscn" id="7_mcgqq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nvwu0"]
 texture = ExtResource("1_1a83f")
@@ -912,5 +914,11 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_tmr7j")
 
-[node name="Lonk" parent="." unique_id=609894711 instance=ExtResource("4_nvwu0")]
-position = Vector2(160, 40)
+[node name="Regen" parent="." unique_id=1967340452 instance=ExtResource("6_h7rbo")]
+position = Vector2(151, 120)
+
+[node name="Rupee" parent="." unique_id=80945848 instance=ExtResource("7_mcgqq")]
+position = Vector2(71, 105)
+
+[node name="Key" parent="." unique_id=1118756736 instance=ExtResource("5_cayjm")]
+position = Vector2(54, 58)
