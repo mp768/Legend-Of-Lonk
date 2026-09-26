@@ -76,6 +76,7 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 			if (affectable.Type is Affectables.EffectType.DAMAGE)
 			{
 				health.applyHealthEffect(-affectable.Value);
+
 				GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 
 				var direction = affectable.Direction ?? -directionMapping[currentDirectionIndex];
@@ -85,10 +86,5 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 			}
 		}
 		
-	}
-
-	private void OnWeaponBodyEntered(Node node)
-	{
-		// TODO: Confirm it was a weapon we collided with, then pull its velocity to send the object backwards.
 	}
 }

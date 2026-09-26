@@ -13,6 +13,7 @@ public partial class Health : Node
 		this.maxHealth = maxHP;
 	}
 
+	// for next time, make this function return true or false: false if the heath reaches 0
 	public void applyHealthEffect(int dmg)
 	{
 		// damageMultiplier can be set to 0 to have no effect on player
