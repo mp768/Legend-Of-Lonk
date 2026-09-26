@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using Godot;
 
 public partial class Lonk : CharacterBody2D
@@ -10,13 +9,13 @@ public partial class Lonk : CharacterBody2D
 	private enum Axis { None, Horizontal, Vertical }
 	private Axis _primaryAxis = Axis.None;
 
-	private Health lonk_hp;
+	private Health health;
 
 	private const int UIHEALTH = 0;
 	public override void _Ready()
 	{
-		lonk_hp = new Health(6);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, lonk_hp.health, UIHEALTH);
+		health = new Health(6);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 
 		// Connect cheat code signal
 		GameSignals.Instance.SetCheatMode += setCheatMode;
@@ -25,10 +24,28 @@ public partial class Lonk : CharacterBody2D
 		_hitBox.AreaEntered += OnAreaEntered;
 	}
 
+	// Player has no control for this.
+	private bool _noInput = false;
+	private Vector2 _movementDirection = Vector2.Zero;
+
 	public override void _PhysicsProcess(double delta)
 	{
-		float fDelta = (float)delta;
-		Vector2 inputDir = GetCardinalInput(fDelta);
+		Vector2 movementDir = Vector2.Zero;
+
+		if (_noInput)
+		{
+			
+		}
+		else
+		{	
+			Vector2 inputDir = GetCardinalInput(delta);
+
+			if (inputDir != Vector2.Zero) {
+				_movementDirection = inputDir;
+			}
+		}
+
+
 
 		_movementComponent?.Move(inputDir, delta);
 		_animationComponent?.UpdateAnimation(inputDir);
@@ -38,41 +55,40 @@ public partial class Lonk : CharacterBody2D
 	{
 		if (area is Affectables affectable)
 		{
-			int amount = affectable.GetEffect();
-
-			switch (affectable.GetEffectType())
+			switch (affectable.Type)
 			{
-				case Affectables.Effects.DAMAGE:
-				lonk_hp.applyHealthEffect(-amount);
-				// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
-				break;
+				case Affectables.EffectType.DAMAGE:
+					health.applyHealthEffect(-affectable.Value);
 
-				case Affectables.Effects.HEALTH:
-				lonk_hp.applyHealthEffect(amount);
-				break;
+					var direction = affectable.Direction ?? -_previousDirection;
 
-				case Affectables.Effects.RUPEES:
-				GameState.Instance.gain_rupee(amount);
-				break;
+					
 
-				case Affectables.Effects.KEYS:
-				GameState.Instance.gain_key();
-				break;
+					// TODO: Send link backwards from the way he's moving (or somehow make an enemy a "Weapon"?????)
+					break;
+				
+				case Affectables.EffectType.HEALTH:
+					health.applyHealthEffect(affectable.Value);
+					break;
 
+				case Affectables.EffectType.RUPEES:
+					GameState.Instance.gain_rupee(affectable.Value);
+					break;
 
+				case Affectables.EffectType.KEYS:
+					GameState.Instance.gain_key();
+					break;
 			}
-		}
-		
-		
+		}	
 	}
 
 	private void setCheatMode(bool set)
 	{
-		lonk_hp.HealthCheat(set);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, lonk_hp.health, UIHEALTH);
+		health.HealthCheat(set);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
 	}
 
-	private Vector2 GetCardinalInput(float delta)
+	private Vector2 GetCardinalInput(double delta)
 	{
 		float x = Input.GetAxis("left", "right");
 		float y = Input.GetAxis("up", "down");
@@ -93,8 +109,8 @@ public partial class Lonk : CharacterBody2D
 		{
 			if (_primaryAxis == Axis.Horizontal)
 			{
-				Vector2 horzVel = _movementComponent.CalculateGridAlignedVelocity(horzDir, delta, snapPosition: false);
-				if (!TestMove(GlobalTransform, horzVel * delta))
+				Vector2 horzVel = _movementComponent.CalculateGridAlignedVelocity(horzDir, (float)delta, snapPosition: false);
+				if (!TestMove(GlobalTransform, horzVel * (float)delta))
 				{
 					return horzDir;
 				}
@@ -102,8 +118,8 @@ public partial class Lonk : CharacterBody2D
 			}
 			else if (_primaryAxis == Axis.Vertical)
 			{
-				Vector2 vertVel = _movementComponent.CalculateGridAlignedVelocity(vertDir, delta, snapPosition: false);
-				if (!TestMove(GlobalTransform, vertVel * delta))
+				Vector2 vertVel = _movementComponent.CalculateGridAlignedVelocity(vertDir, (float)delta, snapPosition: false);
+				if (!TestMove(GlobalTransform, vertVel * (float)delta))
 				{
 					return vertDir;
 				}
