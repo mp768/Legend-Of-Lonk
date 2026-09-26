@@ -23,7 +23,7 @@ animations = [{
 
 [node name="Regen" type="Area2D" unique_id=1967340452]
 collision_layer = 8
-collision_mask = 16
+collision_mask = 80
 script = ExtResource("1_74mmo")
 Value = 1
 Type = 1

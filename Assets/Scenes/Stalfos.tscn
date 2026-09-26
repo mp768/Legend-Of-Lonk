@@ -53,7 +53,7 @@ shape = SubResource("RectangleShape2D_3x3eq")
 
 [node name="GridMovementComponent" type="Node" parent="." unique_id=1637290316]
 script = ExtResource("3_3vwrt")
-MoveSpeed = 45.0
+MoveSpeed = 35.0
 metadata/_custom_type_script = "uid://cjxeab0s0wtq4"
 
 [node name="GridAnimationComponent" type="Node" parent="." unique_id=861480329 node_paths=PackedStringArray("sprite")]

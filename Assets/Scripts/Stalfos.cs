@@ -29,7 +29,7 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 
 		var timer = new Timer()
 		{
-			WaitTime = 0.48f,
+			WaitTime = 0.78f,
 			Autostart = true,
 		};
 
