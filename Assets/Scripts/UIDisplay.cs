@@ -26,6 +26,10 @@ public partial class UIDisplay : ColorRect
 		UIvalues[3] = weapon; // weapon = 4
 
 		GameSignals.Instance.UpdateUI += updateUI;
+
+		updateUI(0, 0);
+		updateUI(0, 1);
+		updateUI(0, 2);
 	}
 
 	private void updateUI(int value, int affected_label)
