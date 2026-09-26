@@ -1,14 +1,12 @@
+using System.Text.RegularExpressions;
 using Godot;
-using System;
 
 [GlobalClass]
+// Inherenting from Area2D, because all affectables will be Area2D anyways.
+// Would've used a tagged union instead if I could.
 public partial class Affectables : Area2D
 {
-	[Export] private GridMovementComponent _movementComponent;
-	[Export] private GridAnimationComponent _animationComponent;
-	private int effect_value = 0 ;
-
-	public enum Effects
+	public enum EffectType
 	{
 		DAMAGE,
 		HEALTH,
@@ -16,30 +14,7 @@ public partial class Affectables : Area2D
 		KEYS,
 	}
 
-	private Effects single_effect;
-
-	public int GetEffect()
-	{
-		return effect_value;
-	}
-
-	public void AssignEffect(Effects e)
-	{
-		single_effect = e;
-	}
-
-	public Effects GetEffectType()
-	{
-		return single_effect;
-	}
-
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+	public int Value { get; set; }
+	public Vector2? Direction { get; set; }
+	public EffectType Type { get; set; }
 }

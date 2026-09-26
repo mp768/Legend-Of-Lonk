@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_6r7pr"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_8x3bi"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_8x3bi"]
+[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Stalfos.tscn" id="4_v1l3a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v1l3a"]
 texture = ExtResource("1_6r7pr")
@@ -1889,3 +1890,6 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=1931037255]
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_v1l3a")
+
+[node name="Stalfos" parent="." unique_id=609894711 instance=ExtResource("4_v1l3a")]
+position = Vector2(152, 72)

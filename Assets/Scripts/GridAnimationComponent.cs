@@ -12,8 +12,21 @@ public partial class GridAnimationComponent : Node
     [Export] public string animDown = "walk_down";
     [Export] public string animUp = "walk_up";
 
+    [Export] public float nesStepDuration = 0.05f; // Fast flicker (~3 frames at 60 FPS)
+
+
     private int _movementFrameCounter = 0;
     private Node2D _parent;
+
+    // Classic NES Zelda-style color sequence (Red, Blue/Cyan, Orange/Yellow, Normal)
+    private static readonly Color[] DefaultNesPalette = new Color[]
+    {
+        Color.FromHtml("#d84000"), // NES Red
+        Color.FromHtml("#0078f8"), // NES Blue
+        Color.FromHtml("#fc9838"), // NES Orange
+        Colors.White               // Base sprite color
+    };private Tween _fluctuationTween;
+    private int _fluctuationSessionId = 0;
 
     public override void _Ready()
     {
@@ -91,5 +104,58 @@ public partial class GridAnimationComponent : Node
             Mathf.Round(_parent.Position.X) - _parent.Position.X + spriteOffset.X,
             Mathf.Round(_parent.Position.Y) - _parent.Position.Y + spriteOffset.Y
         );
+    }
+
+    public async void StartColorFluctuation(float durationSeconds)
+    {
+        if (sprite == null || durationSeconds <= 0) return;
+
+        StopColorFluctuation(); // Clear existing effect
+
+        int currentSession = ++_fluctuationSessionId;
+        Color[] cyclePalette = DefaultNesPalette;
+        float speed = nesStepDuration;
+
+        if (cyclePalette.Length == 0) return;
+
+        // Build a step-based sequence without smooth fading (instant color switches)
+        _fluctuationTween = CreateTween().SetLoops();
+        foreach (Color color in cyclePalette)
+        {
+            Color targetColor = color;
+            _fluctuationTween.TweenCallback(Callable.From(() => 
+            {
+                if (IsInstanceValid(sprite))
+                {
+                    sprite.SelfModulate = targetColor;
+                }
+            }));
+            _fluctuationTween.TweenInterval(speed);
+        }
+
+        // Run effect for designated duration
+        await ToSignal(GetTree().CreateTimer(durationSeconds), SceneTreeTimer.SignalName.Timeout);
+
+        // Reset if this specific timer session is still active
+        if (IsInstanceValid(this) && currentSession == _fluctuationSessionId)
+        {
+            StopColorFluctuation();
+        }
+    }
+
+    public void StopColorFluctuation()
+    {
+        _fluctuationSessionId++;
+
+        if (_fluctuationTween != null && _fluctuationTween.IsValid())
+        {
+            _fluctuationTween.Kill();
+            _fluctuationTween = null;
+        }
+
+        if (IsInstanceValid(sprite))
+        {
+            sprite.SelfModulate = Colors.White;
+        }
     }
 }
