@@ -33,13 +33,12 @@ public partial class GameSignals : Node
 
 
     // FIX THESE SIGNALS BELOW OR REMOVE ENTIRELY
-
     [Signal]
     public delegate void GameOverEventHandler(); // signal for when game is over
 
     [Signal]
     public delegate void ScoreUpdateEventHandler(); // signal to update score board
-	
+
     [Signal]
     public delegate void RestartEventHandler(); // signal to restart game
 

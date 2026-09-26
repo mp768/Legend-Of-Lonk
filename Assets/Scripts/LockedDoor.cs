@@ -20,5 +20,5 @@ public partial class LockedDoor : TileMapLayer
 		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
 
 		QueueFree();
-	} 
+	}
 }
