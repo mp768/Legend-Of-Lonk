@@ -59,7 +59,7 @@ public partial class GameState : Node
 		// avoids incrementing _keys on -1 (inf)
 		if (_keys >= 0)
 		{
-			_keys = Mathf.Min(_keys ++, MAX_COLLECT);
+			_keys = Mathf.Min(_keys + 1, MAX_COLLECT);
 			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_keys), (int)UILabels.KEYS);
 		}
 	}
