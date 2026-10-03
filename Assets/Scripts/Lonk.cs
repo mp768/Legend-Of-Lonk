@@ -2,286 +2,117 @@ using Godot;
 
 public partial class Lonk : CharacterBody2D
 {
-	[Export] private GridMovementComponent _movementComponent;
-	[Export] private GridAnimationComponent _animationComponent;
-	[Export] private Area2D _hitBox;
+    [Export] private Area2D _hitBox;
+	[Export] private SpritePresenter _spritePresenter;
+    [Export] private PushdownStateMachine _stateMachine;
+    [Export] private PlayerInputProvider _inputProvider;
+    [Export] private StunState _stunState;
+	[Export] private TransitionState _transitionState;
 
-	[Export] private Affectables _swordLeft;
-	[Export] private Affectables _swordRight;
-	[Export] private Affectables _swordDown;
-	[Export] private Affectables _swordUp;
+    private Health health;
+    private const int UIHEALTH = 0;
 
-	private enum Axis { None, Horizontal, Vertical }
-	private Axis _primaryAxis = Axis.None;
+	private Timer _invincibilityTimer; 
 
-	private enum WeaponType { Sword, Bow }
-	private WeaponType _currentWeapon = WeaponType.Sword;
+	[Export] private float iFrames;
+	private bool _takeDamage = true;
 
-	private Vector2 _previousDirection = Vector2.Down; // Default facing direction
+    public override void _Ready()
+    {
+        health = new Health(6);
 
-	private Health health;
+        GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+        health.WhenZero += GameOver;
 
-	private const int UIHEALTH = 0;
+        // Connect cheat code signal
+        GameSignals.Instance.SetCheatMode += SetCheatMode;
 
-	// Attack state tracking
-	private bool _isAttacking = false;
-	private int _attackSessionId = 0;
+        // Hitbox triggers
+        if (_hitBox != null)
+        {
+            _hitBox.AreaEntered += OnAreaEntered;
+        }
 
-	public override void _Ready()
+		GameSignals.Instance.TransitionOccur += TransitionOccur;
+
+		_invincibilityTimer = new Timer
+       	{
+           WaitTime = iFrames,
+           Autostart = false
+       	};
+
+		_invincibilityTimer.Timeout += () => _takeDamage = true;
+
+		AddChild(_invincibilityTimer);
+    }
+
+	private void TransitionOccur(bool start, Vector2 mv)
 	{
-		health = new Health(6);
-
-
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
-		health.WhenZero += GameOver;
-
-		_swordLeft.Direction = new(-1, 0);
-		_swordRight.Direction = new(1, 0);
-		_swordUp.Direction = new(0, -1);
-		_swordDown.Direction = new(0, 1);
-
-		// Ensure all sword hitboxes start disabled
-		DisableAllSwords();
-
-		// Connect cheat code signal
-		GameSignals.Instance.SetCheatMode += setCheatMode;
-
-		// Hitbox will only trigger if it detects an item with the "cause-damage" layer mask.
-		_hitBox.AreaEntered += OnAreaEntered;
-	}
-
-	public override void _PhysicsProcess(double delta)
-	{
-		// Handle attacks when not currently mid-attack
-		if (!_isAttacking)
+		if (start)
 		{
-			if (Input.IsActionJustPressed("standard_attack"))
-			{
-				TriggerAttack(1); // Sword (Frame 1)
-			}
-			else if (Input.IsActionJustPressed("alternate_attack"))
-			{
-				TriggerAttack(0); // Bow / Item Throw (Frame 0)
-			}
+			_transitionState.SetMoveDirection(mv); 
+			_stateMachine.PushState(_transitionState);
 		}
-
-		if (_isAttacking)
+		else
 		{
-			_movementComponent?.Move(Vector2.Zero, delta);
-			return;
-		}
-
-		Vector2 inputDir = GetCardinalInput(delta);
-
-		if (inputDir != Vector2.Zero) {
-			_previousDirection = inputDir;
-		}
-
-		_movementComponent?.Move(inputDir, delta);
-		_animationComponent?.UpdateAnimation(inputDir);
-	}
-
-	private async void TriggerAttack(int frameIndex)
-	{
-		_isAttacking = true;
-		int currentSession = ++_attackSessionId;
-
-		// Resolve facing direction (defaults to Down if stationary at start)
-		Vector2 dir = _previousDirection == Vector2.Zero ? Vector2.Down : _previousDirection;
-
-		string animName = "sword_down";
-		string stopAnimName = "walk_down";
-		Vector2I spriteOffset = new(0, -2);
-		bool flipH = false;
-
-		Affectables activeSword = null;
-
-		if (dir.X > 0)
-		{
-			animName = "sword_horizontal";
-			stopAnimName = "walk_horizontal";
-			flipH = false;
-
-			if (frameIndex == 1)
-			{
-				spriteOffset = new(6, -2);  
-				activeSword = _swordRight;
-			}
-		}
-		else if (dir.X < 0)
-		{
-			animName = "sword_horizontal";
-			stopAnimName = "walk_horizontal";
-			flipH = true;
-
-			if (frameIndex == 1)
-			{
-				spriteOffset = new(-6, -2); 
-				activeSword = _swordLeft;
-			}
-		}
-		else if (dir.Y < 0)
-		{
-			animName = "sword_up";
-			stopAnimName = "walk_up";
-			spriteOffset = new(0, -10);
-
-			if (frameIndex == 1) {
-				activeSword = _swordUp;
-			}
-		}
-		else if (dir.Y > 0)
-		{
-			animName = "sword_down";
-			stopAnimName = "walk_down";
-			spriteOffset = new(0, 5);
-
-			if (frameIndex == 1) {
-				activeSword = _swordDown;
-			}
-		}
-
-		if (activeSword != null)
-		{
-			EnableSword(activeSword);
-		}
-
-		// Play single attack frame
-		_animationComponent?.SetAnimationAndFrame(animName, frameIndex, spriteOffset, flipH);
-
-		// Lock movement for 0.5s
-		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-
-		if (IsInstanceValid(this) && currentSession == _attackSessionId)
-		{
-			_isAttacking = false;
-			_animationComponent?.SetAnimationAndFrame(stopAnimName, 0, new(0, -2));
-			DisableAllSwords();
+			_stateMachine.PopState();
 		}
 	}
 
-	private void InterruptAttack()
-	{
-		_attackSessionId++;
-		_isAttacking = false;
-		DisableAllSwords();
-	}
+    private void OnAreaEntered(Area2D area)
+    {
+        if (area is Affectables affectable)
+        {
+            switch (affectable.Type)
+            {
+                case Affectables.EffectType.DAMAGE:
 
-	private void EnableSword(Affectables sword)
-	{
-		if (sword == null) return;
-		sword.SetDeferred(Area2D.PropertyName.Monitoring, true);
-		sword.SetDeferred(Area2D.PropertyName.Monitorable, true);
-		sword.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Always));
-	}
+					if (!_takeDamage) break;
 
-	private void DisableSword(Affectables sword)
-	{
-		if (sword == null) return;
-		sword.SetDeferred(Area2D.PropertyName.Monitoring, false);
-		sword.SetDeferred(Area2D.PropertyName.Monitorable, false);
-		sword.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
-	}
-
-	private void DisableAllSwords()
-	{
-		DisableSword(_swordLeft);
-		DisableSword(_swordRight);
-		DisableSword(_swordUp);
-		DisableSword(_swordDown);
-	}
-
-	private void OnAreaEntered(Area2D area)
-	{
-		if (area is Affectables affectable)
-		{
-			switch (affectable.Type)
-			{
-				case Affectables.EffectType.DAMAGE:
-					InterruptAttack();
+					_takeDamage = false;
 					health.applyHealthEffect(-affectable.Value);
-					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+	                GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);	
+					_invincibilityTimer.Start();
 
-					var direction = affectable.Direction ?? -_previousDirection;
+                    // Calculate knockback direction relative to player facing direction or damage source
+                    Vector2 facing = _inputProvider != null ? _inputProvider.FacingDirection : Vector2.Down;
+                    Vector2 knockbackDir = affectable.Direction ?? -facing;
 
-					_movementComponent?.ApplyForce(direction, 0.35f);
-					_animationComponent?.StartColorFluctuation(0.30f);
+                    // Push StunCommand to interrupt whatever state Lonk is currently in
+                    if (_stateMachine.CurrentState.IsInterruptable)
+					{
+						var stunCmd = new StunCommand(_stunState, duration: iFrames, direction: knockbackDir, speed: 120f);
+                    	stunCmd.Execute(this, _stateMachine);	
+					}
 
-					break;
-				
-				case Affectables.EffectType.HEALTH:
-					health.applyHealthEffect(affectable.Value);
-					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
-					break;
+					_spritePresenter.StartColorFluctuation(stepDuration: iFrames);
 
-				case Affectables.EffectType.RUPEES:
-					GameState.Instance.gain_rupee(affectable.Value);
-					break;
+                    break;
+                
+                case Affectables.EffectType.HEALTH:
+                    health.applyHealthEffect(affectable.Value);
+                    GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+                    break;
 
-				case Affectables.EffectType.KEYS:
-					GameState.Instance.gain_key();
-					break;
-			}
-		}
-	}
+                case Affectables.EffectType.RUPEES:
+                    GameState.Instance.gain_rupee(affectable.Value);
+                    break;
 
-	private void setCheatMode(bool set)
-	{
-		health.HealthCheat(set);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
-	}
+                case Affectables.EffectType.KEYS:
+                    GameState.Instance.gain_key();
+                    break;
+            }
+        }
+    }
 
-	private Vector2 GetCardinalInput(double delta)
-	{
-		float x = Input.GetAxis("left", "right");
-		float y = Input.GetAxis("up", "down");
+    private void SetCheatMode(bool set)
+    {
+        health.HealthCheat(set);
+        GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+    }
 
-		bool hasX = !Mathf.IsZeroApprox(x);
-		bool hasY = !Mathf.IsZeroApprox(y);
-
-		if (!hasX && !hasY)
-		{
-			_primaryAxis = Axis.None;
-			return Vector2.Zero;
-		}
-
-		Vector2 vertDir = hasY ? new Vector2(0.0f, Mathf.Sign(y)) : Vector2.Zero;
-		Vector2 horzDir = hasX ? new Vector2(Mathf.Sign(x), 0.0f) : Vector2.Zero;
-
-		if (hasY && hasX && _movementComponent != null)
-		{
-			if (_primaryAxis == Axis.Horizontal)
-			{
-				Vector2 horzVel = _movementComponent.CalculateGridAlignedVelocity(horzDir, (float)delta, snapPosition: false);
-				if (!TestMove(GlobalTransform, horzVel * (float)delta))
-				{
-					return horzDir;
-				}
-				return vertDir;
-			}
-			else if (_primaryAxis == Axis.Vertical)
-			{
-				Vector2 vertVel = _movementComponent.CalculateGridAlignedVelocity(vertDir, (float)delta, snapPosition: false);
-				if (!TestMove(GlobalTransform, vertVel * (float)delta))
-				{
-					return vertDir;
-				}
-				return horzDir;
-			}
-		}
-
-		if (hasY)
-		{
-			_primaryAxis = Axis.Vertical;
-			return vertDir;
-		}
-
-		_primaryAxis = Axis.Horizontal;
-		return horzDir;
-	}
-
-	private void GameOver()
-	{
-		GameState.Instance.resetGameState();
-	}
+    private void GameOver()
+    {
+        GameState.Instance.resetGameState();
+    }
 }

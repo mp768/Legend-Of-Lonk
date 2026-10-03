@@ -22,6 +22,9 @@ public partial class GameSignals : Node
     [Signal]
     public delegate void UpdateUIEventHandler(int value,int label); // signal for updating specific UI data, since they all ints anyways
 
+    [Signal]
+    public delegate void TransitionOccurEventHandler(bool start, Vector2 mv);
+
     // [Signal]
     // public delegate void RupeeUIUpdateEventHandler(int rupee); // signal for updating the rupee count on the UI 
 

@@ -2,19 +2,11 @@ using Godot;
 
 public partial class Stalfos : CharacterBody2D, IResettableEntity
 {
-	[Export] private GridMovementComponent _movementComponent;
-	[Export] private GridAnimationComponent _animationComponent;
 	[Export] private Area2D _hitBox;
-
-	private Vector2[] directionMapping =
-	[
-		new(-1, 0),
-		new(1, 0),
-		new(0, 1),
-		new(0, -1),
-	];
-
-	private int currentDirectionIndex = 0;
+	[Export] private SpritePresenter _spritePresenter;
+    [Export] private PushdownStateMachine _stateMachine;
+    [Export] private StalfoInputProvider _inputProvider;
+    [Export] private StunState _stunState;
 
 	private Health health;
 
@@ -28,17 +20,6 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 		_hitBox.AreaEntered += OnAreaEntered;
 
 		health.WhenZero += Erase;
-
-
-		var timer = new Timer()
-		{
-			WaitTime = 0.78f,
-			Autostart = true,
-		};
-
-		timer.Timeout += ChangeDirection;
-
-		AddChild(timer);
 
 		initialPosition = GlobalPosition;
 	}
@@ -59,19 +40,6 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 		// Visible = false;
 	}
 
-	private void ChangeDirection()
-	{
-		currentDirectionIndex = (int)(GD.Randi() % directionMapping.Length);
-	}
-
-	public override void _PhysicsProcess(double delta)
-	{
-		var inputDir = directionMapping[currentDirectionIndex];
-
-		_movementComponent?.Move(inputDir, delta);
-		_animationComponent?.UpdateAnimation(inputDir);
-	}
-
 	private async void OnAreaEntered(Area2D area)
 	{
 		if (area is Affectables affectable)
@@ -80,18 +48,12 @@ public partial class Stalfos : CharacterBody2D, IResettableEntity
 			{
 				health.applyHealthEffect(-affectable.Value);
 
-				var direction = affectable.Direction ?? -directionMapping[currentDirectionIndex];
+				// Calculate knockback direction relative to player facing direction or damage source
+				Vector2 facing = _inputProvider != null ? _inputProvider.FacingDirection : Vector2.Down;
+				Vector2 knockbackDir = affectable.Direction ?? -facing;
 
-				var initialStepFrequency = _animationComponent.stepFrequency;
-				_animationComponent.stepFrequency = 3;
-
-				_movementComponent?.ApplyForce(direction, 0.85f, 5000.5f);
-				_animationComponent?.StartColorFluctuation(0.85f);
-
-
-				await ToSignal(GetTree().CreateTimer(0.825f), SceneTreeTimer.SignalName.Timeout);
-
-				_animationComponent.stepFrequency = initialStepFrequency;
+				var stunCmd = new StunCommand(_stunState, duration: 0.25f, direction: knockbackDir, speed: 120f);
+                stunCmd.Execute(this, _stateMachine);
 			}
 		}
 		

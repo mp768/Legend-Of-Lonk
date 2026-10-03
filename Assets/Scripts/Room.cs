@@ -22,10 +22,10 @@ public partial class Room : Node2D
 
         roomCenter = GlobalPosition + Constants.SCREEN_SIZE / 2;
 
-        leftExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(leftRoom, body as CharacterBody2D, roomCenter + new Vector2(-1, 0) * 10.5f * 16f);
-        rightExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(rightRoom, body as CharacterBody2D, roomCenter + new Vector2(1, 0) * 10.5f * 16f);
-        upExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(upRoom, body as CharacterBody2D, roomCenter + new Vector2(0, -1) * 8f * 16f);
-        downExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(downRoom, body as CharacterBody2D, roomCenter + new Vector2(0, 1) * 8f * 16f);
+        leftExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(leftRoom, body as CharacterBody2D, roomCenter + new Vector2(-1, 0) * 10.5f * 16f, new Vector2(-1, 0));
+        rightExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(rightRoom, body as CharacterBody2D, roomCenter + new Vector2(1, 0) * 10.5f * 16f, new Vector2(1, 0));
+        upExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(upRoom, body as CharacterBody2D, roomCenter + new Vector2(0, -1) * 8f * 16f, new Vector2(0, -1));
+        downExit.BodyEntered += (body) => RoomManager.Instance.TransitionToRoom(downRoom, body as CharacterBody2D, roomCenter + new Vector2(0, 1) * 8f * 16f, new Vector2(0, 1));
     }
 
     public void SetRoomState(bool active)

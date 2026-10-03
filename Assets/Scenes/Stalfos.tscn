@@ -5,6 +5,11 @@
 [ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_3vwrt"]
 [ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_uyfel"]
 [ext_resource type="Script" uid="uid://bp31qibi82v65" path="res://Assets/Scripts/Affectables.cs" id="5_lsp3l"]
+[ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="6_3vwrt"]
+[ext_resource type="Script" uid="uid://olo2qg05lfux" path="res://Assets/Scripts/PushdownAutomata/States/GridMovementState.cs" id="7_0qyq1"]
+[ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="8_c10ds"]
+[ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/AnimationStuff/SpritePresenter.cs" id="9_6rhn8"]
+[ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/StalfoInputProvider.cs" id="10_c10ds"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lsp3l"]
 atlas = ExtResource("2_bfri6")
@@ -34,13 +39,15 @@ size = Vector2(6, 6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mrrlb"]
 size = Vector2(14, 15)
 
-[node name="Stalfos" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox")]
+[node name="Stalfos" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_hitBox", "_spritePresenter", "_stateMachine", "_inputProvider", "_stunState")]
 collision_layer = 0
 collision_mask = 161
 script = ExtResource("1_bfri6")
-_movementComponent = NodePath("GridMovementComponent")
-_animationComponent = NodePath("GridAnimationComponent")
 _hitBox = NodePath("Hitbox")
+_spritePresenter = NodePath("SpritePresenter")
+_stateMachine = NodePath("PushdownStateMachine")
+_inputProvider = NodePath("StalfoInputProvider")
+_stunState = NodePath("PushdownStateMachine/StunState")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
@@ -75,3 +82,35 @@ metadata/_custom_type_script = "uid://bp31qibi82v65"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_mrrlb")
+
+[node name="PushdownStateMachine" type="Node" parent="." unique_id=478077895]
+script = ExtResource("6_3vwrt")
+InitialStatePath = NodePath("GridMovementState")
+EntityPath = NodePath("..")
+InputProviderPath = NodePath("../StalfoInputProvider")
+SpritePresenterPath = NodePath("../SpritePresenter")
+metadata/_custom_type_script = "uid://cn6f6axpbbd6f"
+
+[node name="GridMovementState" type="Node" parent="PushdownStateMachine" unique_id=87001889]
+script = ExtResource("7_0qyq1")
+MoveSpeed = 35.0
+StepFrequency = 12
+AnimHorizontal = "walk"
+AnimDown = "walk"
+AnimUp = "walk"
+metadata/_custom_type_script = "uid://olo2qg05lfux"
+
+[node name="StunState" type="Node" parent="PushdownStateMachine" unique_id=475712131]
+script = ExtResource("8_c10ds")
+StunAnimationName = "walk"
+metadata/_custom_type_script = "uid://b05gbd8um177f"
+
+[node name="SpritePresenter" type="Node" parent="." unique_id=1452426253 node_paths=PackedStringArray("Sprite")]
+script = ExtResource("9_6rhn8")
+Sprite = NodePath("../AnimatedSprite2D")
+DefaultNesStepDuration = 0.1
+metadata/_custom_type_script = "uid://dalxbpepkragd"
+
+[node name="StalfoInputProvider" type="Node" parent="." unique_id=1970115371]
+script = ExtResource("10_c10ds")
+metadata/_custom_type_script = "uid://b66paybvi38sb"

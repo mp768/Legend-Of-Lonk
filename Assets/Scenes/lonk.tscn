@@ -2,9 +2,14 @@
 
 [ext_resource type="Script" uid="uid://ctww4kg4v45wm" path="res://Assets/Scripts/Lonk.cs" id="1_qq4k7"]
 [ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_kq13k"]
-[ext_resource type="Script" uid="uid://cjxeab0s0wtq4" path="res://Assets/Scripts/GridMovementComponent.cs" id="3_kq13k"]
-[ext_resource type="Script" uid="uid://14fuplk8jxpr" path="res://Assets/Scripts/GridAnimationComponent.cs" id="4_64qf5"]
 [ext_resource type="Script" uid="uid://bp31qibi82v65" path="res://Assets/Scripts/Affectables.cs" id="5_lunqy"]
+[ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="6_1j3ky"]
+[ext_resource type="Script" uid="uid://olo2qg05lfux" path="res://Assets/Scripts/PushdownAutomata/States/GridMovementState.cs" id="7_03c5t"]
+[ext_resource type="Script" uid="uid://oef726hkks6y" path="res://Assets/Scripts/PushdownAutomata/States/AttackState.cs" id="8_5lw22"]
+[ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="8_ib2td"]
+[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="9_03c5t"]
+[ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/AnimationStuff/SpritePresenter.cs" id="9_5lw22"]
+[ext_resource type="Script" uid="uid://b5asephyhb36i" path="res://Assets/Scripts/PushdownAutomata/States/TransitionState.cs" id="10_tmlrr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
 atlas = ExtResource("2_kq13k")
@@ -177,36 +182,26 @@ size = Vector2(13, 5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lunqy"]
 size = Vector2(4.5, 11.75)
 
-[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_movementComponent", "_animationComponent", "_hitBox", "_swordLeft", "_swordRight", "_swordDown", "_swordUp")]
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_hitBox", "_spritePresenter", "_stateMachine", "_inputProvider", "_stunState", "_transitionState")]
 collision_layer = 16
 collision_mask = 33
 script = ExtResource("1_qq4k7")
-_movementComponent = NodePath("GridMovementComponent")
-_animationComponent = NodePath("GridAnimationComponent")
 _hitBox = NodePath("Hitbox")
-_swordLeft = NodePath("SwordLeft")
-_swordRight = NodePath("SwordRight")
-_swordDown = NodePath("SwordDown")
-_swordUp = NodePath("SwordUp")
+_spritePresenter = NodePath("SpritePresenter")
+_stateMachine = NodePath("PushdownStateMachine")
+_inputProvider = NodePath("PlayerInputProvider")
+_stunState = NodePath("PushdownStateMachine/StunState")
+_transitionState = NodePath("PushdownStateMachine/TransitionState")
+iFrames = 0.35
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
-texture_filter = 1
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_4rkw1")
-animation = &"walk_horizontal"
+animation = &"walk_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=762002191]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_3x3eq")
-
-[node name="GridMovementComponent" type="Node" parent="." unique_id=1637290316]
-script = ExtResource("3_kq13k")
-metadata/_custom_type_script = "uid://cjxeab0s0wtq4"
-
-[node name="GridAnimationComponent" type="Node" parent="." unique_id=861480329 node_paths=PackedStringArray("sprite")]
-script = ExtResource("4_64qf5")
-sprite = NodePath("../AnimatedSprite2D")
-metadata/_custom_type_script = "uid://14fuplk8jxpr"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=540156816]
 collision_layer = 68
@@ -259,3 +254,45 @@ metadata/_custom_type_script = "uid://bp31qibi82v65"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordDown" unique_id=567352282]
 position = Vector2(0, 13)
 shape = SubResource("RectangleShape2D_lunqy")
+
+[node name="PushdownStateMachine" type="Node" parent="." unique_id=577397116]
+script = ExtResource("6_1j3ky")
+InitialStatePath = NodePath("GridMovementState")
+EntityPath = NodePath("..")
+InputProviderPath = NodePath("../PlayerInputProvider")
+SpritePresenterPath = NodePath("../SpritePresenter")
+metadata/_custom_type_script = "uid://cn6f6axpbbd6f"
+
+[node name="GridMovementState" type="Node" parent="PushdownStateMachine" unique_id=514289770]
+script = ExtResource("7_03c5t")
+metadata/_custom_type_script = "uid://olo2qg05lfux"
+
+[node name="StunState" type="Node" parent="PushdownStateMachine" unique_id=1990150287]
+script = ExtResource("8_ib2td")
+StunAnimationName = "walk_horizontal"
+EnablePaletteFluctuation = false
+metadata/_custom_type_script = "uid://b05gbd8um177f"
+
+[node name="AttackState" type="Node" parent="PushdownStateMachine" unique_id=1630371738 node_paths=PackedStringArray("_swordLeft", "_swordRight", "_swordDown", "_swordUp")]
+script = ExtResource("8_5lw22")
+_swordLeft = NodePath("../../SwordLeft")
+_swordRight = NodePath("../../SwordRight")
+_swordDown = NodePath("../../SwordDown")
+_swordUp = NodePath("../../SwordUp")
+metadata/_custom_type_script = "uid://oef726hkks6y"
+
+[node name="TransitionState" type="Node" parent="PushdownStateMachine" unique_id=1809652746]
+script = ExtResource("10_tmlrr")
+metadata/_custom_type_script = "uid://b5asephyhb36i"
+
+[node name="SpritePresenter" type="Node" parent="." unique_id=411043305 node_paths=PackedStringArray("Sprite")]
+script = ExtResource("9_5lw22")
+Sprite = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://dalxbpepkragd"
+
+[node name="PlayerInputProvider" type="Node" parent="." unique_id=522284300]
+script = ExtResource("9_03c5t")
+MachinePath = NodePath("../PushdownStateMachine")
+AttackStatePath = NodePath("../PushdownStateMachine/AttackState")
+MovementStatePath = NodePath("../PushdownStateMachine/GridMovementState")
+metadata/_custom_type_script = "uid://du8hxi0wj5cw4"

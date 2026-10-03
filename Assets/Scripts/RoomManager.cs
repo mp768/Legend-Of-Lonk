@@ -1,4 +1,5 @@
 using Godot;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 public partial class RoomManager : Node
@@ -15,6 +16,7 @@ public partial class RoomManager : Node
     public Room CurrentRoom { get; private set; }
     public bool IsTransitioning { get; private set; }
 
+    
     public override void _Ready()
     {
         Instance = this;
@@ -30,7 +32,7 @@ public partial class RoomManager : Node
         }
     }
 
-    public async void TransitionToRoom(Room nextRoom, CharacterBody2D player, Vector2 playerTargetPos)
+    public async void TransitionToRoom(Room nextRoom, CharacterBody2D player, Vector2 playerTargetPos, Vector2 mv)
     {
         // Guard clause: ignore if already transitioning or entering the current room
         if (IsTransitioning || nextRoom == CurrentRoom || nextRoom == null) return;
@@ -60,11 +62,10 @@ public partial class RoomManager : Node
         // Calculate discrete frame steps
         int totalSteps = Mathf.Max(1, Mathf.CeilToInt(totalCamDistance / PixelsPerStep));
         Vector2 playerStepIncrement = playerDelta / totalSteps;
-
-        // Get Link's animation component (if attached as a child node or via player)
-        var animComponent = player.GetNodeOrNull<GridAnimationComponent>("GridAnimationComponent");
-
+    
         // --- COROUTINE STEPPING LOOP ---
+        GameSignals.Instance.EmitSignal(GameSignals.SignalName.TransitionOccur, true, mv);
+
         for (int step = 0; step < totalSteps; step++)
         {
             // 1. Advance camera by fixed pixel step
@@ -75,23 +76,20 @@ public partial class RoomManager : Node
             }
             MainCamera.GlobalPosition = nextCamPos;
 
-            // 2. Advance player position and drive step-animation
+            // 2. Advance player position
             player.GlobalPosition += playerStepIncrement;
-            animComponent?.UpdateAnimation(playerDir);
 
             // 3. Yield execution frame-by-frame
             for (int f = 0; f < FramesBetweenSteps; f++)
             {
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             }
+            
         }
 
         // Hard snap positions at the end to correct subpixel float drift
         MainCamera.GlobalPosition = cameraTargetPos;
         player.GlobalPosition = playerTargetPos;
-
-        // Stop movement frame counter on animation component
-        animComponent?.UpdateAnimation(Vector2.Zero);
 
         // Swap room states
         if (CurrentRoom != null)
@@ -104,6 +102,10 @@ public partial class RoomManager : Node
 
         // Restore player control
         player.SetPhysicsProcess(true);
+
+        GameSignals.Instance.EmitSignal(GameSignals.SignalName.TransitionOccur, false, mv);
         IsTransitioning = false;
+
+
     }
 }
