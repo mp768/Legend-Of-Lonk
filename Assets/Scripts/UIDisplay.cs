@@ -27,19 +27,17 @@ public partial class UIDisplay : ColorRect
 
 		GameSignals.Instance.UpdateUI += updateUI;
 
-		updateUI(6, 0);
-		updateUI(0, 1);
-		updateUI(0, 2);
+		updateUI(GameState.Instance.Rupees, 1);
+		updateUI(GameState.Instance.Keys, 2);
 	}
 
+    public override void _ExitTree()
+    {
+        GameSignals.Instance.UpdateUI -= updateUI;
+    }
+	
 	private void updateUI(int value, int affected_label)
 	{
 		UIvalues[affected_label].Text = UIvalues[affected_label].Name + ": " + value;
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		
 	}
 }

@@ -4,7 +4,14 @@ using System.ComponentModel;
 
 public partial class GameState : Node
 {	
-
+	/*
+	public const int STARTING_HEALTH = 6;
+	public const int STARTING_RUBIES = 0;
+	public const int STARTING_KEYS = 0;
+	public const int MAX_HEALTH = 6;
+	public const int MAX_RUBIES = 9999;
+	public const int MAX_KEYS = 9999;
+	*/
 	public static GameState Instance { get; private set; }
 
 	private PackedScene game;
@@ -15,10 +22,27 @@ public partial class GameState : Node
 		KEYS = 2,
 	}
 
+	public enum AltWeapon
+	{
+		BOW,
+		BOOMERANG,
+		BOMB,
+	}
+	private bool[] altOwned = new bool[Enum.GetNames(typeof(AltWeapon)).Length];
+
 	// Game state values to keep constant throughout the game
 	// -1 sinifies infinity for our use case
+	//int _health = 6;
 	int _keys = 0;
 	int _rupees = 0;
+
+	//public int Health{get {return _health;} set {_health = value;}}
+	public int Rupees{
+		get {return mask(_rupees);} 
+		set {_rupees = value;}}
+	public int Keys{
+		get {return mask(_keys);} 
+		set {_keys = value;}}
 
 	private int MAX_COLLECT = 9999;
 
@@ -119,6 +143,7 @@ public partial class GameState : Node
 	{
 		_keys = 0;
 		_rupees = 0;
+		Array.Fill(altOwned, false);
 
 		Error error = GetTree().ReloadCurrentScene();
 		
@@ -141,10 +166,5 @@ public partial class GameState : Node
 	public override void _Ready()
 	{
 		Instance = this;
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
 	}
 }
