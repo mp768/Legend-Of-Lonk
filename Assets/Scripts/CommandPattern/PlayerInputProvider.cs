@@ -1,6 +1,7 @@
 using System.Reflection.Metadata;
 using Godot;
 
+[GlobalClass]
 public partial class PlayerInputProvider : Node, IInputProvider
 {
     [Export] public NodePath MachinePath;

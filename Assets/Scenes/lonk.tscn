@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="9_03c5t"]
 [ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/AnimationStuff/SpritePresenter.cs" id="9_5lw22"]
 [ext_resource type="Script" uid="uid://b5asephyhb36i" path="res://Assets/Scripts/PushdownAutomata/States/TransitionState.cs" id="10_tmlrr"]
+[ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/StalfoInputProvider.cs" id="11_5lw22"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
 atlas = ExtResource("2_kq13k")
@@ -182,17 +183,18 @@ size = Vector2(13, 5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lunqy"]
 size = Vector2(4.5, 11.75)
 
-[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_hitBox", "_spritePresenter", "_stateMachine", "_inputProvider", "_stunState", "_transitionState")]
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("_hitBox", "_spritePresenter", "_stateMachine", "_playerInputProvider", "_stalfosInputProvider", "_stunState", "_transitionState")]
 collision_layer = 16
 collision_mask = 33
 script = ExtResource("1_qq4k7")
 _hitBox = NodePath("Hitbox")
 _spritePresenter = NodePath("SpritePresenter")
 _stateMachine = NodePath("PushdownStateMachine")
-_inputProvider = NodePath("PlayerInputProvider")
+_playerInputProvider = NodePath("PlayerInputProvider")
+_stalfosInputProvider = NodePath("StalfoInputProvider")
 _stunState = NodePath("PushdownStateMachine/StunState")
 _transitionState = NodePath("PushdownStateMachine/TransitionState")
-iFrames = 0.35
+iFrames = 0.3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
@@ -296,3 +298,7 @@ MachinePath = NodePath("../PushdownStateMachine")
 AttackStatePath = NodePath("../PushdownStateMachine/AttackState")
 MovementStatePath = NodePath("../PushdownStateMachine/GridMovementState")
 metadata/_custom_type_script = "uid://du8hxi0wj5cw4"
+
+[node name="StalfoInputProvider" type="Node" parent="." unique_id=901033775]
+script = ExtResource("11_5lw22")
+metadata/_custom_type_script = "uid://b66paybvi38sb"

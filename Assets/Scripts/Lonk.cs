@@ -2,49 +2,73 @@ using Godot;
 
 public partial class Lonk : CharacterBody2D
 {
-    [Export] private Area2D _hitBox;
+	[Export] private Area2D _hitBox;
 	[Export] private SpritePresenter _spritePresenter;
-    [Export] private PushdownStateMachine _stateMachine;
-    [Export] private PlayerInputProvider _inputProvider;
-    [Export] private StunState _stunState;
+	[Export] private PushdownStateMachine _stateMachine;
+	private IInputProvider _inputProvider;
+	[Export] private PlayerInputProvider _playerInputProvider;
+	[Export] private StalfoInputProvider _stalfosInputProvider;
+	[Export] private StunState _stunState;
 	[Export] private TransitionState _transitionState;
 
-    private Health health;
-    private const int UIHEALTH = 0;
+	private Health health;
+	private const int UIHEALTH = 0;
 
 	private Timer _invincibilityTimer; 
 
 	[Export] private float iFrames;
 	private bool _takeDamage = true;
 
-    public override void _Ready()
-    {
-        health = new Health(6);
+	public override void _Ready()
+	{
+		_inputProvider = _playerInputProvider;
 
-        GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
-        health.WhenZero += GameOver;
+		health = new Health(6);
 
-        // Connect cheat code signal
-        GameSignals.Instance.SetCheatMode += SetCheatMode;
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+		health.WhenZero += GameOver;
 
-        // Hitbox triggers
-        if (_hitBox != null)
-        {
-            _hitBox.AreaEntered += OnAreaEntered;
-        }
+		// Connect cheat code signal
+		GameSignals.Instance.SetCheatMode += SetCheatMode;
+
+		// Hitbox triggers
+		if (_hitBox != null)
+		{
+			_hitBox.AreaEntered += OnAreaEntered;
+		}
 
 		GameSignals.Instance.TransitionOccur += TransitionOccur;
 
 		_invincibilityTimer = new Timer
-       	{
-           WaitTime = iFrames,
-           Autostart = false
-       	};
+	   	{
+		   WaitTime = iFrames,
+		   Autostart = false
+	   	};
 
 		_invincibilityTimer.Timeout += () => _takeDamage = true;
 
 		AddChild(_invincibilityTimer);
-    }
+	}
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is InputEventKey key)
+		{
+			if (key.IsActionPressed("swap"))
+			{
+				if (_inputProvider == _stalfosInputProvider)
+				{
+					_inputProvider = _playerInputProvider;
+				} 
+				else
+				{
+					_inputProvider = _stalfosInputProvider;
+				}
+
+				_stateMachine.InputProvider = _inputProvider;
+			}
+		}
+	}
 
 	private void TransitionOccur(bool start, Vector2 mv)
 	{
@@ -59,60 +83,73 @@ public partial class Lonk : CharacterBody2D
 		}
 	}
 
-    private void OnAreaEntered(Area2D area)
-    {
-        if (area is Affectables affectable)
-        {
-            switch (affectable.Type)
-            {
-                case Affectables.EffectType.DAMAGE:
+	private void OnAreaEntered(Area2D area)
+	{
+		if (area is Affectables affectable)
+		{
+			switch (affectable.Type)
+			{
+				case Affectables.EffectType.DAMAGE:
 
 					if (!_takeDamage) break;
 
 					_takeDamage = false;
 					health.applyHealthEffect(-affectable.Value);
-	                GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);	
+					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);	
 					_invincibilityTimer.Start();
 
-                    // Calculate knockback direction relative to player facing direction or damage source
-                    Vector2 facing = _inputProvider != null ? _inputProvider.FacingDirection : Vector2.Down;
-                    Vector2 knockbackDir = affectable.Direction ?? -facing;
+					// Calculate knockback direction relative to player facing direction or damage source
+					Vector2 facing = Vector2.Down;
 
-                    // Push StunCommand to interrupt whatever state Lonk is currently in
-                    if (_stateMachine.CurrentState.IsInterruptable)
+					if (_inputProvider != null)
+					{
+						if (_inputProvider is StalfoInputProvider)
+						{
+							facing = _stalfosInputProvider.FacingDirection;
+						}
+						else if (_inputProvider is PlayerInputProvider)
+						{
+							facing = _playerInputProvider.FacingDirection;
+						}
+					}
+
+					Vector2 knockbackDir = affectable.Direction ?? -facing;
+
+					// Push StunCommand to interrupt whatever state Lonk is currently in
+					if (_stateMachine.CurrentState.IsInterruptable)
 					{
 						var stunCmd = new StunCommand(_stunState, duration: iFrames, direction: knockbackDir, speed: 120f);
-                    	stunCmd.Execute(this, _stateMachine);	
+						stunCmd.Execute(this, _stateMachine);	
 					}
 
 					_spritePresenter.StartColorFluctuation(stepDuration: iFrames);
 
-                    break;
-                
-                case Affectables.EffectType.HEALTH:
-                    health.applyHealthEffect(affectable.Value);
-                    GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
-                    break;
+					break;
+				
+				case Affectables.EffectType.HEALTH:
+					health.applyHealthEffect(affectable.Value);
+					GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+					break;
 
-                case Affectables.EffectType.RUPEES:
-                    GameState.Instance.gain_rupee(affectable.Value);
-                    break;
+				case Affectables.EffectType.RUPEES:
+					GameState.Instance.gain_rupee(affectable.Value);
+					break;
 
-                case Affectables.EffectType.KEYS:
-                    GameState.Instance.gain_key();
-                    break;
-            }
-        }
-    }
+				case Affectables.EffectType.KEYS:
+					GameState.Instance.gain_key();
+					break;
+			}
+		}
+	}
 
-    private void SetCheatMode(bool set)
-    {
-        health.HealthCheat(set);
-        GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
-    }
+	private void SetCheatMode(bool set)
+	{
+		health.HealthCheat(set);
+		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, health.health, UIHEALTH);
+	}
 
-    private void GameOver()
-    {
-        GameState.Instance.resetGameState();
-    }
+	private void GameOver()
+	{
+		GameState.Instance.resetGameState();
+	}
 }

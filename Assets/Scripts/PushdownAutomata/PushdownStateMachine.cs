@@ -14,6 +14,13 @@ public partial class PushdownStateMachine : Node
     private IInputProvider _inputProvider;
     private SpritePresenter _spritePresenter;
 
+    // public accessible way of voerriding hte input provider so I can showcase the command & State machine pattern clearer.
+    public IInputProvider InputProvider
+    {
+        get => _inputProvider;
+        set => _inputProvider = value;
+    }   
+
     public State CurrentState => _stateStack.Count > 0 ? _stateStack.Peek() : null;
 
     public override void _Ready()

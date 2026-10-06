@@ -31,10 +31,10 @@ public partial class UIDisplay : ColorRect
 		updateUI(GameState.Instance.Keys, 2);
 	}
 
-    public override void _ExitTree()
-    {
-        GameSignals.Instance.UpdateUI -= updateUI;
-    }
+	public override void _ExitTree()
+	{
+		GameSignals.Instance.UpdateUI -= updateUI;
+	}
 	
 	private void updateUI(int value, int affected_label)
 	{
