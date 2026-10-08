@@ -1,150 +1,147 @@
 using Godot;
 
+// Holds a directional attack pose for a fixed time. Sword attacks also enable the hitbox facing that way.
 [GlobalClass]
 public partial class AttackState : State
 {
-    [ExportGroup("Weapon Hitboxes")]
-    [Export] private Affectables _swordLeft;
-    [Export] private Affectables _swordRight;
-    [Export] private Affectables _swordDown;
-    [Export] private Affectables _swordUp;
+	public enum AttackKind
+	{
+		SWORD,
+		ITEM,
+	}
 
-    [ExportGroup("Attack Configuration")]
-    [Export] public float AttackDuration = 0.5f;
+	[ExportGroup("Weapon Hitboxes")]
+	[Export] private Affectables swordLeft;
+	[Export] private Affectables swordRight;
+	[Export] private Affectables swordDown;
+	[Export] private Affectables swordUp;
 
-    private float _timer = 0.0f;
-    private int _currentFrameIndex = 1;
-    private Vector2 _attackDirection = Vector2.Down;
+	[ExportGroup("Pose")]
+	[Export] public string AnimHorizontal { get; set; } = "sword_horizontal";
+	[Export] public string AnimDown { get; set; } = "sword_down";
+	[Export] public string AnimUp { get; set; } = "sword_up";
 
-	private Vector2I _prevSpriteOffset;
+	// Sprite offsets for each pose. The horizontal offset is for facing right, and it is mirrored for left.
+	[Export] public Vector2I HorizontalSwordOffset { get; set; } = new(6, -2);
+	[Export] public Vector2I UpOffset { get; set; } = new(0, -10);
+	[Export] public Vector2I DownOffset { get; set; } = new(0, 5);
 
-    public override void Initialize(PushdownStateMachine machine, CharacterBody2D entity, SpritePresenter presenter)
-    {
-        base.Initialize(machine, entity, presenter);
+	[Export] public float Duration { get; set; } = 0.5f;
 
-        // Configure directional vectors for hitboxes
-        if (_swordLeft != null) _swordLeft.Direction = new Vector2(-1, 0);
-        if (_swordRight != null) _swordRight.Direction = new Vector2(1, 0);
-        if (_swordUp != null) _swordUp.Direction = new Vector2(0, -1);
-        if (_swordDown != null) _swordDown.Direction = new Vector2(0, 1);
+	private AttackKind kind;
+	private float timer;
 
-        DisableAllSwords();
-    }
+	public override void Initialize(PushdownStateMachine machine)
+	{
+		base.Initialize(machine);
 
-    public void SetupAttack(int frameIndex, Vector2 direction)
-    {
-        _currentFrameIndex = frameIndex;
-        _attackDirection = direction == Vector2.Zero ? Vector2.Down : direction;
-    }
+		// Knock targets back in the direction of the swing.
+		if (swordLeft != null) swordLeft.Direction = Vector2.Left;
+		if (swordRight != null) swordRight.Direction = Vector2.Right;
+		if (swordUp != null) swordUp.Direction = Vector2.Up;
+		if (swordDown != null) swordDown.Direction = Vector2.Down;
 
-    public override void Enter()
-    {
-        if (Entity != null) Entity.Velocity = Vector2.Zero;
-        _timer = AttackDuration;
+		DisableAllHitboxes();
+	}
 
-		_prevSpriteOffset = Visuals.SpriteOffset;
+	public void Configure(AttackKind attackKind)
+	{
+		kind = attackKind;
+	}
 
-        DisableAllSwords();
-        ExecuteDirectionalAttack();
-    }
+	public override void Enter()
+	{
+		timer = Duration;
+		BeginSwing();
+	}
 
-    public override void PhysicsUpdate(double delta)
-    {
-        if (Entity != null) Entity.Velocity = Vector2.Zero;
+	public override void PhysicsUpdate(double delta)
+	{
+		timer -= (float)delta;
+		if (timer <= 0f)
+		{
+			Machine.PopState();
+		}
+	}
 
-        _timer -= (float)delta;
-        if (_timer <= 0.0f)
-        {
-            Machine.PopState(); // Pop attack state off stack when finished
-            return;
-        }
+	// Interrupted (e.g. stunned), so retract the weapon until the attack resumes.
+	public override void Pause()
+	{
+		DisableAllHitboxes();
+	}
 
-        Visuals?.UpdateSubpixelPosition();
-    }
+	public override void Resume()
+	{
+		BeginSwing();
+	}
 
-    public override void Exit()
-    {
-        DisableAllSwords();
-        if (Entity != null) Entity.Velocity = Vector2.Zero;
+	public override void Exit()
+	{
+		DisableAllHitboxes();
+		Visuals?.ClearPoseOffset();
+	}
 
-		Visuals.SpriteOffset = _prevSpriteOffset;
-    }
+	private void BeginSwing()
+	{
+		Vector2 facing = Entity.FacingDirection;
+		bool isSword = kind == AttackKind.SWORD;
 
-    private void ExecuteDirectionalAttack()
-    {
-        string animName = "sword_down";
-        Vector2I spriteOffset = new(0, -2);
-        bool flipH = false;
-        Affectables activeSword = null;
+		// Frame 1 of each attack animation shows the sword extended, and frame 0 is the throwing pose.
+		int frame = isSword ? 1 : 0;
 
-        if (_attackDirection.X > 0)
-        {
-            animName = "sword_horizontal";
-            flipH = false;
-            if (_currentFrameIndex == 1)
-            {
-                spriteOffset = new(6, -2);
-                activeSword = _swordRight;
-            }
-        }
-        else if (_attackDirection.X < 0)
-        {
-            animName = "sword_horizontal";
-            flipH = true;
-            if (_currentFrameIndex == 1)
-            {
-                spriteOffset = new(-6, -2);
-                activeSword = _swordLeft;
-            }
-        }
-        else if (_attackDirection.Y < 0)
-        {
-            animName = "sword_up";
-            spriteOffset = new(0, -10);
-            if (_currentFrameIndex == 1) activeSword = _swordUp;
-        }
-        else if (_attackDirection.Y > 0)
-        {
-            animName = "sword_down";
-            spriteOffset = new(0, 5);
-            if (_currentFrameIndex == 1) activeSword = _swordDown;
-        }
+		string animation;
+		bool flipH = false;
+		Vector2I? offset;
+		Affectables hitbox;
 
-        if (activeSword != null)
-        {
-            EnableSword(activeSword);
-        }
+		if (facing.X != 0f)
+		{
+			animation = AnimHorizontal;
+			flipH = facing.X < 0f;
+			hitbox = flipH ? swordLeft : swordRight;
 
-        // Display attack pose via shared SpritePresenter
-        if (Visuals != null)
-        {
-            Visuals.SpriteOffset = spriteOffset;
-            Visuals.SetSingleFramePose(animName, _currentFrameIndex, flipH);
-            Visuals.UpdateSubpixelPosition();
-        }
-    }
+			// Only the extended sword shifts the sprite sideways. The throwing pose uses the resting offset.
+			offset = isSword ? new Vector2I(flipH ? -HorizontalSwordOffset.X : HorizontalSwordOffset.X, HorizontalSwordOffset.Y) : null;
+		}
+		else if (facing.Y < 0f)
+		{
+			animation = AnimUp;
+			offset = UpOffset;
+			hitbox = swordUp;
+		}
+		else
+		{
+			animation = AnimDown;
+			offset = DownOffset;
+			hitbox = swordDown;
+		}
 
-    private void EnableSword(Affectables sword)
-    {
-        if (sword == null) return;
-        sword.SetDeferred(Area2D.PropertyName.Monitoring, true);
-        sword.SetDeferred(Area2D.PropertyName.Monitorable, true);
-        sword.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Always));
-    }
+		DisableAllHitboxes();
+		if (isSword)
+		{
+			SetHitboxActive(hitbox, true);
+		}
 
-    private void DisableSword(Affectables sword)
-    {
-        if (sword == null) return;
-        sword.SetDeferred(Area2D.PropertyName.Monitoring, false);
-        sword.SetDeferred(Area2D.PropertyName.Monitorable, false);
-        sword.SetDeferred(Node.PropertyName.ProcessMode, Variant.From(ProcessModeEnum.Disabled));
-    }
+		Visuals?.ShowPose(animation, frame, flipH, offset);
+	}
 
-    private void DisableAllSwords()
-    {
-        DisableSword(_swordLeft);
-        DisableSword(_swordRight);
-        DisableSword(_swordUp);
-        DisableSword(_swordDown);
-    }
+	private void DisableAllHitboxes()
+	{
+		SetHitboxActive(swordLeft, false);
+		SetHitboxActive(swordRight, false);
+		SetHitboxActive(swordUp, false);
+		SetHitboxActive(swordDown, false);
+	}
+
+	private static void SetHitboxActive(Affectables hitbox, bool active)
+	{
+		if (hitbox == null)
+		{
+			return;
+		}
+
+		// Deferred because attacks can start or stop inside physics callbacks.
+		hitbox.SetDeferred(Area2D.PropertyName.Monitorable, active);
+		hitbox.SetDeferred(Area2D.PropertyName.Monitoring, active);
+	}
 }

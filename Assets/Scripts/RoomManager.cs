@@ -1,111 +1,88 @@
 using Godot;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
+// Scrolls the camera between rooms NES-style when the player walks into an exit, and makes sure only the
+// current room is processing.
 public partial class RoomManager : Node
 {
-    public static RoomManager Instance { get; private set; }
-
     [Export] public Camera2D MainCamera { get; set; }
     [Export] public Room StartingRoom { get; set; }
 
     [ExportGroup("Retro Step Settings")]
-    [Export] public int PixelsPerStep { get; set; } = 2;       // Distance moved per step
-    [Export] public int FramesBetweenSteps { get; set; } = 2;  // Frame delay between steps
+    [Export] public int PixelsPerStep { get; set; } = 2;
+    [Export] public int FramesBetweenSteps { get; set; } = 2;
 
     public Room CurrentRoom { get; private set; }
     public bool IsTransitioning { get; private set; }
 
-    
     public override void _Ready()
     {
-        Instance = this;
+        GameSignals.Instance.RoomExitEntered += OnRoomExitEntered;
 
-        if (StartingRoom != null)
+        CurrentRoom = StartingRoom;
+        if (CurrentRoom == null)
         {
-            CurrentRoom = StartingRoom;
-            CurrentRoom.SetRoomState(true);
-            if (MainCamera != null)
-            {
-                MainCamera.GlobalPosition = StartingRoom.roomCenter;
-            }
+            return;
+        }
+
+        CurrentRoom.Activate();
+        if (MainCamera != null)
+        {
+            MainCamera.GlobalPosition = CurrentRoom.Center;
         }
     }
 
-    public async void TransitionToRoom(Room nextRoom, CharacterBody2D player, Vector2 playerTargetPos, Vector2 mv)
+    public override void _ExitTree()
     {
-        // Guard clause: ignore if already transitioning or entering the current room
-        if (IsTransitioning || nextRoom == CurrentRoom || nextRoom == null) return;
+        GameSignals.Instance.RoomExitEntered -= OnRoomExitEntered;
+    }
+
+    private async void OnRoomExitEntered(Room destination, Node2D traveller, Vector2 direction)
+    {
+        // A room can list itself as a neighbour to block an exit.
+        if (IsTransitioning || destination == null || destination == CurrentRoom)
+        {
+            return;
+        }
 
         IsTransitioning = true;
 
-        // Lock player physics and manual inputs
-        player.SetPhysicsProcess(false);
+        CurrentRoom.Deactivate();
+        destination.Visible = true;
+        GameSignals.Instance.EmitSignal(GameSignals.SignalName.RoomTransitionStarted, direction);
 
-        // Make target and current room visible (processing remains disabled for now)
-        nextRoom.Visible = true;
-        CurrentRoom.SetRoomState(false);
-        CurrentRoom.Visible = true;
+        Vector2 halfRoom = Constants.SCREEN_SIZE / 2;
+        Vector2 cameraStart = MainCamera.GlobalPosition;
+        Vector2 cameraTarget = destination.Center;
+        Vector2 travellerStart = traveller.GlobalPosition;
+        Vector2 travellerTarget = destination.Center - direction * (halfRoom - Vector2.One * Constants.ROOM_ENTRY_INSET);
 
-        Vector2 cameraTargetPos = nextRoom.roomCenter;
-
-        Vector2 startCamPos = MainCamera.GlobalPosition;
-        Vector2 startPlayerPos = player.GlobalPosition;
-
-        Vector2 camDelta = cameraTargetPos - startCamPos;
-        Vector2 playerDelta = playerTargetPos - startPlayerPos;
-
-        float totalCamDistance = camDelta.Length();
-        Vector2 camDir = totalCamDistance > 0 ? camDelta.Normalized() : Vector2.Zero;
-        Vector2 playerDir = playerDelta.Length() > 0 ? playerDelta.Normalized() : Vector2.Zero;
-
-        // Calculate discrete frame steps
-        int totalSteps = Mathf.Max(1, Mathf.CeilToInt(totalCamDistance / PixelsPerStep));
-        Vector2 playerStepIncrement = playerDelta / totalSteps;
-    
-        // --- COROUTINE STEPPING LOOP ---
-        GameSignals.Instance.EmitSignal(GameSignals.SignalName.TransitionOccur, true, mv);
-
-        for (int step = 0; step < totalSteps; step++)
+        // The camera moves a whole number of pixels per step, and the traveller keeps pace with it.
+        int stepCount = Mathf.Max(1, Mathf.CeilToInt(cameraStart.DistanceTo(cameraTarget) / PixelsPerStep));
+        for (int step = 1; step <= stepCount; step++)
         {
-            // 1. Advance camera by fixed pixel step
-            Vector2 nextCamPos = MainCamera.GlobalPosition + (camDir * PixelsPerStep);
-            if ((nextCamPos - startCamPos).Length() > totalCamDistance)
-            {
-                nextCamPos = cameraTargetPos;
-            }
-            MainCamera.GlobalPosition = nextCamPos;
+            MainCamera.GlobalPosition = cameraStart.MoveToward(cameraTarget, step * PixelsPerStep);
+            traveller.GlobalPosition = travellerStart.Lerp(travellerTarget, (float)step / stepCount);
 
-            // 2. Advance player position
-            player.GlobalPosition += playerStepIncrement;
-
-            // 3. Yield execution frame-by-frame
-            for (int f = 0; f < FramesBetweenSteps; f++)
+            for (int frame = 0; frame < FramesBetweenSteps; frame++)
             {
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+                // The scene may have been reloaded while we were waiting.
+                if (!IsInstanceValid(this) || IsQueuedForDeletion() || !IsInsideTree() || !IsInstanceValid(traveller))
+                {
+                    return;
+                }
             }
-            
         }
 
-        // Hard snap positions at the end to correct subpixel float drift
-        MainCamera.GlobalPosition = cameraTargetPos;
-        player.GlobalPosition = playerTargetPos;
+        MainCamera.GlobalPosition = cameraTarget;
+        traveller.GlobalPosition = travellerTarget;
 
-        // Swap room states
-        if (CurrentRoom != null)
-        {
-            CurrentRoom.SetRoomState(false);
-        }
+        CurrentRoom.Visible = false;
+        CurrentRoom = destination;
+        CurrentRoom.Activate();
 
-        CurrentRoom = nextRoom;
-        CurrentRoom.SetRoomState(true);
-
-        // Restore player control
-        player.SetPhysicsProcess(true);
-
-        GameSignals.Instance.EmitSignal(GameSignals.SignalName.TransitionOccur, false, mv);
         IsTransitioning = false;
-
-
+        GameSignals.Instance.EmitSignal(GameSignals.SignalName.RoomTransitionFinished);
     }
 }

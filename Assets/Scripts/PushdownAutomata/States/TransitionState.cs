@@ -1,28 +1,26 @@
 using Godot;
-using System;
 
+// Plays the walk cycle while a room transition carries the entity into the next room. It ignores input
+// and can't be interrupted.
 [GlobalClass]
 public partial class TransitionState : State
 {
-    [ExportGroup("Animation Names & Pace")]
-    [Export] public int StepFrequency = 6;
-    [Export] public string AnimHorizontal = "walk_horizontal";
-    [Export] public string AnimDown = "walk_down";
-    [Export] public string AnimUp = "walk_up";
+    public override bool IsInterruptable => false;
 
-    private Vector2 _currentInputDir = Vector2.Zero;
+    private Vector2 walkDirection;
 
-    public void SetMoveDirection(Vector2 direction)
-	{
-		_currentInputDir = direction;
-	}
+    public void Configure(Vector2 direction)
+    {
+        walkDirection = direction;
+    }
+
+    public override void Enter()
+    {
+        Entity.FacingDirection = walkDirection;
+    }
 
     public override void PhysicsUpdate(double delta)
     {
-        if (Entity == null) return;
-
-        // Delegate visual stepping and subpixel snapping to SpritePresenter
-        Visuals?.StepDirectionalAnimation(_currentInputDir, AnimHorizontal, AnimDown, AnimUp, StepFrequency);
-        Visuals?.UpdateSubpixelPosition();
+        Visuals?.StepWalk(walkDirection);
     }
 }

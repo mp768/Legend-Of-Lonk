@@ -1,119 +1,124 @@
-using System;
 using Godot;
 
+// NES-style walking: one cardinal direction at a time, sliding onto the grid on the other axis so the
+// entity lines up with doorways and corridors.
 [GlobalClass]
-public partial class GridMovementState : State
+public partial class GridMovementState : MovementState
 {
-    [ExportGroup("Movement Settings")]
-    [Export] public float MoveSpeed = 60.0f;
-    [Export] public float GridSize = 8.0f;
+    [Export] public float GridSize { get; set; } = 8f;
 
-    [ExportGroup("Animation Names & Pace")]
-    [Export] public int StepFrequency = 6;
-    [Export] public string AnimHorizontal = "walk_horizontal";
-    [Export] public string AnimDown = "walk_down";
-    [Export] public string AnimUp = "walk_up";
+    private enum Axis
+    {
+        NONE,
+        HORIZONTAL,
+        VERTICAL,
+    }
 
-    private Vector2 _currentInputDir = Vector2.Zero;
+    private Vector2 moveInput;
 
-	private Vector2 _prevInputDir;
+    // When a diagonal is held, the axis that was pressed first wins unless it's blocked.
+    private Axis primaryAxis = Axis.NONE;
 
-    public void SetMoveDirection(Vector2 direction)
-	{
-		_currentInputDir = direction;
+    public override void SetMoveInput(Vector2 input)
+    {
+        moveInput = input;
+    }
 
-		if (direction != Vector2.Zero)
-		{
-			_prevInputDir = direction;
-		}
-	}
-	public override void Resume()
-	{
-        Visuals?.StepDirectionalAnimation(_prevInputDir, AnimHorizontal, AnimDown, AnimUp, StepFrequency);
-        Visuals?.UpdateSubpixelPosition();
-	}
-
-	public bool CheckDirection(Vector2 dir, double _delta)
-	{
-		Vector2 vel = CalculateGridAlignedVelocity(dir, (float)_delta, snapPosition: false);
-		return !Entity.TestMove(Entity.GlobalTransform, vel * (float)_delta);
-	}
+    public override void Resume()
+    {
+        Visuals?.FaceWalk(Entity.FacingDirection);
+    }
 
     public override void PhysicsUpdate(double delta)
     {
-        if (Entity == null) return;
+        float dt = (float)delta;
+        Vector2 direction = ResolveDirection(moveInput, dt);
+        moveInput = Vector2.Zero;
 
-        if (_currentInputDir != Vector2.Zero)
+        if (direction != Vector2.Zero)
         {
-            Entity.Velocity = CalculateGridAlignedVelocity(_currentInputDir, (float)delta, snapPosition: true);
+            Entity.FacingDirection = direction;
+        }
+
+        Entity.Velocity = direction == Vector2.Zero ? Vector2.Zero : GridAlignedVelocity(direction, dt, snap: true);
+        Entity.MoveAndSlide();
+
+        Visuals?.StepWalk(direction);
+    }
+
+    // Reduces raw input to a single cardinal direction.
+    private Vector2 ResolveDirection(Vector2 input, float delta)
+    {
+        bool hasX = input.X != 0f;
+        bool hasY = input.Y != 0f;
+
+        if (!hasX && !hasY)
+        {
+            primaryAxis = Axis.NONE;
+            return Vector2.Zero;
+        }
+
+        Vector2 horizontal = new(Mathf.Sign(input.X), 0f);
+        Vector2 vertical = new(0f, Mathf.Sign(input.Y));
+
+        if (hasX && hasY)
+        {
+            if (primaryAxis == Axis.HORIZONTAL)
+            {
+                return CanMove(horizontal, delta) ? horizontal : vertical;
+            }
+            if (primaryAxis == Axis.VERTICAL)
+            {
+                return CanMove(vertical, delta) ? vertical : horizontal;
+            }
+        }
+
+        if (hasY)
+        {
+            primaryAxis = Axis.VERTICAL;
+            return vertical;
+        }
+
+        primaryAxis = Axis.HORIZONTAL;
+        return horizontal;
+    }
+
+    private bool CanMove(Vector2 direction, float delta)
+    {
+        Vector2 velocity = GridAlignedVelocity(direction, delta, snap: false);
+        return !Entity.TestMove(Entity.GlobalTransform, velocity * delta);
+    }
+
+    // Velocity along `direction`, plus a correction on the other axis that pulls the entity onto the grid.
+    // With `snap`, a correction smaller than one tick of travel moves the entity straight onto the grid line
+    // instead. Collision checks pass false so they don't move anything.
+    private Vector2 GridAlignedVelocity(Vector2 direction, float delta, bool snap)
+    {
+        Vector2 velocity = direction * MoveSpeed;
+
+        // Moving vertically aligns X, and moving horizontally aligns Y.
+        int crossAxis = direction.Y != 0f ? (int)Vector2.Axis.X : (int)Vector2.Axis.Y;
+        float position = Entity.Position[crossAxis];
+        float offset = Mathf.Round(position / GridSize) * GridSize - position;
+
+        if (Mathf.Abs(offset) <= 0.01f)
+        {
+            return velocity;
+        }
+
+        if (Mathf.Abs(offset) > MoveSpeed * delta)
+        {
+            velocity[crossAxis] = Mathf.Sign(offset) * MoveSpeed;
+        }
+        else if (snap)
+        {
+            Vector2 aligned = Entity.Position;
+            aligned[crossAxis] += offset;
+            Entity.Position = aligned;
         }
         else
         {
-            Entity.Velocity = Vector2.Zero;
-        }
-
-        Entity.MoveAndSlide();
-
-        // Delegate visual stepping and subpixel snapping to SpritePresenter
-        Visuals?.StepDirectionalAnimation(_currentInputDir, AnimHorizontal, AnimDown, AnimUp, StepFrequency);
-        Visuals?.UpdateSubpixelPosition();
-
-        _currentInputDir = Vector2.Zero;
-    }
-
-    public Vector2 CalculateGridAlignedVelocity(Vector2 inputDir, float delta, bool snapPosition = true)
-    {
-        Vector2 velocity = inputDir * MoveSpeed;
-
-        if (inputDir.Y != 0.0f)
-        {
-            float targetX = Mathf.Round(Entity.Position.X / GridSize) * GridSize;
-            float diffX = targetX - Entity.Position.X;
-
-            if (Mathf.Abs(diffX) > 0.01f)
-            {
-                if (Mathf.Abs(diffX) <= MoveSpeed * delta)
-                {
-                    if (snapPosition)
-                    {
-                        Entity.Position = new Vector2(targetX, Entity.Position.Y);
-                        velocity.X = 0.0f;
-                    }
-                    else
-                    {
-                        velocity.X = diffX / delta;
-                    }
-                }
-                else
-                {
-                    velocity.X = Mathf.Sign(diffX) * MoveSpeed;
-                }
-            }
-        }
-        else if (inputDir.X != 0.0f)
-        {
-            float targetY = Mathf.Round(Entity.Position.Y / GridSize) * GridSize;
-            float diffY = targetY - Entity.Position.Y;
-
-            if (Mathf.Abs(diffY) > 0.01f)
-            {
-                if (Mathf.Abs(diffY) <= MoveSpeed * delta)
-                {
-                    if (snapPosition)
-                    {
-                        Entity.Position = new Vector2(Entity.Position.X, targetY);
-                        velocity.Y = 0.0f;
-                    }
-                    else
-                    {
-                        velocity.Y = diffY / delta;
-                    }
-                }
-                else
-                {
-                    velocity.Y = Mathf.Sign(diffY) * MoveSpeed;
-                }
-            }
+            velocity[crossAxis] = offset / delta;
         }
 
         return velocity;

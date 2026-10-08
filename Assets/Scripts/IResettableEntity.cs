@@ -1,8 +1,7 @@
-using Godot;
-
+// A room child that reacts to its room becoming active or inactive.
 public interface IResettableEntity
 {
-    public void OnRoomEntered();
+    void OnRoomEntered();
 
-    public void OnRoomExited();
+    void OnRoomExited() { }
 }

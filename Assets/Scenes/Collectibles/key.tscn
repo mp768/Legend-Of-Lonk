@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dd8wfpu8nrjek"]
 
-[ext_resource type="Script" uid="uid://dh1q4o1o417qj" path="res://Assets/Scripts/Key.cs" id="1_kdues"]
+[ext_resource type="Script" uid="uid://c07ngcbt1eukw" path="res://Assets/Scripts/Collectible.cs" id="1_coll1"]
 [ext_resource type="Texture2D" uid="uid://d322o7n0p0pv0" path="res://Assets/Sprites/NES - The Legend of Zelda - Miscellaneous - Items & Weapons.png" id="2_wy8f1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3x3eq"]
@@ -24,7 +24,7 @@ animations = [{
 [node name="Key" type="Area2D" unique_id=1118756736]
 collision_layer = 8
 collision_mask = 80
-script = ExtResource("1_kdues")
+script = ExtResource("1_coll1")
 Value = 1
 Type = 3
 metadata/_custom_type_script = "uid://bp31qibi82v65"

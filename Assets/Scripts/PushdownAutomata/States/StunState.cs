@@ -1,81 +1,74 @@
 using Godot;
 
+// Knocks the entity back while it holds a hurt pose. It can't be interrupted, so repeated hits don't stack stuns.
 [GlobalClass]
 public partial class StunState : State
 {
-    [ExportGroup("Physics Defaults")]
-    [Export] public float DefaultDuration = 0.5f;
-    [Export] public float DefaultKnockbackSpeed = 120.0f;
-    [Export] public float DefaultDelayOffset = 0.0f;
+    [ExportGroup("Knockback")]
+    [Export] public float Duration { get; set; } = 0.5f;
+    [Export] public float KnockbackSpeed { get; set; } = 120f;
 
-    [ExportGroup("Visual Config")]
-    [Export] public string StunAnimationName = "hurt";
-    [Export] public int StunFrameIndex = 0;
-    [Export] public bool EnablePaletteFluctuation = true;
-    [Export] public float FluctuationStepDuration = 0.05f;
-    [Export] public Color[] FluctuationPalette;
+    // How long the entity freezes in place at the start of the stun before it gets pushed.
+    [Export] public float KnockbackDelay { get; set; }
 
-    private float _stunTimer = 0.0f;
-    private float _delayOffsetTimer = 0.0f;
-    private Vector2 _knockbackDirection = Vector2.Zero;
-    private float _knockbackSpeed = 0.0f;
+    [ExportGroup("Pose")]
+    [Export] public string PoseAnimation { get; set; } = "hurt";
+    [Export] public int PoseFrame { get; set; }
+    [Export] public bool FlashWhileStunned { get; set; } = true;
 
-    public StunState()
+    public override bool IsInterruptable => false;
+
+    private float timer;
+    private float delayTimer;
+    private Vector2 knockbackDirection;
+
+    public void Configure(Vector2 direction)
     {
-        IsInterruptable = false;
-    }
-
-    public void ApplyStun(float duration, Vector2 knockbackDir = default, float knockbackSpeed = -1f, float delayOffset = -1f)
-    {
-        _stunTimer = duration > 0f ? duration : DefaultDuration;
-        _knockbackDirection = knockbackDir.Normalized();
-        _knockbackSpeed = knockbackSpeed >= 0f ? knockbackSpeed : DefaultKnockbackSpeed;
-        _delayOffsetTimer = delayOffset >= 0f ? delayOffset : DefaultDelayOffset;
-
-        Machine.PushState(this);
+        knockbackDirection = direction.Normalized();
     }
 
     public override void Enter()
     {
-        if (Entity != null) Entity.Velocity = Vector2.Zero;
+        timer = Duration;
+        delayTimer = KnockbackDelay;
 
-        // Apply single-frame pose and palette flicker through the visual presenter
-        Visuals?.SetSingleFramePose(StunAnimationName, StunFrameIndex);
-
-        if (EnablePaletteFluctuation)
+        Visuals?.ShowPose(PoseAnimation, PoseFrame);
+        if (FlashWhileStunned)
         {
-            Visuals?.StartColorFluctuation(FluctuationPalette, FluctuationStepDuration);
+            Visuals?.Flash(Duration);
         }
     }
 
     public override void PhysicsUpdate(double delta)
     {
-        float fDelta = (float)delta;
-        _stunTimer -= fDelta;
+        float dt = (float)delta;
 
-        if (_stunTimer <= 0.0f)
+        timer -= dt;
+        if (timer <= 0f)
         {
             Machine.PopState();
             return;
         }
 
-        if (_delayOffsetTimer > 0.0f)
+        if (delayTimer > 0f)
         {
-            _delayOffsetTimer -= fDelta;
+            delayTimer -= dt;
             Entity.Velocity = Vector2.Zero;
         }
-        else if (_knockbackDirection != Vector2.Zero)
+        else
         {
-            Entity.Velocity = _knockbackDirection * _knockbackSpeed;
+            Entity.Velocity = knockbackDirection * KnockbackSpeed;
         }
 
         Entity.MoveAndSlide();
-        Visuals?.UpdateSubpixelPosition();
     }
 
     public override void Exit()
     {
-        Visuals?.StopColorFluctuation();
-        if (Entity != null) Entity.Velocity = Vector2.Zero;
+        Entity.Velocity = Vector2.Zero;
+        if (FlashWhileStunned)
+        {
+            Visuals?.StopFlash();
+        }
     }
 }

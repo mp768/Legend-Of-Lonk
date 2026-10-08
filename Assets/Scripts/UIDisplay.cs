@@ -1,43 +1,42 @@
 using Godot;
-using System;
 
 public partial class UIDisplay : ColorRect
 {
-		private Label health;
-		private Label rupees;
-		private Label keys;
-		private Label weapon;
+    private Label health;
+    private Label rupees;
+    private Label keys;
 
-		Label[] UIvalues = new Label[4];
-	
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		health = GetNode<Label>("%Health");
-		rupees = GetNode<Label>("%Rupees");
-		keys = GetNode<Label>("%Keys");
-		weapon = GetNode<Label>("%Weapon");
+    public override void _Ready()
+    {
+        health = GetNode<Label>("%Health");
+        rupees = GetNode<Label>("%Rupees");
+        keys = GetNode<Label>("%Keys");
 
-		// enum kind of system where we can store the actual variables and switch between which
-		// ones we need to update for UI updates
-		UIvalues[0] = health; // health = 1
-		UIvalues[1] = rupees; // rupees = 2
-		UIvalues[2] = keys; // keys = 3
-		UIvalues[3] = weapon; // weapon = 4
+        GameSignals.Instance.PlayerHealthChanged += OnPlayerHealthChanged;
+        GameSignals.Instance.RupeesChanged += OnRupeesChanged;
+        GameSignals.Instance.KeysChanged += OnKeysChanged;
 
-		GameSignals.Instance.UpdateUI += updateUI;
+        // GameState survives scene reloads, so read its current values instead of waiting for a change.
+        // Health comes from the player when he spawns.
+        OnRupeesChanged(GameState.Instance.Rupees);
+        OnKeysChanged(GameState.Instance.Keys);
+    }
 
-		updateUI(GameState.Instance.Rupees, 1);
-		updateUI(GameState.Instance.Keys, 2);
-	}
+    public override void _ExitTree()
+    {
+        GameSignals.Instance.PlayerHealthChanged -= OnPlayerHealthChanged;
+        GameSignals.Instance.RupeesChanged -= OnRupeesChanged;
+        GameSignals.Instance.KeysChanged -= OnKeysChanged;
+    }
 
-	public override void _ExitTree()
-	{
-		GameSignals.Instance.UpdateUI -= updateUI;
-	}
-	
-	private void updateUI(int value, int affected_label)
-	{
-		UIvalues[affected_label].Text = UIvalues[affected_label].Name + ": " + value;
-	}
+    private void OnPlayerHealthChanged(int value) => ShowStat(health, value);
+
+    private void OnRupeesChanged(int value) => ShowStat(rupees, value);
+
+    private void OnKeysChanged(int value) => ShowStat(keys, value);
+
+    private static void ShowStat(Label label, int value)
+    {
+        label.Text = $"{label.Name}: {value}";
+    }
 }

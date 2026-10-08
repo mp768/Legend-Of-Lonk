@@ -1,94 +1,87 @@
 using Godot;
 
+// A command decides what an input means for the entity right now: feed the current state, push a new
+// one, or do nothing. Commands find their target states through the machine, so the same input works
+// for any entity that has those states.
 public interface ICommand
 {
-    // Returns true if the command was successfully handled/executed
-    bool Execute(CharacterBody2D entity, PushdownStateMachine machine);
+	// Returns true if the command was handled.
+	bool Execute(Entity entity, PushdownStateMachine machine);
 }
 
-// 1. Move Command
 public class MoveCommand : ICommand
 {
-    public Vector2 Direction { get; }
+	public Vector2 Direction { get; }
 
-    public MoveCommand(Vector2 direction)
-    {
-        Direction = direction;
-    }
+	public MoveCommand(Vector2 direction)
+	{
+		Direction = direction;
+	}
 
-    public bool Execute(CharacterBody2D entity, PushdownStateMachine machine)
-    {
-        if (machine.CurrentState is GridMovementState moveState)
-        {
-            moveState.SetMoveDirection(Direction);
-            return true;
-        }
-        return false;
-    }
+	public bool Execute(Entity entity, PushdownStateMachine machine)
+	{
+		if (machine.CurrentState is not MovementState movement)
+		{
+			return false;
+		}
+
+		movement.SetMoveInput(Direction);
+		return true;
+	}
 }
-
-// 2. Attack Command
 
 public class AttackCommand : ICommand
 {
-    private readonly NodePath _attackStatePath;
-    private readonly int _frameIndex;
-    private readonly Vector2 _direction;
+	public AttackState.AttackKind Kind { get; }
 
-    public AttackCommand(NodePath attackStatePath, int frameIndex, Vector2 direction)
-    {
-        _attackStatePath = attackStatePath;
-        _frameIndex = frameIndex;
-        _direction = direction;
-    }
+	public AttackCommand(AttackState.AttackKind kind)
+	{
+		Kind = kind;
+	}
 
-    public bool Execute(CharacterBody2D entity, PushdownStateMachine machine)
-    {
-        // Only trigger attack if entity is currently in GridMovementState
-        if (machine.CurrentState is GridMovementState)
-        {
-            var attackState = machine.GetNodeOrNull<AttackState>(_attackStatePath);
-            if (attackState != null)
-            {
-                attackState.SetupAttack(_frameIndex, _direction);
-                machine.PushState(attackState);
-                return true;
-            }
-        }
-        return false;
-    }
+	public bool Execute(Entity entity, PushdownStateMachine machine)
+	{
+		if (machine.CurrentState is not MovementState)
+		{
+			return false;
+		}
+
+		var attack = machine.GetState<AttackState>();
+		if (attack == null)
+		{
+			return false;
+		}
+
+		attack.Configure(Kind);
+		machine.PushState(attack);
+		return true;
+	}
 }
 
-// 3. Stun Command (Applies to both Player & Enemy)
 public class StunCommand : ICommand
 {
-    private readonly StunState _stunState;
-    private readonly float _duration;
-    private readonly Vector2 _direction;
-    private readonly float _speed;
-    private readonly float _delayOffset;
+	public Vector2 KnockbackDirection { get; }
 
-    public StunCommand(
-        StunState stunState, 
-        float duration = -1f, 
-        Vector2 direction = default, 
-        float speed = -1f, 
-        float delayOffset = -1f)
-    {
-        this._stunState = stunState;
-        _duration = duration;
-        _direction = direction;
-        _speed = speed;
-        _delayOffset = delayOffset;
-    }
+	public StunCommand(Vector2 knockbackDirection)
+	{
+		KnockbackDirection = knockbackDirection;
+	}
 
-    public bool Execute(CharacterBody2D entity, PushdownStateMachine machine)
-    {
-        if (_stunState != null)
-        {
-            _stunState.ApplyStun(_duration, _direction, _speed, _delayOffset);
-            return true;
-        }
-        return false;
-    }
+	public bool Execute(Entity entity, PushdownStateMachine machine)
+	{
+		if (machine.CurrentState is { IsInterruptable: false })
+		{
+			return false;
+		}
+
+		var stun = machine.GetState<StunState>();
+		if (stun == null)
+		{
+			return false;
+		}
+
+		stun.Configure(KnockbackDirection);
+		machine.PushState(stun);
+		return true;
+	}
 }

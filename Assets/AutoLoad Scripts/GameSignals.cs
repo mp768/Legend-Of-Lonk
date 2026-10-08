@@ -4,46 +4,33 @@ public partial class GameSignals : Node
 {
     public static GameSignals Instance { get; private set; }
 
-    // NOTE: Godot has this concept of a "signal", which is essentially just a callback. For the C# version of
-    // Godot, you need to have the "EventHandler" suffix for any "signal" you want to declare. 
-    //
-    // When accessing the signal, declared as "XYZEventHandler" for example, you would use "SignalName.XYZ" to 
-    // get it's string name. To then "listen" to it and "invoke" the callback, you would use either 
-    // 
-    // "XYZ += MethodName" to set up the listener and "XYZ -= MethodName" to disconnect it
-    // or 
-    // "EmitSignal(SignalName.XYZ, ..any args go here)" to invoke the callback, calling all connected listeners.
-    //
-    
-    /* CHEAT CODE SIGNALS */
-    [Signal]
-    public delegate void SetCheatModeEventHandler(bool set); // signal for setting cheat code 
+    // Godot C# signals are delegates whose names end in "EventHandler". Subscribe with
+    // `GameSignals.Instance.X += Handler` (and unsubscribe in _ExitTree), and emit with
+    // `EmitSignal(GameSignals.SignalName.X, args...)`.
 
     [Signal]
-    public delegate void UpdateUIEventHandler(int value,int label); // signal for updating specific UI data, since they all ints anyways
+    public delegate void CheatModeChangedEventHandler(bool enabled);
 
     [Signal]
-    public delegate void TransitionOccurEventHandler(bool start, Vector2 mv);
-
-    // [Signal]
-    // public delegate void RupeeUIUpdateEventHandler(int rupee); // signal for updating the rupee count on the UI 
-
-    // [Signal]
-    // public delegate void HealthUIUpdateEventHandler(int health); // signal for updating the health on the UI
-
-    // [Signal]
-    // public delegate void KeysUIUpdateEventHandler(int keys); // signal for updating the key count on the UI
-
-
-    // FIX THESE SIGNALS BELOW OR REMOVE ENTIRELY
-    [Signal]
-    public delegate void GameOverEventHandler(); // signal for when game is over
+    public delegate void PlayerHealthChangedEventHandler(int health);
 
     [Signal]
-    public delegate void ScoreUpdateEventHandler(); // signal to update score board
+    public delegate void PlayerDiedEventHandler();
 
     [Signal]
-    public delegate void RestartEventHandler(); // signal to restart game
+    public delegate void RupeesChangedEventHandler(int rupees);
+
+    [Signal]
+    public delegate void KeysChangedEventHandler(int keys);
+
+    [Signal]
+    public delegate void RoomExitEnteredEventHandler(Room destination, Node2D traveller, Vector2 direction);
+
+    [Signal]
+    public delegate void RoomTransitionStartedEventHandler(Vector2 direction);
+
+    [Signal]
+    public delegate void RoomTransitionFinishedEventHandler();
 
     public override void _Ready()
     {

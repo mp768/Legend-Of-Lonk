@@ -1,170 +1,111 @@
 using Godot;
-using System;
-using System.ComponentModel;
 
 public partial class GameState : Node
-{	
-	/*
-	public const int STARTING_HEALTH = 6;
-	public const int STARTING_RUBIES = 0;
-	public const int STARTING_KEYS = 0;
-	public const int MAX_HEALTH = 6;
-	public const int MAX_RUBIES = 9999;
-	public const int MAX_KEYS = 9999;
-	*/
-	public static GameState Instance { get; private set; }
+{
+    public static GameState Instance { get; private set; }
 
-	private PackedScene game;
-	enum UILabels
-	{
-		HEALTH = 0,
-		RUPEES = 1,
-		KEYS = 2,
-	}
+    private int rupees;
+    private int keys;
 
-	public enum AltWeapon
-	{
-		BOW,
-		BOOMERANG,
-		BOMB,
-	}
-	private bool[] altOwned = new bool[Enum.GetNames(typeof(AltWeapon)).Length];
-
-	// Game state values to keep constant throughout the game
-	// -1 sinifies infinity for our use case
-	//int _health = 6;
-	int _keys = 0;
-	int _rupees = 0;
-
-	//public int Health{get {return _health;} set {_health = value;}}
-	public int Rupees{
-		get {return mask(_rupees);} 
-		set {_rupees = value;}}
-	public int Keys{
-		get {return mask(_keys);} 
-		set {_keys = value;}}
-
-	private int MAX_COLLECT = 9999;
-
-	private bool cheats_on = false;
-
-	/* KEYS FUNCTIONS*/
-
-	// Gamestate function to invoke when trying to use keys to open doors or something
-	// returns true / false to know if it worked
-
-	// to deal with infinite counts	
-	public int mask(int val)
-	{
-		if (val == -1)
-		{
-			return 9999;
-		}
-		return val;
-	}
-
-	// clamped to only go up to 9999
-	public bool use_key(int num_keys)
-	{
-		if (_keys == -1 || _keys - num_keys >= 0)
-		{
-			// Logic: if -1, keep it at -1 to signify inf keys
-			// else, subtract use_keys from number of keys
-			// this avoids the problem of _keys becomming infinite (keys = 0 - use_keys)
-			// because we don't run this when _keys = 0 
-			_keys = Mathf.Max(-1, _keys - num_keys);
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_keys), (int)UILabels.KEYS);
-			return true;
-		} 
-		return false;
-	}
-
-	public void gain_key()
-	{
-		// avoids incrementing _keys on -1 (inf)
-		if (_keys >= 0)
-		{
-			_keys = Mathf.Min(_keys + 1, MAX_COLLECT);
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_keys), (int)UILabels.KEYS);
-		}
-	}
-
-	/* RUPEES FUNCTION */
-
-	public bool use_rupees(int num_rupees)
-	{
-		if (_rupees == -1 || _rupees - num_rupees >= 0)
-		{
-			// Logic: if -1, keep it at -1 to signify inf keys
-			// else, subtract use_keys from number of keys
-			// this avoids the problem of _rupees becomming infinite (keys = 0 - num_rupees)
-			// because we don't run this when _rupees = 0 
-			_rupees = Mathf.Max(-1, _rupees - num_rupees);
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_rupees), (int)UILabels.RUPEES);
-			return true;
-		} 
-		return false;
-	}
-
-	// clamped to only go up to 9999
-	public void gain_rupee(int num_rupees)
-	{
-		// avoids incrementing _keys on -1 (inf)
-		if (_rupees >= 0)
-		{
-			_rupees = Mathf.Min(_rupees + num_rupees, MAX_COLLECT);
-			GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_rupees), (int)UILabels.RUPEES);
-		}
-	}
-
-	/* CHEATCODE FUNCTIONS AND OTHER UTILS */
-
-	// function to give the player infinite resources
-	public void setCheatMode()
-	{
-		cheats_on = !cheats_on;
-
-		if (cheats_on)
-		{
-			_keys = -1;
-			_rupees = -1;	
-		} else
-		{
-			_keys = 9999;
-			_rupees = 9999;
-		}
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.SetCheatMode, cheats_on);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_keys), (int)UILabels.KEYS);
-		GameSignals.Instance.EmitSignal(GameSignals.SignalName.UpdateUI, mask(_rupees), (int)UILabels.RUPEES);
-	}
-
-	// function to reset game state to all 0
-	public void resetGameState()
-	{
-		_keys = 0;
-		_rupees = 0;
-		Array.Fill(altOwned, false);
-
-		Error error = GetTree().ReloadCurrentScene();
-		
-		if (error != Error.Ok)
-		{
-			GD.Print("Failed to reload scene");
-		}
-	}
-
-	public override void _UnhandledInput(InputEvent @event)
+    public int Rupees
     {
-        // Check if the input event is the cheat mode button
-        if (@event.IsActionPressed("cheat_mode"))
+        get => rupees;
+        private set
         {
-            setCheatMode();
+            rupees = Mathf.Clamp(value, 0, Constants.MAX_COLLECTABLE);
+            GameSignals.Instance.EmitSignal(GameSignals.SignalName.RupeesChanged, rupees);
         }
     }
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Instance = this;
-	}
+    public int Keys
+    {
+        get => keys;
+        private set
+        {
+            keys = Mathf.Clamp(value, 0, Constants.MAX_COLLECTABLE);
+            GameSignals.Instance.EmitSignal(GameSignals.SignalName.KeysChanged, keys);
+        }
+    }
+
+    // While enabled, rupees and keys sit at the cap and spending them costs nothing.
+    public bool CheatsEnabled { get; private set; }
+
+    public override void _Ready()
+    {
+        Instance = this;
+        GameSignals.Instance.PlayerDied += OnPlayerDied;
+    }
+
+    public override void _ExitTree()
+    {
+        GameSignals.Instance.PlayerDied -= OnPlayerDied;
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("cheat_mode"))
+        {
+            ToggleCheatMode();
+        }
+    }
+
+    public void AddRupees(int amount)
+    {
+        Rupees += amount;
+    }
+
+    public void AddKeys(int amount)
+    {
+        Keys += amount;
+    }
+
+    // Returns false, and spends nothing, if there aren't enough keys.
+    public bool TryUseKeys(int amount)
+    {
+        if (CheatsEnabled)
+        {
+            return true;
+        }
+
+        if (Keys < amount)
+        {
+            return false;
+        }
+
+        Keys -= amount;
+        return true;
+    }
+
+    public void ToggleCheatMode()
+    {
+        CheatsEnabled = !CheatsEnabled;
+
+        // Turning cheats off leaves the maxed counts in place.
+        if (CheatsEnabled)
+        {
+            Rupees = Constants.MAX_COLLECTABLE;
+            Keys = Constants.MAX_COLLECTABLE;
+        }
+
+        GameSignals.Instance.EmitSignal(GameSignals.SignalName.CheatModeChanged, CheatsEnabled);
+    }
+
+    public void ResetGame()
+    {
+        CheatsEnabled = false;
+        Rupees = 0;
+        Keys = 0;
+
+        Error error = GetTree().ReloadCurrentScene();
+        if (error != Error.Ok)
+        {
+            GD.PushError($"Failed to reload the current scene: {error}");
+        }
+    }
+
+    private void OnPlayerDied()
+    {
+        // Death is reported from inside a physics callback, where the scene can't be torn down safely.
+        CallDeferred(MethodName.ResetGame);
+    }
 }

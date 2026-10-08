@@ -1894,3 +1894,6 @@ shape = SubResource("RectangleShape2D_v1l3a")
 [node name="Stalfos" parent="." unique_id=609894711 instance=ExtResource("4_v1l3a")]
 position = Vector2(152, 72)
 collision_layer = 16
+
+[node name="Stalfos2" parent="." unique_id=360748630 instance=ExtResource("4_v1l3a")]
+position = Vector2(152, 88)

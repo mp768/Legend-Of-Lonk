@@ -1,29 +1,35 @@
 using Godot;
-using System;
 
+// A locked door that opens when the player touches it while holding enough keys.
+[GlobalClass]
 public partial class LockedDoor : TileMapLayer
 {
-	[Export] private Area2D _lockedDoor;
+    [Export] private Area2D trigger;
+    [Export] public int KeyCost { get; set; } = 1;
 
-	[Export] private int key_count;
+    private bool opening;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		_lockedDoor.AreaEntered += (_) => OnPlayerEntered();
-		_lockedDoor.BodyEntered += (_) => OnPlayerEntered();
-	}
+    public override void _Ready()
+    {
+        trigger.BodyEntered += OnTriggerBodyEntered;
+    }
 
-	private async void OnPlayerEntered()
-	{
-		// TODO: A check should be here to check if we have a key to open a door.
-		if (!GameState.Instance.use_key(key_count))
-		{
-			return;
-		}
-		// A little timer that we set so that the door doesn't look like it opens up immediately.
-		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
+    private async void OnTriggerBodyEntered(Node2D body)
+    {
+        if (opening || !body.IsInGroup(Constants.PLAYER_GROUP) || !GameState.Instance.TryUseKeys(KeyCost))
+        {
+            return;
+        }
 
-		QueueFree();
-	}
+        opening = true;
+
+        // A short pause so the door doesn't vanish the instant it's touched.
+        await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
+        if (!IsInstanceValid(this) || IsQueuedForDeletion())
+        {
+            return;
+        }
+
+        QueueFree();
+    }
 }

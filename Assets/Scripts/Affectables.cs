@@ -1,25 +1,22 @@
-using System.Text.RegularExpressions;
 using Godot;
 
+// Describes an effect on whatever touches this area. The receiving entity decides how to apply it.
+// Inherits Area2D because every affectable is a contact area.
 [GlobalClass]
-// Inherenting from Area2D, because all affectables will be Area2D anyways.
-// Would've used a tagged union instead if I could.
 public partial class Affectables : Area2D
 {
-	public enum EffectType
-	{
-		DAMAGE,
-		HEALTH,
-		RUPEES,
-		KEYS,
-	}
-
-	[Export] public int Value { get; set; }
-	public Vector2? Direction { get; set; }
-	[Export] public EffectType Type { get; set; }
-
-    public override void _Ready()
+    // Values are stored by index in scenes, so only append new members.
+    public enum EffectType
     {
-        base._Ready();
+        DAMAGE,
+        HEALTH,
+        RUPEES,
+        KEYS,
     }
+
+    [Export] public EffectType Type { get; set; }
+    [Export] public int Value { get; set; }
+
+    // Optional knockback direction for the receiver, e.g. the way a sword is swinging.
+    public Vector2? Direction { get; set; }
 }

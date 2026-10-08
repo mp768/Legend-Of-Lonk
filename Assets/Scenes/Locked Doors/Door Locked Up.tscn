@@ -6,11 +6,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mrrlb"]
 size = Vector2(16, 1)
 
-[node name="DoorLockedUp" type="TileMapLayer" unique_id=578636461 node_paths=PackedStringArray("_lockedDoor")]
+[node name="DoorLockedUp" type="TileMapLayer" unique_id=578636461 node_paths=PackedStringArray("trigger")]
 tile_map_data = PackedByteArray("AAD/////AQAsAAgAAAD//wAAAQAsAAkAAAAAAP//AQAtAAgAAAAAAAAAAQAtAAkAAAABAP//AQAtAAcAAAABAAAAAQAuAAYAAAD+////AQAsAAcAAAD+/wAAAQAtAAYAAAD+//7/AQAsAAYAAAD///7/AQAsAAYAAAAAAP7/AQAsAAYAAAABAP7/AQAsAAYAAAA=")
 tile_set = ExtResource("1_cjunv")
 script = ExtResource("2_qapbe")
-_lockedDoor = NodePath("Trigger")
+trigger = NodePath("Trigger")
 
 [node name="Trigger" type="Area2D" parent="." unique_id=991821447]
 collision_layer = 0

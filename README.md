@@ -4,6 +4,8 @@ Controls:
 - WASD **AND** Arrow Keys for movement
 - 'X' for Sword Attack
 - 'Z' for Alternate Attack
+- '1' to toggle cheat mode (infinite health, rupees and keys)
+- '3' to swap every entity's controller between player input and AI
 
 Original Unity-based instructions:
 - One Windows executable  (.exe, with _Data folder, UnityPlayer.dll, and Mono or MonoBleedingEdge folder next to it) of your completed tutorial project.
