@@ -6,6 +6,7 @@ public partial class LockedDoor : Door
 {
 	[Export] private Area2D trigger;
 	[Export] public int KeyCost { get; set; } = 1;
+	[Export] private Door otherSideDoor;
 
 	private bool opening;
 
@@ -32,5 +33,7 @@ public partial class LockedDoor : Door
 		}
 
 		Open();
+
+		if (otherSideDoor != null) otherSideDoor.Open();
 	}
 }

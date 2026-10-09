@@ -68,7 +68,7 @@ public partial class Enemy : Entity, IResettableEntity
 	protected override void Die()
 	{
 		// Death is triggered from a hitbox callback. Stop simulating now and let the free happen at the end of the frame.
-		StateMachine.SetPhysicsProcess(false);
+		StateMachine?.SetPhysicsProcess(false);
 		SpawnDrop();
 		QueueFree();
 

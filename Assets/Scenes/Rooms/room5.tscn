@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_o2jro"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_yuepm"]
+[ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="2_abapv"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_yuepm"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/gel.tscn" id="gen1_gel"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Locked Doors/Door Locked Right.tscn" id="gen2_Door"]
+[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="5_2dagm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_il1lg"]
 texture = ExtResource("1_o2jro")
@@ -1836,8 +1836,10 @@ sources/1 = SubResource("TileSetAtlasSource_o2jro")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2jro"]
 size = Vector2(16, 16)
 
-[node name="room5" type="Node2D" unique_id=1678147201]
+[node name="room5" type="Node2D" unique_id=1678147201 node_paths=PackedStringArray("RewardSpawn")]
 script = ExtResource("1_yuepm")
+ClearReward = ExtResource("2_abapv")
+RewardSpawn = NodePath("KeySpawnPoint")
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
 
 [node name="GroundLayer" type="TileMapLayer" parent="." unique_id=1473611867]
@@ -1892,19 +1894,20 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_o2jro")
 
-[node name="Gel1" parent="." instance=ExtResource("gen1_gel")]
-position = Vector2(80, 128)
+[node name="Stalfos" parent="." unique_id=609894711 instance=ExtResource("5_2dagm")]
+position = Vector2(136, 96)
 
-[node name="Gel2" parent="." instance=ExtResource("gen1_gel")]
-position = Vector2(176, 120)
+[node name="Stalfos2" parent="." unique_id=828677380 instance=ExtResource("5_2dagm")]
+position = Vector2(152, 80)
 
-[node name="Gel3" parent="." instance=ExtResource("gen1_gel")]
-position = Vector2(200, 120)
+[node name="Stalfos3" parent="." unique_id=1417025130 instance=ExtResource("5_2dagm")]
+position = Vector2(112, 72)
 
-[node name="Gel4" parent="." instance=ExtResource("gen1_gel")]
-position = Vector2(136, 72)
+[node name="Stalfos4" parent="." unique_id=1015565719 instance=ExtResource("5_2dagm")]
+position = Vector2(88, 112)
 
-[node name="Gel5" parent="." instance=ExtResource("gen1_gel")]
-position = Vector2(168, 64)
+[node name="Stalfos5" parent="." unique_id=514565502 instance=ExtResource("5_2dagm")]
+position = Vector2(160, 40)
 
-[node name="DoorLockedRight" parent="." instance=ExtResource("gen2_Door")]
+[node name="KeySpawnPoint" type="Marker2D" parent="." unique_id=847380722]
+position = Vector2(136, 56)

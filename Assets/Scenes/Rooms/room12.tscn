@@ -3,7 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_2lcyt"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_4px7r"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_4px7r"]
-[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="gen1_Stalf"]
+[ext_resource type="PackedScene" uid="uid://bvllk0snvqw8n" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="4_tqvi1"]
+[ext_resource type="PackedScene" uid="uid://goqjt6giuy2b" path="res://Assets/Scenes/Locked Doors/Door Locked Right.tscn" id="5_bfvux"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vqmu2"]
 texture = ExtResource("1_2lcyt")
@@ -1891,11 +1892,16 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_2lcyt")
 
-[node name="Stalfos1" parent="." unique_id=63590157 instance=ExtResource("gen1_Stalf")]
-position = Vector2(192, 112)
+[node name="BladeTrap" parent="." unique_id=1365702441 instance=ExtResource("4_tqvi1")]
+position = Vector2(216, 136)
 
-[node name="Stalfos2" parent="." unique_id=1490556766 instance=ExtResource("gen1_Stalf")]
-position = Vector2(80, 120)
+[node name="BladeTrap2" parent="." unique_id=1939880304 instance=ExtResource("4_tqvi1")]
+position = Vector2(216, 40)
 
-[node name="Stalfos3" parent="." unique_id=381752621 instance=ExtResource("gen1_Stalf")]
-position = Vector2(168, 112)
+[node name="BladeTrap3" parent="." unique_id=1498376356 instance=ExtResource("4_tqvi1")]
+position = Vector2(40, 40)
+
+[node name="BladeTrap4" parent="." unique_id=551581534 instance=ExtResource("4_tqvi1")]
+position = Vector2(40, 136)
+
+[node name="DoorLockedRight" parent="." unique_id=468136052 instance=ExtResource("5_bfvux")]

@@ -44,7 +44,7 @@ public abstract partial class Entity : CharacterBody2D
             Health.Depleted += Die;
         }
 
-        StateMachine.Start(this);
+        StateMachine?.Start(this);
     }
 
     public override void _UnhandledInput(InputEvent @event)
