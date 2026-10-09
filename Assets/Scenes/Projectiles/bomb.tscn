@@ -1,39 +1,42 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bk4ifwtsmoh4b"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/Bomb.cs" id="1_script"]
-
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_blast"]
-size = Vector2(40, 40)
+[ext_resource type="Script" uid="uid://bx16cyv7mdon1" path="res://Assets/Scripts/Bomb.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_x73r5"]
 
 [sub_resource type="CircleShape2D" id="Shape_main"]
-radius = 20.0
+radius = 15.132746
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(8, 14)
+[sub_resource type="AtlasTexture" id="AtlasTexture_uew80"]
+atlas = ExtResource("2_x73r5")
+region = Rect2(128, 184, 10, 16)
 
-[node name="Bomb" type="Area2D" node_paths=PackedStringArray("fuse", "bombVisual", "blastVisual")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lhd5"]
+atlas = ExtResource("2_x73r5")
+region = Rect2(191, 185, 16, 16)
+
+[node name="Bomb" type="Area2D" unique_id=348055103 node_paths=PackedStringArray("fuse", "bombVisual", "blastVisual")]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_script")
-Value = 4
+fuse = NodePath("Fuse")
+bombVisual = NodePath("Sprite2D")
+blastVisual = NodePath("BlastSprite")
 Speed = 0.0
 PassesThroughWalls = true
 DestroyOnHit = false
 RotateToDirection = false
 FreeWhenOffScreen = false
-fuse = NodePath("Fuse")
-bombVisual = NodePath("Sprite2D")
-blastVisual = NodePath("BlastSprite")
+Value = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1719888564]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1849269231]
+texture = SubResource("AtlasTexture_uew80")
 
-[node name="Fuse" type="Timer" parent="."]
-wait_time = 1.0
+[node name="Fuse" type="Timer" parent="." unique_id=1360610552]
 one_shot = true
 
-[node name="BlastSprite" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_blast")
+[node name="BlastSprite" type="Sprite2D" parent="." unique_id=296145358]
+scale = Vector2(1.25, 1.25)
+texture = SubResource("AtlasTexture_3lhd5")

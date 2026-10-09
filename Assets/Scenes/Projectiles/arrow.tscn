@@ -1,23 +1,25 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://0575s5wcotlk"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/Projectile.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://bbn10aif3e3mp" path="res://Assets/Scripts/Projectile.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="2_uew80"]
 
 [sub_resource type="RectangleShape2D" id="Shape_main"]
 size = Vector2(14, 4)
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(16, 5)
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwnhh"]
+atlas = ExtResource("2_uew80")
+region = Rect2(9, 189, 18, 7)
 
-[node name="Arrow" type="Area2D"]
+[node name="Arrow" type="Area2D" unique_id=502520404]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_script")
-Value = 2
-Speed = 200.0
+Speed = 150.0
 Lifetime = 3.0
+Value = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=669390246]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1122293304]
+texture = SubResource("AtlasTexture_cwnhh")
