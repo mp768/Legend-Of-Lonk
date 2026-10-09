@@ -1,26 +1,35 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cl7o58u8btdfl"]
 
 [ext_resource type="Script" uid="uid://cybxtin5g484x" path="res://Assets/Scripts/Enemy.cs" id="1_res"]
 [ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="2_res"]
+[ext_resource type="Texture2D" uid="uid://2g08nsg6cgqy" path="res://Assets/Sprites/Gel.png" id="3_kdrgb"]
 [ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="3_res"]
 [ext_resource type="Script" uid="uid://bp31qibi82v65" path="res://Assets/Scripts/Affectables.cs" id="4_res"]
 [ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="5_res"]
-[ext_resource type="Resource" path="res://Assets/Resources/Drops/common_drops.tres" id="6_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/GridMovementState.cs" id="7_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="8_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="9_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="10_res"]
+[ext_resource type="Resource" uid="uid://csyqrdua0jgyx" path="res://Assets/Resources/Drops/common_drops.tres" id="6_res"]
+[ext_resource type="Script" uid="uid://olo2qg05lfux" path="res://Assets/Scripts/PushdownAutomata/States/GridMovementState.cs" id="7_res"]
+[ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="8_res"]
+[ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="9_res"]
+[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="10_res"]
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_sprite"]
-size = Vector2(8, 8)
+[sub_resource type="AtlasTexture" id="AtlasTexture_slew0"]
+atlas = ExtResource("3_kdrgb")
+region = Rect2(0, 0, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmfjc"]
+atlas = ExtResource("3_kdrgb")
+region = Rect2(9, 0, 8, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_main"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("Placeholder_sprite")
+"texture": SubResource("AtlasTexture_slew0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kmfjc")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 5.0
 }]
@@ -31,75 +40,74 @@ size = Vector2(6, 6)
 [sub_resource type="RectangleShape2D" id="Shape_hurt"]
 size = Vector2(6, 7)
 
-[node name="Gel" type="CharacterBody2D" node_paths=PackedStringArray("StateMachine", "Visuals", "Health", "hitbox")]
+[node name="Gel" type="CharacterBody2D" unique_id=549909943 node_paths=PackedStringArray("StateMachine", "Visuals", "Health", "hitbox")]
 collision_layer = 0
 collision_mask = 161
 script = ExtResource("1_res")
+Drops = ExtResource("6_res")
+StunKills = true
 StateMachine = NodePath("PushdownStateMachine")
 Visuals = NodePath("SpritePresenter")
 Health = NodePath("Health")
 hitbox = NodePath("Hitbox")
 Team = 1
-Drops = ExtResource("6_res")
-StunKills = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=845638628]
 sprite_frames = SubResource("SpriteFrames_main")
 animation = &"walk"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=341901888]
 position = Vector2(0, 4)
 shape = SubResource("Shape_body")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." unique_id=469146700]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1618900879]
 position = Vector2(0, -2)
 shape = SubResource("Shape_hurt")
 
-[node name="ContactDamage" type="Area2D" parent="."]
+[node name="ContactDamage" type="Area2D" parent="." unique_id=471484182]
 collision_layer = 256
 collision_mask = 0
 script = ExtResource("4_res")
-Type = 0
 Value = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage" unique_id=1579161407]
 position = Vector2(0, -2)
 shape = SubResource("Shape_hurt")
 
-[node name="PushdownStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "initialInputProvider")]
+[node name="PushdownStateMachine" type="Node" parent="." unique_id=1671838779 node_paths=PackedStringArray("initialState", "initialInputProvider")]
 script = ExtResource("2_res")
 initialState = NodePath("GridMovementState")
 initialInputProvider = NodePath("../RandomWalkInputProvider")
 
-[node name="GridMovementState" type="Node" parent="PushdownStateMachine"]
+[node name="GridMovementState" type="Node" parent="PushdownStateMachine" unique_id=1589043194]
 script = ExtResource("7_res")
 MoveSpeed = 50.0
 
-[node name="StunState" type="Node" parent="PushdownStateMachine"]
+[node name="StunState" type="Node" parent="PushdownStateMachine" unique_id=838105500]
 script = ExtResource("8_res")
 Duration = 0.25
 PoseAnimation = "walk"
 
-[node name="SpritePresenter" type="Node" parent="." node_paths=PackedStringArray("Sprite")]
+[node name="SpritePresenter" type="Node" parent="." unique_id=749423250 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("3_res")
 Sprite = NodePath("../AnimatedSprite2D")
 WalkHorizontal = "walk"
 WalkDown = "walk"
 WalkUp = "walk"
 
-[node name="RandomWalkInputProvider" type="Node" parent="."]
+[node name="RandomWalkInputProvider" type="Node" parent="." unique_id=45179264]
 script = ExtResource("9_res")
 DirectionChangeInterval = 0.35
 PauseChance = 0.5
 PauseDuration = 0.6
 
-[node name="PlayerInputProvider" type="Node" parent="."]
+[node name="PlayerInputProvider" type="Node" parent="." unique_id=1104717785]
 script = ExtResource("10_res")
 
-[node name="Health" type="Node" parent="."]
+[node name="Health" type="Node" parent="." unique_id=1352251745]
 script = ExtResource("5_res")
 Max = 1

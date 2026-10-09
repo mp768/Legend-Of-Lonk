@@ -72,6 +72,8 @@ upRoom = NodePath("../room8")
 position = Vector2(128, -440)
 leftRoom = NodePath("../room5")
 upRoom = NodePath("../room14")
+LockUntilCleared = false
+ClearReward = null
 
 [node name="room8" parent="." unique_id=1879895654 node_paths=PackedStringArray("leftRoom", "rightRoom", "downRoom") instance=ExtResource("9_b4jvr")]
 position = Vector2(-384, -616)
@@ -90,6 +92,7 @@ downRoom = NodePath("../room5")
 position = Vector2(-128, -792)
 upRoom = NodePath("../room12")
 downRoom = NodePath("../room10")
+ClearReward = null
 
 [node name="room12" parent="." unique_id=1910418955 node_paths=PackedStringArray("leftRoom", "downRoom") instance=ExtResource("11_hqyhv")]
 position = Vector2(-128, -968)
@@ -127,6 +130,7 @@ upRoom = NodePath("../room16")
 position = Vector2(384, -792)
 rightRoom = NodePath("../room17")
 downRoom = NodePath("../room15")
+LockUntilCleared = false
 
 [node name="room17" parent="." unique_id=1611217033 node_paths=PackedStringArray("leftRoom") instance=ExtResource("16_vhkvk")]
 position = Vector2(640, -792)
@@ -138,6 +142,7 @@ rightRoom = NodePath("../room8")
 
 [node name="roomBasement" parent="." unique_id=391949384 instance=ExtResource("18_5arw8")]
 position = Vector2(-656, -968)
+View = 0
 
 [node name="ArrivalFromStairs" type="Marker2D" parent="roomBasement" unique_id=218392585]
 position = Vector2(56, 24)
