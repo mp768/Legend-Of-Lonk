@@ -1,25 +1,27 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dic27edohilih"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/Projectile.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://bbn10aif3e3mp" path="res://Assets/Scripts/Projectile.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bhvojgmiwyljc" path="res://Assets/Sprites/Aquamentus.png" id="2_nbmil"]
 
 [sub_resource type="RectangleShape2D" id="Shape_main"]
-size = Vector2(6, 6)
+size = Vector2(6, 8)
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(8, 8)
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdc3u"]
+atlas = ExtResource("2_nbmil")
+region = Rect2(118, 3, 8, 10)
 
-[node name="Fireball" type="Area2D"]
+[node name="Fireball" type="Area2D" unique_id=2126448403]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_script")
-Value = 1
 Speed = 90.0
 Lifetime = 5.0
 PassesThroughWalls = true
 RotateToDirection = false
+Value = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=75843365]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1375620989]
+texture = SubResource("AtlasTexture_mdc3u")

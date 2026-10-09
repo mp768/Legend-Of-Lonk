@@ -1,28 +1,51 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cll3wngoso2or"]
 
 [ext_resource type="Script" uid="uid://cybxtin5g484x" path="res://Assets/Scripts/Enemy.cs" id="1_res"]
 [ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="2_res"]
+[ext_resource type="Texture2D" uid="uid://bhvojgmiwyljc" path="res://Assets/Sprites/Aquamentus.png" id="3_mdc3u"]
 [ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="3_res"]
 [ext_resource type="Script" uid="uid://bp31qibi82v65" path="res://Assets/Scripts/Affectables.cs" id="4_res"]
 [ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="5_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="6_res"]
-[ext_resource type="Resource" path="res://Assets/Resources/Weapons/aquamentus_fireball.tres" id="7_res"]
-[ext_resource type="Resource" path="res://Assets/Resources/Drops/heart_container_drop.tres" id="8_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="9_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/AttackState.cs" id="10_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/BossInputProvider.cs" id="11_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="12_res"]
+[ext_resource type="Script" uid="uid://d2ha0ewintt75" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="6_res"]
+[ext_resource type="Resource" uid="uid://cxbilp06327yg" path="res://Assets/Resources/Weapons/aquamentus_fireball.tres" id="7_res"]
+[ext_resource type="Resource" uid="uid://bkju7fj5rvq3" path="res://Assets/Resources/Drops/heart_container_drop.tres" id="8_res"]
+[ext_resource type="Script" uid="uid://dltjvjc2kxawo" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="9_res"]
+[ext_resource type="Script" uid="uid://oef726hkks6y" path="res://Assets/Scripts/PushdownAutomata/States/AttackState.cs" id="10_res"]
+[ext_resource type="Script" uid="uid://d24ekpoemkcci" path="res://Assets/Scripts/CommandPattern/BossInputProvider.cs" id="11_res"]
+[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="12_res"]
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_sprite"]
-size = Vector2(24, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_kf2jv"]
+atlas = ExtResource("3_mdc3u")
+region = Rect2(0, 0, 24, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kipol"]
+atlas = ExtResource("3_mdc3u")
+region = Rect2(25, 0, 24, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lnfiw"]
+atlas = ExtResource("3_mdc3u")
+region = Rect2(50, 0, 24, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwlw5"]
+atlas = ExtResource("3_mdc3u")
+region = Rect2(75, 0, 24, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_main"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("Placeholder_sprite")
+"texture": SubResource("AtlasTexture_kf2jv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kipol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lnfiw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwlw5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 5.0
 }]
@@ -33,76 +56,80 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="Shape_hurt"]
 size = Vector2(22, 31)
 
-[node name="Aquamentus" type="CharacterBody2D" node_paths=PackedStringArray("StateMachine", "Visuals", "Health", "hitbox", "Weapons")]
+[node name="Aquamentus" type="CharacterBody2D" unique_id=1913328626 node_paths=PackedStringArray("StateMachine", "Visuals", "Health", "Weapons", "hitbox")]
 collision_layer = 0
 collision_mask = 161
 script = ExtResource("1_res")
+Drops = ExtResource("8_res")
 StateMachine = NodePath("PushdownStateMachine")
 Visuals = NodePath("SpritePresenter")
 Health = NodePath("Health")
-hitbox = NodePath("Hitbox")
 Weapons = NodePath("WeaponHolder")
+hitbox = NodePath("Hitbox")
 Team = 1
-Drops = ExtResource("8_res")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=193922475]
 sprite_frames = SubResource("SpriteFrames_main")
 animation = &"walk"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=340041855]
 position = Vector2(0, 4)
 shape = SubResource("Shape_body")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." unique_id=827731963]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=250760680]
 position = Vector2(0, -2)
 shape = SubResource("Shape_hurt")
 
-[node name="ContactDamage" type="Area2D" parent="."]
+[node name="ContactDamage" type="Area2D" parent="." unique_id=352803012]
 collision_layer = 256
 collision_mask = 0
 script = ExtResource("4_res")
-Type = 0
 Value = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage" unique_id=900800463]
 position = Vector2(0, -2)
 shape = SubResource("Shape_hurt")
 
-[node name="PushdownStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "initialInputProvider")]
+[node name="PushdownStateMachine" type="Node" parent="." unique_id=1073695429 node_paths=PackedStringArray("initialState", "initialInputProvider")]
 script = ExtResource("2_res")
 initialState = NodePath("FreeMovementState")
 initialInputProvider = NodePath("../BossInputProvider")
 
-[node name="FreeMovementState" type="Node" parent="PushdownStateMachine"]
+[node name="FreeMovementState" type="Node" parent="PushdownStateMachine" unique_id=2079353000]
 script = ExtResource("9_res")
 MoveSpeed = 20.0
 
-[node name="AttackState" type="Node" parent="PushdownStateMachine"]
+[node name="AttackState" type="Node" parent="PushdownStateMachine" unique_id=206774527]
 script = ExtResource("10_res")
 Duration = 0.3
 
-[node name="SpritePresenter" type="Node" parent="." node_paths=PackedStringArray("Sprite")]
+[node name="SpritePresenter" type="Node" parent="." unique_id=764920282 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("3_res")
 Sprite = NodePath("../AnimatedSprite2D")
+SpriteOffset = Vector2i(0, -1)
+FlipHorizontally = false
 WalkHorizontal = "walk"
 WalkDown = "walk"
 WalkUp = "walk"
 
-[node name="BossInputProvider" type="Node" parent="." node_paths=PackedStringArray("body")]
+[node name="BossInputProvider" type="Node" parent="." unique_id=1395882575 node_paths=PackedStringArray("body")]
 script = ExtResource("11_res")
 body = NodePath("..")
+PaceRange = 18.0
+FireInterval = 3.5
+PauseChance = 0.26
 
-[node name="PlayerInputProvider" type="Node" parent="."]
+[node name="PlayerInputProvider" type="Node" parent="." unique_id=878578297]
 script = ExtResource("12_res")
 
-[node name="Health" type="Node" parent="."]
+[node name="Health" type="Node" parent="." unique_id=619522664]
 script = ExtResource("5_res")
-Max = 6
+InvincibilityDuration = 0.1
 
-[node name="WeaponHolder" type="Node" parent="."]
+[node name="WeaponHolder" type="Node" parent="." unique_id=1871499891]
 script = ExtResource("6_res")
 Weapons = [ExtResource("7_res")]
