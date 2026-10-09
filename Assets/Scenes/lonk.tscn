@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://d2ha0ewintt75" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="13_whold"]
 [ext_resource type="Script" uid="uid://xc3svpclcavh" path="res://Assets/Scripts/PushdownAutomata/States/SideScrollMovementState.cs" id="14_sides"]
 [ext_resource type="Script" uid="uid://tdkypdlf2f3h" path="res://Assets/Scripts/PushdownAutomata/States/GrabbedState.cs" id="15_grabd"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/sword_beam.tscn" id="16_beam"]
+[ext_resource type="PackedScene" uid="uid://bbcxgkkhwppdl" path="res://Assets/Scenes/Projectiles/sword_beam.tscn" id="16_beam"]
 [ext_resource type="Resource" uid="uid://cr4qoyw7wso32" path="res://Assets/Resources/Weapons/bow.tres" id="17_bow"]
 [ext_resource type="Resource" uid="uid://83dpa6g4kunu" path="res://Assets/Resources/Weapons/boomerang.tres" id="18_boomr"]
 [ext_resource type="Resource" uid="uid://82aotq86485w" path="res://Assets/Resources/Weapons/bomb.tres" id="19_bomb"]
@@ -192,6 +192,7 @@ size = Vector2(13, 5)
 size = Vector2(4.5, 11.75)
 
 [node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("transitionState", "sideScrollState", "StateMachine", "Visuals", "Health", "Weapons", "hitbox")]
+z_index = 1
 collision_layer = 16
 collision_mask = 33
 script = ExtResource("1_qq4k7")

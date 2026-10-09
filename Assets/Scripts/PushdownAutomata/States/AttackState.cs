@@ -69,13 +69,13 @@ public partial class AttackState : State
 			return;
 		}
 
+		timer = Duration;
+		BeginSwing();
+
 		if (kind == AttackKind.SWORD)
 		{
 			TryFireBeam();
 		}
-
-		timer = Duration;
-		BeginSwing();
 	}
 
 	public override void PhysicsUpdate(double delta)
@@ -151,12 +151,14 @@ public partial class AttackState : State
 	}
 
 	// One beam at a time, and only while the entity is unhurt.
-	private void TryFireBeam()
+	private async void TryFireBeam()
 	{
 		if (BeamScene == null || Entity.Health is not { IsFull: true } || IsInstanceValid(beam))
 		{
 			return;
 		}
+
+		await ToSignal(GetTree().CreateTimer(Duration - 0.025), SceneTreeTimer.SignalName.Timeout);
 
 		beam = Projectile.Spawn(BeamScene, Entity, Entity.FacingDirection, BeamSpawnDistance);
 	}
