@@ -3,11 +3,11 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_anmyw"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_rgbw2"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_anmyw"]
-[ext_resource type="Script" path="res://Assets/Scripts/WallmasterSpawner.cs" id="gen1_Wallm"]
+[ext_resource type="Script" uid="uid://cvn47dikv7y0y" path="res://Assets/Scripts/WallmasterSpawner.cs" id="gen1_Wallm"]
 [ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/wallmaster.tscn" id="gen2_wallm"]
 [ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="gen3_Stalf"]
-[ext_resource type="Resource" path="res://Assets/Resources/Drops/key_drop.tres" id="gen4_key_d"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Locked Doors/Door Locked Right.tscn" id="gen5_Door"]
+[ext_resource type="Resource" uid="uid://c5t58o4cjtjnl" path="res://Assets/Resources/Drops/key_drop.tres" id="gen4_key_d"]
+[ext_resource type="PackedScene" uid="uid://goqjt6giuy2b" path="res://Assets/Scenes/Locked Doors/Door Locked Right.tscn" id="gen5_Door"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_shlq3"]
 texture = ExtResource("1_rgbw2")
@@ -1895,15 +1895,16 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_rgbw2")
 
-[node name="WallmasterSpawner" type="Node2D" parent="."]
+[node name="WallmasterSpawner" type="Node2D" parent="." unique_id=443969161]
 script = ExtResource("gen1_Wallm")
 WallmasterScene = ExtResource("gen2_wallm")
+MaxAlive = 6
 
-[node name="Stalfos1" parent="." instance=ExtResource("gen3_Stalf")]
+[node name="Stalfos1" parent="." unique_id=122251626 instance=ExtResource("gen3_Stalf")]
 position = Vector2(160, 120)
 Drops = ExtResource("gen4_key_d")
 
-[node name="Stalfos2" parent="." instance=ExtResource("gen3_Stalf")]
+[node name="Stalfos2" parent="." unique_id=1074743767 instance=ExtResource("gen3_Stalf")]
 position = Vector2(176, 48)
 
-[node name="DoorLockedRight" parent="." instance=ExtResource("gen5_Door")]
+[node name="DoorLockedRight" parent="." unique_id=581277280 instance=ExtResource("gen5_Door")]

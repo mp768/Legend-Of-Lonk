@@ -7,7 +7,6 @@ public partial class LineOfSightInputProvider : Node, IInputProvider
 {
     private static readonly Vector2[] CARDINALS = [Vector2.Left, Vector2.Right, Vector2.Up, Vector2.Down];
 
-    // The node whose position the sight lines start from, normally the entity itself.
     [Export] private Node2D eyes;
 
     [Export] public float SightRange { get; set; } = 256f;

@@ -1,24 +1,26 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bvllk0snvqw8n"]
 
 [ext_resource type="Script" uid="uid://cybxtin5g484x" path="res://Assets/Scripts/Enemy.cs" id="1_res"]
+[ext_resource type="Texture2D" uid="uid://beru7yw72k850" path="res://Assets/Sprites/BladeTrap.png" id="2_3d1hs"]
 [ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="2_res"]
 [ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="3_res"]
 [ext_resource type="Script" uid="uid://bp31qibi82v65" path="res://Assets/Scripts/Affectables.cs" id="4_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="5_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/LungeState.cs" id="6_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/LineOfSightInputProvider.cs" id="7_res"]
-[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="8_res"]
+[ext_resource type="Script" uid="uid://dltjvjc2kxawo" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="5_res"]
+[ext_resource type="Script" uid="uid://df8gwu0phh4vd" path="res://Assets/Scripts/PushdownAutomata/States/LungeState.cs" id="6_res"]
+[ext_resource type="Script" uid="uid://cv8kmm283ca7g" path="res://Assets/Scripts/CommandPattern/LineOfSightInputProvider.cs" id="7_res"]
+[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="8_res"]
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_sprite"]
-size = Vector2(16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3g2t"]
+atlas = ExtResource("2_3d1hs")
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_main"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("Placeholder_sprite")
+"texture": SubResource("AtlasTexture_x3g2t")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 5.0
 }]
@@ -29,56 +31,57 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="Shape_hurt"]
 size = Vector2(14, 15)
 
-[node name="BladeTrap" type="CharacterBody2D" node_paths=PackedStringArray("StateMachine", "Visuals")]
+[node name="BladeTrap" type="CharacterBody2D" unique_id=1365702441 node_paths=PackedStringArray("StateMachine", "Visuals")]
 collision_layer = 0
-collision_mask = 129
+collision_mask = 128
 script = ExtResource("1_res")
+CountsTowardClear = false
 StateMachine = NodePath("PushdownStateMachine")
 Visuals = NodePath("SpritePresenter")
 Team = 1
-CountsTowardClear = false
+metadata/_custom_type_script = "uid://cybxtin5g484x"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=824814199]
 sprite_frames = SubResource("SpriteFrames_main")
 animation = &"walk"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2011277213]
 shape = SubResource("Shape_body")
 
-[node name="ContactDamage" type="Area2D" parent="."]
+[node name="ContactDamage" type="Area2D" parent="." unique_id=637173967]
 collision_layer = 256
 collision_mask = 0
 script = ExtResource("4_res")
-Type = 0
 Value = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage"]
-position = Vector2(0, -2)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage" unique_id=1366454982]
 shape = SubResource("Shape_hurt")
 
-[node name="PushdownStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "initialInputProvider")]
+[node name="PushdownStateMachine" type="Node" parent="." unique_id=596248113 node_paths=PackedStringArray("initialState", "initialInputProvider")]
 script = ExtResource("2_res")
 initialState = NodePath("FreeMovementState")
 initialInputProvider = NodePath("../LineOfSightInputProvider")
 
-[node name="FreeMovementState" type="Node" parent="PushdownStateMachine"]
+[node name="FreeMovementState" type="Node" parent="PushdownStateMachine" unique_id=933368606]
 script = ExtResource("5_res")
 MoveSpeed = 0.0
 
-[node name="LungeState" type="Node" parent="PushdownStateMachine"]
+[node name="LungeState" type="Node" parent="PushdownStateMachine" unique_id=802834778]
 script = ExtResource("6_res")
+LungeSpeed = 95.0
+ReturnSpeed = 45.0
 
-[node name="SpritePresenter" type="Node" parent="." node_paths=PackedStringArray("Sprite")]
+[node name="SpritePresenter" type="Node" parent="." unique_id=778963259 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("3_res")
 Sprite = NodePath("../AnimatedSprite2D")
+SpriteOffset = Vector2i(0, 0)
 WalkHorizontal = "walk"
 WalkDown = "walk"
 WalkUp = "walk"
 
-[node name="LineOfSightInputProvider" type="Node" parent="." node_paths=PackedStringArray("eyes")]
+[node name="LineOfSightInputProvider" type="Node" parent="." unique_id=750540825 node_paths=PackedStringArray("eyes")]
 script = ExtResource("7_res")
 eyes = NodePath("..")
 
-[node name="PlayerInputProvider" type="Node" parent="."]
+[node name="PlayerInputProvider" type="Node" parent="." unique_id=423985250]
 script = ExtResource("8_res")
