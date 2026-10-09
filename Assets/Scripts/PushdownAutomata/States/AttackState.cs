@@ -1,6 +1,7 @@
 using Godot;
 
-// Holds a directional attack pose for a fixed time. Sword attacks also enable the hitbox facing that way.
+// Holds a directional attack pose for a fixed time. Sword attacks enable the hitbox facing that way, and
+// fire a beam at full health. Item attacks fire the entity's selected alternate weapon.
 [GlobalClass]
 public partial class AttackState : State
 {
@@ -28,8 +29,18 @@ public partial class AttackState : State
 
 	[Export] public float Duration { get; set; } = 0.5f;
 
+	[ExportGroup("Sword Beam")]
+	// Fired on a sword swing while health is full. Leave empty for no beam.
+	[Export] public PackedScene BeamScene { get; set; }
+	[Export] public float BeamSpawnDistance { get; set; } = 10f;
+
+	[ExportGroup("Item")]
+	// Holds the attack until every projectile the entity fired is gone, e.g. a Goriya waiting for its boomerang.
+	[Export] public bool WaitForProjectile { get; set; }
+
 	private AttackKind kind;
 	private float timer;
+	private Projectile beam;
 
 	public override void Initialize(PushdownStateMachine machine)
 	{
@@ -51,6 +62,18 @@ public partial class AttackState : State
 
 	public override void Enter()
 	{
+		// Pressing the item button with nothing to fire does nothing at all.
+		if (kind == AttackKind.ITEM && !(Entity.Weapons?.TryFire(Entity) ?? false))
+		{
+			Machine.PopState();
+			return;
+		}
+
+		if (kind == AttackKind.SWORD)
+		{
+			TryFireBeam();
+		}
+
 		timer = Duration;
 		BeginSwing();
 	}
@@ -58,7 +81,9 @@ public partial class AttackState : State
 	public override void PhysicsUpdate(double delta)
 	{
 		timer -= (float)delta;
-		if (timer <= 0f)
+
+		bool waiting = WaitForProjectile && Entity.Weapons is { HasActiveProjectiles: true };
+		if (timer <= 0f && !waiting)
 		{
 			Machine.PopState();
 		}
@@ -123,6 +148,17 @@ public partial class AttackState : State
 		}
 
 		Visuals?.ShowPose(animation, frame, flipH, offset);
+	}
+
+	// One beam at a time, and only while the entity is unhurt.
+	private void TryFireBeam()
+	{
+		if (BeamScene == null || Entity.Health is not { IsFull: true } || IsInstanceValid(beam))
+		{
+			return;
+		}
+
+		beam = Projectile.Spawn(BeamScene, Entity, Entity.FacingDirection, BeamSpawnDistance);
 	}
 
 	private void DisableAllHitboxes()

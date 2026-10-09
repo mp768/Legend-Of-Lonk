@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_0e86f"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_g24yh"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_0e86f"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="gen1_blade"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/keese.tscn" id="gen2_keese"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yhoe2"]
 texture = ExtResource("1_g24yh")
@@ -1889,3 +1891,24 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=742448155]
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_yhoe2")
+
+[node name="BladeTrap1" parent="." instance=ExtResource("gen1_blade")]
+position = Vector2(40, 48)
+
+[node name="BladeTrap2" parent="." instance=ExtResource("gen1_blade")]
+position = Vector2(216, 48)
+
+[node name="BladeTrap3" parent="." instance=ExtResource("gen1_blade")]
+position = Vector2(40, 136)
+
+[node name="BladeTrap4" parent="." instance=ExtResource("gen1_blade")]
+position = Vector2(216, 136)
+
+[node name="Keese1" parent="." instance=ExtResource("gen2_keese")]
+position = Vector2(192, 72)
+
+[node name="Keese2" parent="." instance=ExtResource("gen2_keese")]
+position = Vector2(72, 120)
+
+[node name="Keese3" parent="." instance=ExtResource("gen2_keese")]
+position = Vector2(104, 80)

@@ -15,6 +15,11 @@ public partial class PlayerInputProvider : Node, IInputProvider
             return new AttackCommand(AttackState.AttackKind.ITEM);
         }
 
+        if (Input.IsActionJustPressed("cycle_weapon"))
+        {
+            return new CycleWeaponCommand();
+        }
+
         // Both axes go through as pressed, and the movement state decides how to handle diagonals.
         Vector2 input = new(AxisSign("left", "right"), AxisSign("up", "down"));
         return new MoveCommand(input);

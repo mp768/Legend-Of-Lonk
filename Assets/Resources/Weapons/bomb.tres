@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://82aotq86485w"]
+
+[ext_resource type="Script" uid="uid://bh3uiqovw57rk" path="res://Assets/Scripts/Weapon.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/bomb.tscn" id="2_scene"]
+
+[sub_resource type="PlaceholderTexture2D" id="Placeholder_icon"]
+size = Vector2(8, 14)
+
+[resource]
+script = ExtResource("1_script")
+Kind = 2
+DisplayName = "Bomb"
+Icon = SubResource("Placeholder_icon")
+Scene = ExtResource("2_scene")
+Ammo = 2
+SpawnDistance = 16.0

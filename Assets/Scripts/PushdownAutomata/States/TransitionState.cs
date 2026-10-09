@@ -16,7 +16,11 @@ public partial class TransitionState : State
 
     public override void Enter()
     {
-        Entity.FacingDirection = walkDirection;
+        // Warps have no walking direction, and the entity should keep facing the way it was.
+        if (walkDirection != Vector2.Zero)
+        {
+            Entity.FacingDirection = walkDirection;
+        }
     }
 
     public override void PhysicsUpdate(double delta)

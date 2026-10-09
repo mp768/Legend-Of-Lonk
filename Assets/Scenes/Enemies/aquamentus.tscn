@@ -1,0 +1,108 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cybxtin5g484x" path="res://Assets/Scripts/Enemy.cs" id="1_res"]
+[ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="2_res"]
+[ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="3_res"]
+[ext_resource type="Script" uid="uid://bp31qibi82v65" path="res://Assets/Scripts/Affectables.cs" id="4_res"]
+[ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="5_res"]
+[ext_resource type="Script" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="6_res"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/aquamentus_fireball.tres" id="7_res"]
+[ext_resource type="Resource" path="res://Assets/Resources/Drops/heart_container_drop.tres" id="8_res"]
+[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="9_res"]
+[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/AttackState.cs" id="10_res"]
+[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/BossInputProvider.cs" id="11_res"]
+[ext_resource type="Script" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="12_res"]
+
+[sub_resource type="PlaceholderTexture2D" id="Placeholder_sprite"]
+size = Vector2(24, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_main"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Placeholder_sprite")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="Shape_body"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="Shape_hurt"]
+size = Vector2(22, 31)
+
+[node name="Aquamentus" type="CharacterBody2D" node_paths=PackedStringArray("StateMachine", "Visuals", "Health", "hitbox", "Weapons")]
+collision_layer = 0
+collision_mask = 161
+script = ExtResource("1_res")
+StateMachine = NodePath("PushdownStateMachine")
+Visuals = NodePath("SpritePresenter")
+Health = NodePath("Health")
+hitbox = NodePath("Hitbox")
+Weapons = NodePath("WeaponHolder")
+Team = 1
+Drops = ExtResource("8_res")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_main")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("Shape_body")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -2)
+shape = SubResource("Shape_hurt")
+
+[node name="ContactDamage" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("4_res")
+Type = 0
+Value = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage"]
+position = Vector2(0, -2)
+shape = SubResource("Shape_hurt")
+
+[node name="PushdownStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "initialInputProvider")]
+script = ExtResource("2_res")
+initialState = NodePath("FreeMovementState")
+initialInputProvider = NodePath("../BossInputProvider")
+
+[node name="FreeMovementState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("9_res")
+MoveSpeed = 20.0
+
+[node name="AttackState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("10_res")
+Duration = 0.3
+
+[node name="SpritePresenter" type="Node" parent="." node_paths=PackedStringArray("Sprite")]
+script = ExtResource("3_res")
+Sprite = NodePath("../AnimatedSprite2D")
+WalkHorizontal = "walk"
+WalkDown = "walk"
+WalkUp = "walk"
+
+[node name="BossInputProvider" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("11_res")
+body = NodePath("..")
+
+[node name="PlayerInputProvider" type="Node" parent="."]
+script = ExtResource("12_res")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_res")
+Max = 6
+
+[node name="WeaponHolder" type="Node" parent="."]
+script = ExtResource("6_res")
+Weapons = [ExtResource("7_res")]

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="5_cayjm"]
 [ext_resource type="PackedScene" uid="uid://cwscvihu18f6c" path="res://Assets/Scenes/Collectibles/regen.tscn" id="6_h7rbo"]
 [ext_resource type="PackedScene" uid="uid://b26vitb6rc1eu" path="res://Assets/Scenes/Collectibles/rupee.tscn" id="7_mcgqq"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/keese.tscn" id="gen1_keese"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nvwu0"]
 texture = ExtResource("1_1a83f")
@@ -922,3 +923,12 @@ position = Vector2(71, 105)
 
 [node name="Key" parent="." unique_id=1118756736 instance=ExtResource("5_cayjm")]
 position = Vector2(54, 58)
+
+[node name="Keese1" parent="." instance=ExtResource("gen1_keese")]
+position = Vector2(96, 64)
+
+[node name="Keese2" parent="." instance=ExtResource("gen1_keese")]
+position = Vector2(120, 72)
+
+[node name="Keese3" parent="." instance=ExtResource("gen1_keese")]
+position = Vector2(152, 88)

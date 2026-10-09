@@ -12,6 +12,13 @@
 [ext_resource type="Script" uid="uid://b5asephyhb36i" path="res://Assets/Scripts/PushdownAutomata/States/TransitionState.cs" id="10_tmlrr"]
 [ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="11_5lw22"]
 [ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="12_hlth1"]
+[ext_resource type="Script" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="13_whold"]
+[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/SideScrollMovementState.cs" id="14_sides"]
+[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/GrabbedState.cs" id="15_grabd"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/sword_beam.tscn" id="16_beam"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bow.tres" id="17_bow"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/boomerang.tres" id="18_boomr"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bomb.tres" id="19_bomb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
 atlas = ExtResource("2_kq13k")
@@ -184,14 +191,16 @@ size = Vector2(13, 5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lunqy"]
 size = Vector2(4.5, 11.75)
 
-[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("transitionState", "StateMachine", "Visuals", "Health", "hitbox")]
+[node name="Lonk" type="CharacterBody2D" unique_id=609894711 node_paths=PackedStringArray("transitionState", "sideScrollState", "StateMachine", "Visuals", "Health", "Weapons", "hitbox")]
 collision_layer = 16
 collision_mask = 33
 script = ExtResource("1_qq4k7")
 transitionState = NodePath("PushdownStateMachine/TransitionState")
+sideScrollState = NodePath("PushdownStateMachine/SideScrollMovementState")
 StateMachine = NodePath("PushdownStateMachine")
 Visuals = NodePath("SpritePresenter")
 Health = NodePath("Health")
+Weapons = NodePath("WeaponHolder")
 hitbox = NodePath("Hitbox")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
@@ -204,8 +213,8 @@ position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_3x3eq")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=540156816]
-collision_layer = 68
-collision_mask = 10
+collision_layer = 576
+collision_mask = 264
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
 position = Vector2(0, -2)
@@ -278,11 +287,18 @@ swordLeft = NodePath("../../SwordLeft")
 swordRight = NodePath("../../SwordRight")
 swordDown = NodePath("../../SwordDown")
 swordUp = NodePath("../../SwordUp")
+BeamScene = ExtResource("16_beam")
 metadata/_custom_type_script = "uid://oef726hkks6y"
 
 [node name="TransitionState" type="Node" parent="PushdownStateMachine" unique_id=1809652746]
 script = ExtResource("10_tmlrr")
 metadata/_custom_type_script = "uid://b5asephyhb36i"
+
+[node name="SideScrollMovementState" type="Node" parent="PushdownStateMachine" unique_id=1809652747]
+script = ExtResource("14_sides")
+
+[node name="GrabbedState" type="Node" parent="PushdownStateMachine" unique_id=1809652748]
+script = ExtResource("15_grabd")
 
 [node name="SpritePresenter" type="Node" parent="." unique_id=411043305 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("9_5lw22")
@@ -299,5 +315,9 @@ metadata/_custom_type_script = "uid://b66paybvi38sb"
 
 [node name="Health" type="Node" parent="." unique_id=1409091216]
 script = ExtResource("12_hlth1")
-InvincibilityDuration = 0.3
+InvincibilityDuration = 0.8
 metadata/_custom_type_script = "uid://frnkyinflmju"
+
+[node name="WeaponHolder" type="Node" parent="." unique_id=1409091217]
+script = ExtResource("13_whold")
+Weapons = [ExtResource("17_bow"), ExtResource("18_boomr"), ExtResource("19_bomb")]

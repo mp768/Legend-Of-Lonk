@@ -20,11 +20,18 @@
 [ext_resource type="PackedScene" uid="uid://dyhqfy0ovr7rv" path="res://Assets/Scenes/Rooms/room_special.tscn" id="17_3iwok"]
 [ext_resource type="PackedScene" uid="uid://bamksisfgow6v" path="res://Assets/Scenes/Rooms/room_basement.tscn" id="18_5arw8"]
 [ext_resource type="PackedScene" uid="uid://m85sx2wsp7bb" path="res://Assets/Scenes/lonk.tscn" id="19_5arw8"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/World/pushable_block.tscn" id="20_block"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/World/stairs.tscn" id="21_stairs"]
+[ext_resource type="Script" uid="uid://dsol2ir606dhc" path="res://Assets/Scripts/RoomWarp.cs" id="22_warp"]
 
-[node name="Dungeon1" type="Node" unique_id=679708911 node_paths=PackedStringArray("MainCamera", "StartingRoom")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ladder_top"]
+size = Vector2(16, 8)
+
+[node name="Dungeon1" type="Node" unique_id=679708911 node_paths=PackedStringArray("MainCamera", "StartingRoom", "EntrancePoint")]
 script = ExtResource("1_xx0cq")
 MainCamera = NodePath("Camera2D")
 StartingRoom = NodePath("room1")
+EntrancePoint = NodePath("room1/EntrancePoint")
 metadata/_custom_type_script = "uid://bwfh00ukyrwar"
 
 [node name="room1" parent="." unique_id=753680689 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("2_kk4t4")]
@@ -33,6 +40,9 @@ leftRoom = NodePath("../room2")
 rightRoom = NodePath("../room3")
 upRoom = NodePath("../room4")
 downRoom = NodePath(".")
+
+[node name="EntrancePoint" type="Marker2D" parent="room1" unique_id=1689484954]
+position = Vector2(128, 136)
 
 [node name="room2" parent="." unique_id=1063940994 node_paths=PackedStringArray("rightRoom") instance=ExtResource("3_tabvt")]
 position = Vector2(-384, -88)
@@ -91,6 +101,18 @@ downRoom = NodePath("../room11")
 position = Vector2(-384, -968)
 rightRoom = NodePath("../room12")
 
+[node name="PushableBlock" parent="room13" unique_id=234639994 instance=ExtResource("20_block")]
+position = Vector2(103, 87)
+AllowedDirection = Vector2(0, 1)
+
+[node name="StairsWarp" parent="room13" unique_id=1360697629 node_paths=PackedStringArray("Destination", "Arrival") instance=ExtResource("21_stairs")]
+position = Vector2(136, 88)
+Destination = NodePath("../../roomBasement")
+Arrival = NodePath("../../roomBasement/ArrivalFromStairs")
+
+[node name="ArrivalFromBasement" type="Marker2D" parent="room13" unique_id=745327498]
+position = Vector2(120, 88)
+
 [node name="room14" parent="." unique_id=1203313447 node_paths=PackedStringArray("leftRoom", "rightRoom", "downRoom") instance=ExtResource("13_p1src")]
 position = Vector2(128, -616)
 leftRoom = NodePath("../room10")
@@ -117,6 +139,20 @@ rightRoom = NodePath("../room8")
 
 [node name="roomBasement" parent="." unique_id=391949384 instance=ExtResource("18_5arw8")]
 position = Vector2(-656, -968)
+
+[node name="ArrivalFromStairs" type="Marker2D" parent="roomBasement" unique_id=218392585]
+position = Vector2(56, 24)
+
+[node name="LadderWarp" type="Area2D" parent="roomBasement" unique_id=1957118293 node_paths=PackedStringArray("Destination", "Arrival")]
+position = Vector2(56, 4)
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("22_warp")
+Destination = NodePath("../../room13")
+Arrival = NodePath("../../room13/ArrivalFromBasement")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="roomBasement/LadderWarp" unique_id=841111111]
+shape = SubResource("RectangleShape2D_ladder_top")
 
 [node name="Lonk" parent="." unique_id=686843034 instance=ExtResource("19_5arw8")]
 position = Vector2(0, -9)

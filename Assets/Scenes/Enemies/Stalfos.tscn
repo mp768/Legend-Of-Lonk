@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="10_c10ds"]
 [ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="11_6rhn8"]
 [ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="12_hlth1"]
+[ext_resource type="Resource" path="res://Assets/Resources/Drops/common_drops.tres" id="13_drops"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lsp3l"]
 atlas = ExtResource("2_bfri6")
@@ -47,6 +48,8 @@ StateMachine = NodePath("PushdownStateMachine")
 Visuals = NodePath("SpritePresenter")
 Health = NodePath("Health")
 hitbox = NodePath("Hitbox")
+Team = 1
+Drops = ExtResource("13_drops")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
@@ -58,13 +61,21 @@ position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_3x3eq")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1261019000]
-collision_layer = 6
+collision_layer = 4
 collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_mrrlb")
+
+[node name="ContactDamage" type="Area2D" parent="." unique_id=1261019001]
+collision_layer = 256
+collision_mask = 0
 script = ExtResource("5_lsp3l")
 Value = 1
 metadata/_custom_type_script = "uid://bp31qibi82v65"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=417930255]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamage" unique_id=417930256]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_mrrlb")
 
@@ -104,4 +115,5 @@ metadata/_custom_type_script = "uid://du8hxi0wj5cw4"
 
 [node name="Health" type="Node" parent="." unique_id=218487877]
 script = ExtResource("12_hlth1")
+Max = 2
 metadata/_custom_type_script = "uid://frnkyinflmju"

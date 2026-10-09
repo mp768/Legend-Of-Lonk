@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Assets/Scripts/BoomerangProjectile.cs" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="Shape_main"]
+size = Vector2(8, 8)
+
+[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
+size = Vector2(8, 8)
+
+[node name="Boomerang" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_script")
+Type = 4
+Value = 15
+Speed = 150.0
+DestroyOnHit = false
+RotateToDirection = false
+FreeWhenOffScreen = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_main")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("Placeholder_main")
