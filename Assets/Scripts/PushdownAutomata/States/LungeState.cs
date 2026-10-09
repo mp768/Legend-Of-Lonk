@@ -48,6 +48,7 @@ public partial class LungeState : State
         Entity.GlobalPosition = Entity.GlobalPosition.MoveToward(home, ReturnSpeed * dt);
         if (Entity.GlobalPosition.IsEqualApprox(home))
         {
+            Entity.GlobalPosition = home;
             Machine.PopState();
         }
     }

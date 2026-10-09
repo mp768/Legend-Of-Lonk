@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_0e86f"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_g24yh"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_0e86f"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="gen1_blade"]
+[ext_resource type="PackedScene" uid="uid://bvllk0snvqw8n" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="gen1_blade"]
 [ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/keese.tscn" id="gen2_keese"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yhoe2"]
@@ -1892,23 +1892,23 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_yhoe2")
 
-[node name="BladeTrap1" parent="." instance=ExtResource("gen1_blade")]
-position = Vector2(40, 48)
+[node name="BladeTrap1" parent="." unique_id=1848558922 instance=ExtResource("gen1_blade")]
+position = Vector2(40, 40)
 
-[node name="BladeTrap2" parent="." instance=ExtResource("gen1_blade")]
-position = Vector2(216, 48)
+[node name="BladeTrap2" parent="." unique_id=568263830 instance=ExtResource("gen1_blade")]
+position = Vector2(216, 40)
 
-[node name="BladeTrap3" parent="." instance=ExtResource("gen1_blade")]
+[node name="BladeTrap3" parent="." unique_id=447823091 instance=ExtResource("gen1_blade")]
 position = Vector2(40, 136)
 
-[node name="BladeTrap4" parent="." instance=ExtResource("gen1_blade")]
+[node name="BladeTrap4" parent="." unique_id=94114813 instance=ExtResource("gen1_blade")]
 position = Vector2(216, 136)
 
-[node name="Keese1" parent="." instance=ExtResource("gen2_keese")]
+[node name="Keese1" parent="." unique_id=1377523087 instance=ExtResource("gen2_keese")]
 position = Vector2(192, 72)
 
-[node name="Keese2" parent="." instance=ExtResource("gen2_keese")]
+[node name="Keese2" parent="." unique_id=404223605 instance=ExtResource("gen2_keese")]
 position = Vector2(72, 120)
 
-[node name="Keese3" parent="." instance=ExtResource("gen2_keese")]
+[node name="Keese3" parent="." unique_id=1261980059 instance=ExtResource("gen2_keese")]
 position = Vector2(104, 80)

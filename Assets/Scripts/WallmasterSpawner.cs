@@ -61,7 +61,7 @@ public partial class WallmasterSpawner : Node2D, IResettableEntity
             return;
         }
 
-        if (WallmasterScene.Instantiate() is not Node2D wallmaster)
+        if (WallmasterScene.Instantiate() is not Enemy wallmaster)
         {
             return;
         }
@@ -115,6 +115,12 @@ public partial class WallmasterSpawner : Node2D, IResettableEntity
             {
                 wallmaster.QueueFree();
             }
+        };
+
+        // Every wallmaster that gets defeated should lower the amount allowed to spawn from there on.
+        wallmaster.Defeated += () =>
+        {
+            MaxAlive--;
         };
 
         alive.Add(wallmaster);
