@@ -20,18 +20,17 @@
 [ext_resource type="PackedScene" uid="uid://dyhqfy0ovr7rv" path="res://Assets/Scenes/Rooms/room_special.tscn" id="17_3iwok"]
 [ext_resource type="PackedScene" uid="uid://bamksisfgow6v" path="res://Assets/Scenes/Rooms/room_basement.tscn" id="18_5arw8"]
 [ext_resource type="PackedScene" uid="uid://m85sx2wsp7bb" path="res://Assets/Scenes/lonk.tscn" id="19_5arw8"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/World/pushable_block.tscn" id="20_block"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/World/stairs.tscn" id="21_stairs"]
+[ext_resource type="PackedScene" uid="uid://du416pbf2fmx0" path="res://Assets/Scenes/World/pushable_block.tscn" id="20_block"]
+[ext_resource type="PackedScene" uid="uid://dwbn42562p6ma" path="res://Assets/Scenes/World/stairs.tscn" id="21_stairs"]
 [ext_resource type="Script" uid="uid://dsol2ir606dhc" path="res://Assets/Scripts/RoomWarp.cs" id="22_warp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ladder_top"]
 size = Vector2(16, 8)
 
-[node name="Dungeon1" type="Node" unique_id=679708911 node_paths=PackedStringArray("MainCamera", "StartingRoom", "EntrancePoint")]
+[node name="Dungeon1" type="Node" unique_id=679708911 node_paths=PackedStringArray("MainCamera", "StartingRoom")]
 script = ExtResource("1_xx0cq")
 MainCamera = NodePath("Camera2D")
 StartingRoom = NodePath("room1")
-EntrancePoint = NodePath("room1/EntrancePoint")
 metadata/_custom_type_script = "uid://bwfh00ukyrwar"
 
 [node name="room1" parent="." unique_id=753680689 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("2_kk4t4")]
@@ -102,7 +101,7 @@ position = Vector2(-384, -968)
 rightRoom = NodePath("../room12")
 
 [node name="PushableBlock" parent="room13" unique_id=234639994 instance=ExtResource("20_block")]
-position = Vector2(103, 87)
+position = Vector2(104, 88)
 AllowedDirection = Vector2(0, 1)
 
 [node name="StairsWarp" parent="room13" unique_id=1360697629 node_paths=PackedStringArray("Destination", "Arrival") instance=ExtResource("21_stairs")]
