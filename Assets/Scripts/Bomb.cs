@@ -16,6 +16,7 @@ public partial class Bomb : Projectile
         base._Ready();
 
         Monitorable = false;
+        Monitoring = false;
         if (blastVisual != null)
         {
             blastVisual.Visible = false;
@@ -43,6 +44,7 @@ public partial class Bomb : Projectile
     private void Explode()
     {
         SetDeferred(Area2D.PropertyName.Monitorable, true);
+        SetDeferred(Area2D.PropertyName.Monitoring, true);
 
         if (bombVisual != null)
         {
