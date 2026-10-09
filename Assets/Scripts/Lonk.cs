@@ -1,7 +1,5 @@
 using Godot;
 
-// The player character. Everything he shares with other entities lives in Entity and its components.
-// This script only reports his game-wide consequences out to GameSignals and GameState.
 public partial class Lonk : Entity
 {
 	[Export] private TransitionState transitionState;

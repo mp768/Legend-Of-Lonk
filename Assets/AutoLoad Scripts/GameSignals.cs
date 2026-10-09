@@ -37,11 +37,11 @@ public partial class GameSignals : Node
     public delegate void SelectedWeaponChangedEventHandler(int kind);
 
     [Signal]
-    public delegate void RoomExitEnteredEventHandler(Room destination, Node2D traveller, Vector2 direction);
+    public delegate void RoomExitEnteredEventHandler(Room destination, Node2D traveler, Vector2 direction);
 
-    // A hard cut to another room, such as stairs, with the traveller placed at `position`.
+    // A hard cut to another room, such as stairs, with the traveler placed at `position`.
     [Signal]
-    public delegate void WarpRequestedEventHandler(Room destination, Node2D traveller, Vector2 position);
+    public delegate void WarpRequestedEventHandler(Room destination, Node2D traveler, Vector2 position);
 
     [Signal]
     public delegate void RoomTransitionStartedEventHandler(Vector2 direction);
