@@ -22,6 +22,9 @@ public partial class SpritePresenter : Node
     // Allows a SpritePresenter to run on its own.
     [Export] public bool AutoAdvanceAnimation { get; set; } = false;
 
+    // Determines whether we flip the sprite horizontally when moving along the horizontal axis.
+    [Export] public bool FlipHorizontally { get; set; } = true;
+
     [ExportGroup("Walk Animation")]
     [Export] public string WalkHorizontal { get; set; } = "walk_horizontal";
     [Export] public string WalkDown { get; set; } = "walk_down";
@@ -92,7 +95,7 @@ public partial class SpritePresenter : Node
         if (direction.X != 0f)
         {
             Sprite.Animation = WalkHorizontal;
-            Sprite.FlipH = direction.X < 0f;
+            Sprite.FlipH = FlipHorizontally && direction.X < 0f;
         }
         else if (direction.Y > 0f)
         {
