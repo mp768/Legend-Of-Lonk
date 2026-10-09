@@ -30,6 +30,8 @@ public partial class Health : Node
 
     public bool IsDepleted => Current == 0;
 
+    public bool IsFull => Current == Max;
+
     // Ignores all damage regardless of invincibility frames, e.g. for cheat mode.
     public bool IsImmune { get; set; }
 
@@ -77,5 +79,17 @@ public partial class Health : Node
     public void Refill()
     {
         Current = Max;
+    }
+
+    // Raises the maximum, e.g. from a heart container, and refills to the new maximum.
+    public void IncreaseMax(int amount)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        Max += amount;
+        Refill();
     }
 }

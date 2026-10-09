@@ -1,6 +1,7 @@
 using Godot;
 
 // Knocks the entity back while it holds a hurt pose. It can't be interrupted, so repeated hits don't stack stuns.
+// Each push can override the duration and knockback, e.g. a boomerang stun that freezes without knockback.
 [GlobalClass]
 public partial class StunState : State
 {
@@ -21,21 +22,31 @@ public partial class StunState : State
     private float timer;
     private float delayTimer;
     private Vector2 knockbackDirection;
+    private float duration;
+    private float knockbackSpeed;
+    private bool showHurt;
 
-    public void Configure(Vector2 direction)
+    // Null duration or speed uses the exported defaults.
+    public void Configure(Vector2 direction, float? stunDuration = null, float? speed = null, bool hurt = true)
     {
         knockbackDirection = direction.Normalized();
+        duration = stunDuration ?? Duration;
+        knockbackSpeed = speed ?? KnockbackSpeed;
+        showHurt = hurt;
     }
 
     public override void Enter()
     {
-        timer = Duration;
+        timer = duration;
         delayTimer = KnockbackDelay;
 
-        Visuals?.ShowPose(PoseAnimation, PoseFrame);
-        if (FlashWhileStunned)
+        if (showHurt)
         {
-            Visuals?.Flash(Duration);
+            Visuals?.ShowPose(PoseAnimation, PoseFrame);
+        }
+        if (showHurt && FlashWhileStunned)
+        {
+            Visuals?.Flash(duration);
         }
     }
 
@@ -57,7 +68,7 @@ public partial class StunState : State
         }
         else
         {
-            Entity.Velocity = knockbackDirection * KnockbackSpeed;
+            Entity.Velocity = knockbackDirection * knockbackSpeed;
         }
 
         Entity.MoveAndSlide();
@@ -66,7 +77,7 @@ public partial class StunState : State
     public override void Exit()
     {
         Entity.Velocity = Vector2.Zero;
-        if (FlashWhileStunned)
+        if (showHurt && FlashWhileStunned)
         {
             Visuals?.StopFlash();
         }

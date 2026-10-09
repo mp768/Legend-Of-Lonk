@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_at6ja"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_p4b56"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_at6ja"]
+[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="gen1_Stalf"]
+[ext_resource type="Resource" path="res://Assets/Resources/Drops/key_drop.tres" id="gen2_key_d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ohjbq"]
 texture = ExtResource("1_p4b56")
@@ -1916,3 +1918,13 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=1141831530]
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_ohjbq")
+
+[node name="Stalfos1" parent="." instance=ExtResource("gen1_Stalf")]
+position = Vector2(80, 136)
+Drops = ExtResource("gen2_key_d")
+
+[node name="Stalfos2" parent="." instance=ExtResource("gen1_Stalf")]
+position = Vector2(176, 72)
+
+[node name="Stalfos3" parent="." instance=ExtResource("gen1_Stalf")]
+position = Vector2(152, 72)

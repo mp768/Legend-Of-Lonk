@@ -3,7 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_6r7pr"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_8x3bi"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_8x3bi"]
-[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Stalfos.tscn" id="4_v1l3a"]
+[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="4_v1l3a"]
+[ext_resource type="Resource" path="res://Assets/Resources/Drops/key_drop.tres" id="gen1_key_d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v1l3a"]
 texture = ExtResource("1_6r7pr")
@@ -1897,3 +1898,13 @@ collision_layer = 16
 
 [node name="Stalfos2" parent="." unique_id=360748630 instance=ExtResource("4_v1l3a")]
 position = Vector2(152, 88)
+
+[node name="Stalfos3" parent="." instance=ExtResource("4_v1l3a")]
+position = Vector2(200, 112)
+Drops = ExtResource("gen1_key_d")
+
+[node name="Stalfos4" parent="." instance=ExtResource("4_v1l3a")]
+position = Vector2(56, 120)
+
+[node name="Stalfos5" parent="." instance=ExtResource("4_v1l3a")]
+position = Vector2(152, 120)

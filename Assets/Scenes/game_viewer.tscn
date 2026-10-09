@@ -3,6 +3,13 @@
 [ext_resource type="Script" uid="uid://bvmsjjxqi5yke" path="res://Assets/Scripts/UIDisplay.cs" id="1_3vdnv"]
 [ext_resource type="PackedScene" uid="uid://b2namakqqiiyq" path="res://Assets/Scenes/dungeon_1.tscn" id="1_uxxti"]
 [ext_resource type="LabelSettings" uid="uid://b674rl2mxsv56" path="res://Assets/Resources/label_settings.tres" id="2_yt2ny"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bow.tres" id="3_bow"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/boomerang.tres" id="4_boomr"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bomb.tres" id="5_bomb"]
+[ext_resource type="Script" path="res://Assets/Scripts/DialogueBox.cs" id="6_dlg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dialogue"]
+font_size = 36
 
 [node name="GameViewer" type="Control" unique_id=1013581540]
 layout_mode = 3
@@ -30,6 +37,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_3vdnv")
+weapons = [ExtResource("3_bow"), ExtResource("4_boomr"), ExtResource("5_bomb")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HUD Background" unique_id=1747688452]
 propagate_maximum_size = false
@@ -67,12 +75,24 @@ size_flags_horizontal = 3
 text = "Keys: 0"
 label_settings = ExtResource("2_yt2ny")
 
-[node name="Weapon" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515132]
+[node name="Bombs" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515133]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Weapon: Sword"
+text = "Bombs: 0"
 label_settings = ExtResource("2_yt2ny")
+
+[node name="WeaponLabel" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515134]
+layout_mode = 2
+text = "B: "
+label_settings = ExtResource("2_yt2ny")
+
+[node name="Weapon" type="TextureRect" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515132]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 64)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer" unique_id=800053097]
 layout_mode = 2
@@ -88,3 +108,15 @@ size_2d_override_stretch = true
 render_target_update_mode = 4
 
 [node name="Dungeon1" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=386369034 instance=ExtResource("1_uxxti")]
+
+[node name="DialogueBox" type="Label" parent="." unique_id=1013581541]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 330.0
+offset_bottom = 400.0
+grow_horizontal = 2
+label_settings = SubResource("LabelSettings_dialogue")
+horizontal_alignment = 1
+autowrap_mode = 2
+script = ExtResource("6_dlg")

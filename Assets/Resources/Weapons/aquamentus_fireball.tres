@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://cxbilp06327yg"]
+
+[ext_resource type="Script" uid="uid://bh3uiqovw57rk" path="res://Assets/Scripts/Weapon.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/fireball.tscn" id="2_scene"]
+
+[sub_resource type="PlaceholderTexture2D" id="Placeholder_icon"]
+size = Vector2(8, 8)
+
+[resource]
+script = ExtResource("1_script")
+DisplayName = "Fireball"
+Icon = SubResource("Placeholder_icon")
+Scene = ExtResource("2_scene")
+AmmoCost = 0
+MaxActive = 0
+SpawnDistance = 12.0
+SpreadCount = 3
+SpreadAngle = 20.0
+AimAtTarget = true

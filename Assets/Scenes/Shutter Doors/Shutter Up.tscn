@@ -1,0 +1,10 @@
+[gd_scene format=4]
+
+[ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="1_tiles"]
+[ext_resource type="Script" path="res://Assets/Scripts/ShutterDoor.cs" id="2_script"]
+
+[node name="ShutterUp" type="TileMapLayer"]
+tile_map_data = PackedByteArray("AAAPAAMAAQArAA4AAAAQAAMAAQArAA4AAAAPAAQAAQArAA4AAAAQAAQAAQArAA4AAAA=")
+tile_set = ExtResource("1_tiles")
+script = ExtResource("2_script")
+StartsOpen = true

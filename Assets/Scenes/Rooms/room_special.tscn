@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_7yfd7"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_ugq6j"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_7yfd7"]
+[ext_resource type="Script" uid="uid://ckhxpuj6phsu5" path="res://Assets/Scripts/DialogueTrigger.cs" id="gen1_Dialo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kf7mq"]
 texture = ExtResource("1_ugq6j")
@@ -856,6 +857,12 @@ sources/1 = SubResource("TileSetAtlasSource_kf7mq")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugq6j"]
 size = Vector2(16, 16)
 
+[sub_resource type="RectangleShape2D" id="Shape_npc"]
+size = Vector2(16, 16)
+
+[sub_resource type="PlaceholderTexture2D" id="Placeholder_npc"]
+size = Vector2(16, 16)
+
 [node name="roomSpecial" type="Node2D" unique_id=1008522303]
 script = ExtResource("1_7yfd7")
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
@@ -907,3 +914,36 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=1853558989]
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_ugq6j")
+
+[node name="OldMan" type="StaticBody2D" parent="." unique_id=1160866736]
+position = Vector2(128, 80)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OldMan" unique_id=315773389]
+shape = SubResource("Shape_npc")
+
+[node name="Sprite2D" type="Sprite2D" parent="OldMan" unique_id=719080919]
+texture = SubResource("Placeholder_npc")
+
+[node name="Fire1" type="StaticBody2D" parent="." unique_id=565373900]
+position = Vector2(88, 80)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fire1" unique_id=831520551]
+shape = SubResource("Shape_npc")
+
+[node name="Sprite2D" type="Sprite2D" parent="Fire1" unique_id=219659213]
+modulate = Color(1, 0.4, 0.2, 1)
+texture = SubResource("Placeholder_npc")
+
+[node name="Fire2" type="StaticBody2D" parent="." unique_id=1123196413]
+position = Vector2(168, 80)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fire2" unique_id=344787562]
+shape = SubResource("Shape_npc")
+
+[node name="Sprite2D" type="Sprite2D" parent="Fire2" unique_id=1348898736]
+modulate = Color(1, 0.4, 0.2, 1)
+texture = SubResource("Placeholder_npc")
+
+[node name="DialogueTrigger" type="Node" parent="." unique_id=829548645]
+script = ExtResource("gen1_Dialo")
+Text = "WHAT THE HELL ARE YOU DOING HERE"

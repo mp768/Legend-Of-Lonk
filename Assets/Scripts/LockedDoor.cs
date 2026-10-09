@@ -2,7 +2,7 @@ using Godot;
 
 // A locked door that opens when the player touches it while holding enough keys.
 [GlobalClass]
-public partial class LockedDoor : TileMapLayer
+public partial class LockedDoor : Door
 {
     [Export] private Area2D trigger;
     [Export] public int KeyCost { get; set; } = 1;
@@ -11,12 +11,13 @@ public partial class LockedDoor : TileMapLayer
 
     public override void _Ready()
     {
+        base._Ready();
         trigger.BodyEntered += OnTriggerBodyEntered;
     }
 
     private async void OnTriggerBodyEntered(Node2D body)
     {
-        if (opening || !body.IsInGroup(Constants.PLAYER_GROUP) || !GameState.Instance.TryUseKeys(KeyCost))
+        if (opening || IsOpen || !body.IsInGroup(Constants.PLAYER_GROUP) || !GameState.Instance.TryUseKeys(KeyCost))
         {
             return;
         }
@@ -30,6 +31,6 @@ public partial class LockedDoor : TileMapLayer
             return;
         }
 
-        QueueFree();
+        Open();
     }
 }

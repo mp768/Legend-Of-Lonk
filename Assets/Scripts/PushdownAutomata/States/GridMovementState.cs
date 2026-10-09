@@ -39,6 +39,7 @@ public partial class GridMovementState : MovementState
         {
             Entity.FacingDirection = direction;
         }
+        Entity.MoveIntent = direction;
 
         Entity.Velocity = direction == Vector2.Zero ? Vector2.Zero : GridAlignedVelocity(direction, dt, snap: true);
         Entity.MoveAndSlide();

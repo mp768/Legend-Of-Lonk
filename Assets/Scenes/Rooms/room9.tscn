@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_l0u4y"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_p18s4"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_l0u4y"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/gel.tscn" id="gen1_gel"]
+[ext_resource type="PackedScene" uid="uid://bqn83m3s5fhrs" path="res://Assets/Scenes/Locked Doors/Door Locked Up.tscn" id="gen2_Door"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nslda"]
 texture = ExtResource("1_p18s4")
@@ -1889,3 +1891,21 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=756913876]
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_p18s4")
+
+[node name="Gel1" parent="." instance=ExtResource("gen1_gel")]
+position = Vector2(96, 64)
+
+[node name="Gel2" parent="." instance=ExtResource("gen1_gel")]
+position = Vector2(72, 136)
+
+[node name="Gel3" parent="." instance=ExtResource("gen1_gel")]
+position = Vector2(168, 136)
+
+[node name="Gel4" parent="." instance=ExtResource("gen1_gel")]
+position = Vector2(88, 128)
+
+[node name="Gel5" parent="." instance=ExtResource("gen1_gel")]
+position = Vector2(184, 104)
+
+[node name="DoorLockedUp" parent="." instance=ExtResource("gen2_Door")]
+position = Vector2(128, 24)

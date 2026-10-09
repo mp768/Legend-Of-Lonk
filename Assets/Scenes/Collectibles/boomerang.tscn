@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Collectible.cs" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="Shape_main"]
+size = Vector2(8, 8)
+
+[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
+size = Vector2(8, 8)
+
+[node name="BoomerangPickup" type="Area2D"]
+collision_layer = 8
+collision_mask = 80
+script = ExtResource("1_script")
+Type = 6
+Value = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_main")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("Placeholder_main")
