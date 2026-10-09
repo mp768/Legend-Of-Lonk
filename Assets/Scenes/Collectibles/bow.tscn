@@ -1,22 +1,23 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cwsevf4soapkc"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/Collectible.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://c07ngcbt1eukw" path="res://Assets/Scripts/Collectible.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://d322o7n0p0pv0" path="res://Assets/Sprites/NES - The Legend of Zelda - Miscellaneous - Items & Weapons.png" id="2_x8rt0"]
 
 [sub_resource type="RectangleShape2D" id="Shape_main"]
 size = Vector2(8, 16)
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(8, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4wx0"]
+atlas = ExtResource("2_x8rt0")
+region = Rect2(144, 0, 8, 16)
 
-[node name="BowPickup" type="Area2D"]
+[node name="BowPickup" type="Area2D" unique_id=1620320929]
 collision_layer = 8
 collision_mask = 80
 script = ExtResource("1_script")
 Type = 6
-Value = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2125948498]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1504524998]
+texture = SubResource("AtlasTexture_x4wx0")

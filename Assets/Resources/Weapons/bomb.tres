@@ -1,16 +1,18 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://82aotq86485w"]
 
+[ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="1_qg1yx"]
 [ext_resource type="Script" uid="uid://bh3uiqovw57rk" path="res://Assets/Scripts/Weapon.cs" id="1_script"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/bomb.tscn" id="2_scene"]
+[ext_resource type="PackedScene" uid="uid://bk4ifwtsmoh4b" path="res://Assets/Scenes/Projectiles/bomb.tscn" id="2_scene"]
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_icon"]
-size = Vector2(8, 14)
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrk2k"]
+atlas = ExtResource("1_qg1yx")
+region = Rect2(129, 184, 8, 15)
 
 [resource]
 script = ExtResource("1_script")
 Kind = 2
 DisplayName = "Bomb"
-Icon = SubResource("Placeholder_icon")
+Icon = SubResource("AtlasTexture_xrk2k")
 Scene = ExtResource("2_scene")
 Ammo = 2
 SpawnDistance = 16.0
