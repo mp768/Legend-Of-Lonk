@@ -12,13 +12,13 @@
 [ext_resource type="Script" uid="uid://b5asephyhb36i" path="res://Assets/Scripts/PushdownAutomata/States/TransitionState.cs" id="10_tmlrr"]
 [ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="11_5lw22"]
 [ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="12_hlth1"]
-[ext_resource type="Script" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="13_whold"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/SideScrollMovementState.cs" id="14_sides"]
-[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/GrabbedState.cs" id="15_grabd"]
+[ext_resource type="Script" uid="uid://d2ha0ewintt75" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="13_whold"]
+[ext_resource type="Script" uid="uid://xc3svpclcavh" path="res://Assets/Scripts/PushdownAutomata/States/SideScrollMovementState.cs" id="14_sides"]
+[ext_resource type="Script" uid="uid://tdkypdlf2f3h" path="res://Assets/Scripts/PushdownAutomata/States/GrabbedState.cs" id="15_grabd"]
 [ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/sword_beam.tscn" id="16_beam"]
-[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bow.tres" id="17_bow"]
-[ext_resource type="Resource" path="res://Assets/Resources/Weapons/boomerang.tres" id="18_boomr"]
-[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bomb.tres" id="19_bomb"]
+[ext_resource type="Resource" uid="uid://cr4qoyw7wso32" path="res://Assets/Resources/Weapons/bow.tres" id="17_bow"]
+[ext_resource type="Resource" uid="uid://83dpa6g4kunu" path="res://Assets/Resources/Weapons/boomerang.tres" id="18_boomr"]
+[ext_resource type="Resource" uid="uid://82aotq86485w" path="res://Assets/Resources/Weapons/bomb.tres" id="19_bomb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
 atlas = ExtResource("2_kq13k")
@@ -276,9 +276,6 @@ metadata/_custom_type_script = "uid://olo2qg05lfux"
 
 [node name="StunState" type="Node" parent="PushdownStateMachine" unique_id=1990150287]
 script = ExtResource("8_ib2td")
-Duration = 0.3
-PoseAnimation = "walk_horizontal"
-FlashWhileStunned = false
 metadata/_custom_type_script = "uid://b05gbd8um177f"
 
 [node name="AttackState" type="Node" parent="PushdownStateMachine" unique_id=1630371738 node_paths=PackedStringArray("swordLeft", "swordRight", "swordDown", "swordUp")]
