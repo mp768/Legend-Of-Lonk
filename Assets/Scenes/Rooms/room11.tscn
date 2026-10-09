@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_at6ja"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_p4b56"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_at6ja"]
-[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="gen1_Stalf"]
-[ext_resource type="Resource" path="res://Assets/Resources/Drops/key_drop.tres" id="gen2_key_d"]
+[ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="2_cp4x4"]
+[ext_resource type="PackedScene" uid="uid://cyx386b5pja1c" path="res://Assets/Scenes/Locked Doors/Door Locked Down.tscn" id="5_rnu3t"]
+[ext_resource type="PackedScene" uid="uid://cwk6bylfwoxxf" path="res://Assets/Scenes/Locked Doors/Door Locked Left.tscn" id="6_4na5u"]
+[ext_resource type="PackedScene" uid="uid://cto2e8dv8epjn" path="res://Assets/Scenes/Enemies/goriya.tscn" id="7_epw5o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ohjbq"]
 texture = ExtResource("1_p4b56")
@@ -1863,8 +1865,10 @@ sources/1 = SubResource("TileSetAtlasSource_at6ja")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ohjbq"]
 size = Vector2(16, 16)
 
-[node name="room11" type="Node2D" unique_id=1055094850]
+[node name="room11" type="Node2D" unique_id=1055094850 node_paths=PackedStringArray("RewardSpawn")]
 script = ExtResource("1_at6ja")
+ClearReward = ExtResource("2_cp4x4")
+RewardSpawn = NodePath("KeySpawnPoint")
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
 
 [node name="GroundLayer" type="TileMapLayer" parent="." unique_id=1886240607]
@@ -1919,12 +1923,18 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_ohjbq")
 
-[node name="Stalfos1" parent="." instance=ExtResource("gen1_Stalf")]
-position = Vector2(80, 136)
-Drops = ExtResource("gen2_key_d")
+[node name="DoorLockedDown" parent="." unique_id=864091509 instance=ExtResource("5_rnu3t")]
 
-[node name="Stalfos2" parent="." instance=ExtResource("gen1_Stalf")]
-position = Vector2(176, 72)
+[node name="DoorLockedLeft" parent="." unique_id=446660021 instance=ExtResource("6_4na5u")]
 
-[node name="Stalfos3" parent="." instance=ExtResource("gen1_Stalf")]
-position = Vector2(152, 72)
+[node name="KeySpawnPoint" type="Marker2D" parent="." unique_id=1533755175]
+position = Vector2(136, 56)
+
+[node name="Goriya" parent="." unique_id=1085998361 instance=ExtResource("7_epw5o")]
+position = Vector2(144, 72)
+
+[node name="Goriya2" parent="." unique_id=357848578 instance=ExtResource("7_epw5o")]
+position = Vector2(176, 104)
+
+[node name="Goriya3" parent="." unique_id=1480790389 instance=ExtResource("7_epw5o")]
+position = Vector2(160, 40)

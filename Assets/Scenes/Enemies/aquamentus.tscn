@@ -51,7 +51,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="Shape_body"]
-size = Vector2(16, 16)
+size = Vector2(16, 11.5)
 
 [sub_resource type="RectangleShape2D" id="Shape_hurt"]
 size = Vector2(22, 31)
@@ -73,7 +73,7 @@ sprite_frames = SubResource("SpriteFrames_main")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=340041855]
-position = Vector2(0, 4)
+position = Vector2(0, 8)
 shape = SubResource("Shape_body")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=827731963]

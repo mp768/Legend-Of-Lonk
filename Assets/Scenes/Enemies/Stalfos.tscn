@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="10_c10ds"]
 [ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="11_6rhn8"]
 [ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="12_hlth1"]
-[ext_resource type="Resource" path="res://Assets/Resources/Drops/common_drops.tres" id="13_drops"]
+[ext_resource type="Resource" uid="uid://csyqrdua0jgyx" path="res://Assets/Resources/Drops/common_drops.tres" id="13_drops"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lsp3l"]
 atlas = ExtResource("2_bfri6")
@@ -44,12 +44,12 @@ size = Vector2(14, 15)
 collision_layer = 0
 collision_mask = 161
 script = ExtResource("1_bfri6")
+Drops = ExtResource("13_drops")
 StateMachine = NodePath("PushdownStateMachine")
 Visuals = NodePath("SpritePresenter")
 Health = NodePath("Health")
 hitbox = NodePath("Hitbox")
 Team = 1
-Drops = ExtResource("13_drops")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=350409925]
 position = Vector2(0, -2)
@@ -92,13 +92,12 @@ metadata/_custom_type_script = "uid://olo2qg05lfux"
 
 [node name="StunState" type="Node" parent="PushdownStateMachine" unique_id=475712131]
 script = ExtResource("8_c10ds")
-Duration = 0.25
-PoseAnimation = "walk"
 metadata/_custom_type_script = "uid://b05gbd8um177f"
 
 [node name="SpritePresenter" type="Node" parent="." unique_id=1452426253 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("9_6rhn8")
 Sprite = NodePath("../AnimatedSprite2D")
+SpriteOffset = Vector2i(0, 2)
 WalkHorizontal = "walk"
 WalkDown = "walk"
 WalkUp = "walk"

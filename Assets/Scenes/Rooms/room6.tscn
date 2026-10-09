@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_2kbtj"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_6pdu8"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_2kbtj"]
-[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="gen1_Stalf"]
-[ext_resource type="Resource" path="res://Assets/Resources/Drops/key_drop.tres" id="gen2_key_d"]
+[ext_resource type="PackedScene" uid="uid://ognfmr8q7or8" path="res://Assets/Scenes/Enemies/keese.tscn" id="4_wanln"]
+[ext_resource type="PackedScene" uid="uid://br68mdlbiw14e" path="res://Assets/Scenes/Shutter Doors/Shutter Right.tscn" id="5_mvw1r"]
+[ext_resource type="PackedScene" uid="uid://bqn83m3s5fhrs" path="res://Assets/Scenes/Locked Doors/Door Locked Up.tscn" id="6_ssigs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hiut0"]
 texture = ExtResource("1_6pdu8")
@@ -1838,6 +1839,7 @@ size = Vector2(16, 16)
 
 [node name="room6" type="Node2D" unique_id=1340123061]
 script = ExtResource("1_2kbtj")
+LockUntilCleared = true
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
 
 [node name="GroundLayer" type="TileMapLayer" parent="." unique_id=919712478]
@@ -1892,15 +1894,25 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_6pdu8")
 
-[node name="Stalfos1" parent="." instance=ExtResource("gen1_Stalf")]
-position = Vector2(88, 104)
-Drops = ExtResource("gen2_key_d")
+[node name="Keese" parent="." unique_id=995411891 instance=ExtResource("4_wanln")]
+position = Vector2(168, 40)
 
-[node name="Stalfos2" parent="." instance=ExtResource("gen1_Stalf")]
-position = Vector2(152, 80)
+[node name="Keese2" parent="." unique_id=407081573 instance=ExtResource("4_wanln")]
+position = Vector2(168, 128)
 
-[node name="Stalfos3" parent="." instance=ExtResource("gen1_Stalf")]
-position = Vector2(96, 72)
+[node name="Keese3" parent="." unique_id=730743559 instance=ExtResource("4_wanln")]
+position = Vector2(88, 96)
 
-[node name="Stalfos4" parent="." instance=ExtResource("gen1_Stalf")]
-position = Vector2(160, 96)
+[node name="Keese4" parent="." unique_id=2086494272 instance=ExtResource("4_wanln")]
+position = Vector2(88, 64)
+
+[node name="Keese5" parent="." unique_id=2127792446 instance=ExtResource("4_wanln")]
+position = Vector2(56, 120)
+
+[node name="Keese6" parent="." unique_id=351745340 instance=ExtResource("4_wanln")]
+position = Vector2(40, 88)
+
+[node name="ShutterRight" parent="." unique_id=1532566535 instance=ExtResource("5_mvw1r")]
+
+[node name="DoorLockedUp" parent="." unique_id=578636461 instance=ExtResource("6_ssigs")]
+position = Vector2(128, 24)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_q3ghi"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_wt318"]
+[ext_resource type="PackedScene" uid="uid://ognfmr8q7or8" path="res://Assets/Scenes/Enemies/keese.tscn" id="5_pcgvl"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="gen1_Room"]
 [ext_resource type="PackedScene" uid="uid://cwsevf4soapkc" path="res://Assets/Scenes/Collectibles/bow.tscn" id="gen2_bow"]
 
@@ -896,4 +897,16 @@ position = Vector2(0, 5)
 shape = SubResource("Shape_ladder_right")
 
 [node name="Bow" parent="." unique_id=826361164 instance=ExtResource("gen2_bow")]
-position = Vector2(208, 72)
+position = Vector2(128, 72)
+
+[node name="Keese" parent="." unique_id=995411891 instance=ExtResource("5_pcgvl")]
+position = Vector2(40, 88)
+
+[node name="Keese2" parent="." unique_id=1510023177 instance=ExtResource("5_pcgvl")]
+position = Vector2(72, 88)
+
+[node name="Keese3" parent="." unique_id=560534097 instance=ExtResource("5_pcgvl")]
+position = Vector2(168, 88)
+
+[node name="Keese4" parent="." unique_id=157439588 instance=ExtResource("5_pcgvl")]
+position = Vector2(216, 88)

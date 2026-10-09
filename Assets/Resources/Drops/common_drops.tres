@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bs1pibh7ki74o" path="res://Assets/Scripts/DropEntry.cs" id="2_entry"]
 [ext_resource type="PackedScene" uid="uid://b26vitb6rc1eu" path="res://Assets/Scenes/Collectibles/rupee.tscn" id="3_rupee"]
 [ext_resource type="PackedScene" uid="uid://cwscvihu18f6c" path="res://Assets/Scenes/Collectibles/regen.tscn" id="4_heart"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Collectibles/bomb.tscn" id="5_bomb"]
+[ext_resource type="PackedScene" uid="uid://cwlvkhwlli3cr" path="res://Assets/Scenes/Collectibles/bomb.tscn" id="5_bomb"]
 
 [sub_resource type="Resource" id="Entry_rupee"]
 script = ExtResource("2_entry")

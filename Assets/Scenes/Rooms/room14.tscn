@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_0e86f"]
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_g24yh"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_0e86f"]
-[ext_resource type="PackedScene" uid="uid://bvllk0snvqw8n" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="gen1_blade"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Enemies/keese.tscn" id="gen2_keese"]
+[ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="2_y75ok"]
+[ext_resource type="Script" uid="uid://cvn47dikv7y0y" path="res://Assets/Scripts/WallmasterSpawner.cs" id="5_n4e64"]
+[ext_resource type="PackedScene" uid="uid://cdkvg6t8qvfkf" path="res://Assets/Scenes/Enemies/wallmaster.tscn" id="6_n4e64"]
+[ext_resource type="PackedScene" uid="uid://bqn83m3s5fhrs" path="res://Assets/Scenes/Locked Doors/Door Locked Up.tscn" id="7_6bca4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yhoe2"]
 texture = ExtResource("1_g24yh")
@@ -1836,8 +1838,10 @@ sources/1 = SubResource("TileSetAtlasSource_0e86f")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yhoe2"]
 size = Vector2(16, 16)
 
-[node name="room14" type="Node2D" unique_id=1473869900]
+[node name="room14" type="Node2D" unique_id=1473869900 node_paths=PackedStringArray("RewardSpawn")]
 script = ExtResource("1_0e86f")
+ClearReward = ExtResource("2_y75ok")
+RewardSpawn = NodePath("KeySpawnPoint")
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
 
 [node name="GroundLayer" type="TileMapLayer" parent="." unique_id=310742558]
@@ -1892,23 +1896,14 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_yhoe2")
 
-[node name="BladeTrap1" parent="." unique_id=1848558922 instance=ExtResource("gen1_blade")]
-position = Vector2(40, 40)
+[node name="KeySpawnPoint" type="Marker2D" parent="." unique_id=1152327529]
+position = Vector2(168, 136)
 
-[node name="BladeTrap2" parent="." unique_id=568263830 instance=ExtResource("gen1_blade")]
-position = Vector2(216, 40)
+[node name="WallmasterSpawner2" type="Node2D" parent="." unique_id=1751315285]
+script = ExtResource("5_n4e64")
+WallmasterScene = ExtResource("6_n4e64")
+MaxAlive = 8
+AlongDistance = 48.0
 
-[node name="BladeTrap3" parent="." unique_id=447823091 instance=ExtResource("gen1_blade")]
-position = Vector2(40, 136)
-
-[node name="BladeTrap4" parent="." unique_id=94114813 instance=ExtResource("gen1_blade")]
-position = Vector2(216, 136)
-
-[node name="Keese1" parent="." unique_id=1377523087 instance=ExtResource("gen2_keese")]
-position = Vector2(192, 72)
-
-[node name="Keese2" parent="." unique_id=404223605 instance=ExtResource("gen2_keese")]
-position = Vector2(72, 120)
-
-[node name="Keese3" parent="." unique_id=1261980059 instance=ExtResource("gen2_keese")]
-position = Vector2(104, 80)
+[node name="DoorLockedUp" parent="." unique_id=578636461 instance=ExtResource("7_6bca4")]
+position = Vector2(128, 24)
