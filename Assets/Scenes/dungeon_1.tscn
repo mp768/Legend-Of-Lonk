@@ -105,7 +105,7 @@ rightRoom = NodePath("../room12")
 
 [node name="PushableBlock" parent="room13" unique_id=234639994 instance=ExtResource("20_block")]
 position = Vector2(104, 88)
-AllowedDirection = Vector2(0, 1)
+AllowedDirection = Vector2(0, -1)
 
 [node name="StairsWarp" parent="room13" unique_id=1360697629 node_paths=PackedStringArray("Destination", "Arrival") instance=ExtResource("21_stairs")]
 position = Vector2(136, 88)
@@ -142,7 +142,6 @@ rightRoom = NodePath("../room8")
 
 [node name="roomBasement" parent="." unique_id=391949384 instance=ExtResource("18_5arw8")]
 position = Vector2(-656, -968)
-View = 0
 
 [node name="ArrivalFromStairs" type="Marker2D" parent="roomBasement" unique_id=218392585]
 position = Vector2(56, 24)

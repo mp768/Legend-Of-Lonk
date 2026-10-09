@@ -46,7 +46,7 @@ public partial class RoomManager : Node
         GameSignals.Instance.PlayerGrabbed -= OnPlayerGrabbed;
     }
 
-    private async void OnRoomExitEntered(Room destination, Node2D traveller, Vector2 direction)
+    private async void OnRoomExitEntered(Room destination, Node2D traveler, Vector2 direction)
     {
         // A room can list itself as a neighbour to block an exit.
         if (IsTransitioning || destination == null || destination == CurrentRoom)
@@ -63,22 +63,22 @@ public partial class RoomManager : Node
         Vector2 halfRoom = Constants.SCREEN_SIZE / 2;
         Vector2 cameraStart = MainCamera.GlobalPosition;
         Vector2 cameraTarget = destination.Center;
-        Vector2 travellerStart = traveller.GlobalPosition;
-        Vector2 travellerTarget = destination.Center - direction * (halfRoom - Vector2.One * Constants.ROOM_ENTRY_INSET);
+        Vector2 travelerStart = traveler.GlobalPosition;
+        Vector2 travelerTarget = destination.Center - direction * (halfRoom - Vector2.One * Constants.ROOM_ENTRY_INSET);
 
-        // The camera moves a whole number of pixels per step, and the traveller keeps pace with it.
+        // The camera moves a whole number of pixels per step, and the traveler keeps pace with it.
         int stepCount = Mathf.Max(1, Mathf.CeilToInt(cameraStart.DistanceTo(cameraTarget) / PixelsPerStep));
         for (int step = 1; step <= stepCount; step++)
         {
             MainCamera.GlobalPosition = cameraStart.MoveToward(cameraTarget, step * PixelsPerStep);
-            traveller.GlobalPosition = travellerStart.Lerp(travellerTarget, (float)step / stepCount);
+            traveler.GlobalPosition = travelerStart.Lerp(travelerTarget, (float)step / stepCount);
 
             for (int frame = 0; frame < FramesBetweenSteps; frame++)
             {
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
                 // The scene may have been reloaded while we were waiting.
-                if (!IsInstanceValid(this) || IsQueuedForDeletion() || !IsInsideTree() || !IsInstanceValid(traveller))
+                if (!IsInstanceValid(this) || IsQueuedForDeletion() || !IsInsideTree() || !IsInstanceValid(traveler))
                 {
                     return;
                 }
@@ -86,7 +86,7 @@ public partial class RoomManager : Node
         }
 
         MainCamera.GlobalPosition = cameraTarget;
-        traveller.GlobalPosition = travellerTarget;
+        traveler.GlobalPosition = travelerTarget;
 
         CurrentRoom.Visible = false;
         CurrentRoom = destination;
@@ -96,10 +96,10 @@ public partial class RoomManager : Node
         GameSignals.Instance.EmitSignal(GameSignals.SignalName.RoomTransitionFinished);
     }
 
-    private void OnWarpRequested(Room destination, Node2D traveller, Vector2 position)
+    private void OnWarpRequested(Room destination, Node2D traveler, Vector2 position)
     {
         // Warps are requested from inside physics callbacks, where bodies shouldn't be teleported.
-        Callable.From(() => Warp(destination, traveller, position)).CallDeferred();
+        Callable.From(() => Warp(destination, traveler, position)).CallDeferred();
     }
 
     private async void OnPlayerGrabbed(Node2D player)
@@ -114,10 +114,10 @@ public partial class RoomManager : Node
         Warp(StartingRoom, player, entrance);
     }
 
-    // A hard cut: no scrolling, the camera and traveller snap straight into the destination.
-    private void Warp(Room destination, Node2D traveller, Vector2 position)
+    // A hard cut: no scrolling, the camera and traveler snap straight into the destination.
+    private void Warp(Room destination, Node2D traveler, Vector2 position)
     {
-        if (IsTransitioning || destination == null || !IsInstanceValid(traveller))
+        if (IsTransitioning || destination == null || !IsInstanceValid(traveler))
         {
             return;
         }
@@ -130,13 +130,13 @@ public partial class RoomManager : Node
 
         CurrentRoom = destination;
         MainCamera.GlobalPosition = destination.Center;
-        traveller.GlobalPosition = position;
+        traveler.GlobalPosition = position;
         CurrentRoom.Activate();
 
         IsTransitioning = false;
         GameSignals.Instance.EmitSignal(GameSignals.SignalName.RoomTransitionFinished);
 
-        // Sent last, once the traveller is out of its transition, so it can change how it moves.
+        // Sent last, once we're done transitioning, so the traveler can change how it moves.
         GameSignals.Instance.EmitSignal(GameSignals.SignalName.RoomViewChanged, (int)destination.View);
     }
 }

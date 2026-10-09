@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_q3ghi"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_wt318"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="gen1_Room"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Collectibles/bow.tscn" id="gen2_bow"]
+[ext_resource type="PackedScene" uid="uid://cwsevf4soapkc" path="res://Assets/Scenes/Collectibles/bow.tscn" id="gen2_bow"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cq0t0"]
 texture = ExtResource("1_q3ghi")

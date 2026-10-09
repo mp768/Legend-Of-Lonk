@@ -7,7 +7,7 @@ public partial class RoomWarp : Area2D
 {
 	[Export] public Room Destination { get; set; }
 
-	// Where the traveller appears in the destination room. Keep it off the destination's own warps.
+	// Where the traveler appears in the destination room. Keep it off the destination's own warps.
 	[Export] public Marker2D Arrival { get; set; }
 
 	[Export] public bool StartsHidden { get; set; }
