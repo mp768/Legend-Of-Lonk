@@ -1,4 +1,4 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://cwk6bylfwoxxf"]
 
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="1_tiles"]
 [ext_resource type="Script" uid="uid://71kyc0j5edxp" path="res://Assets/Scripts/LockedDoor.cs" id="2_script"]
@@ -6,16 +6,16 @@
 [sub_resource type="RectangleShape2D" id="Shape_trigger"]
 size = Vector2(1, 16)
 
-[node name="DoorLockedLeft" type="TileMapLayer" node_paths=PackedStringArray("trigger")]
-tile_map_data = PackedByteArray("AAACAAoAAQArAA4AAAADAAoAAQArAA4AAAACAAsAAQArAA4AAAADAAsAAQArAA4AAAA=")
+[node name="DoorLockedLeft" type="TileMapLayer" unique_id=446660021 node_paths=PackedStringArray("trigger")]
+tile_map_data = PackedByteArray("AAACAAoAAQAgAAoAAAADAAoAAQAhAAoAAAACAAsAAQAgAAsAAAADAAsAAQAhAAsAAAACAAkAAQAhAAkAAAADAAkAAQAiAAkAAAACAAwAAQAiAAgAAAADAAwAAQAjAAgAAAA=")
 tile_set = ExtResource("1_tiles")
 script = ExtResource("2_script")
 trigger = NodePath("Trigger")
 
-[node name="Trigger" type="Area2D" parent="."]
+[node name="Trigger" type="Area2D" parent="." unique_id=1512830843]
 collision_layer = 0
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger" unique_id=987309109]
 position = Vector2(32.5, 88)
 shape = SubResource("Shape_trigger")
