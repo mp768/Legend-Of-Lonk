@@ -1,15 +1,17 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://83dpa6g4kunu"]
 
+[ext_resource type="Texture2D" uid="uid://dvbb77ry07h18" path="res://Assets/Sprites/Transparent - NES - The Legend of Zelda - Playable Characters - Link.png" id="1_7h4sn"]
 [ext_resource type="Script" uid="uid://bh3uiqovw57rk" path="res://Assets/Scripts/Weapon.cs" id="1_script"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/boomerang.tscn" id="2_scene"]
+[ext_resource type="PackedScene" uid="uid://bag4157w7hbl0" path="res://Assets/Scenes/Projectiles/boomerang.tscn" id="2_scene"]
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_icon"]
-size = Vector2(8, 8)
+[sub_resource type="AtlasTexture" id="AtlasTexture_doy8v"]
+atlas = ExtResource("1_7h4sn")
+region = Rect2(73, 189, 8, 8)
 
 [resource]
 script = ExtResource("1_script")
 Kind = 1
 DisplayName = "Boomerang"
-Icon = SubResource("Placeholder_icon")
+Icon = SubResource("AtlasTexture_doy8v")
 Scene = ExtResource("2_scene")
 AmmoCost = 0
