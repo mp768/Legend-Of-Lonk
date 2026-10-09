@@ -1,6 +1,7 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://du416pbf2fmx0"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/PushableBlock.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://sj84rwfmo3qw" path="res://Assets/Scripts/PushableBlock.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="2_otur5"]
 
 [sub_resource type="RectangleShape2D" id="Shape_block"]
 size = Vector2(14, 14)
@@ -8,23 +9,24 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="Shape_sensor"]
 size = Vector2(22, 22)
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_eoxw4"]
+atlas = ExtResource("2_otur5")
+region = Rect2(320, 80, 16, 16)
 
-[node name="PushableBlock" type="AnimatableBody2D" node_paths=PackedStringArray("pushSensor")]
+[node name="PushableBlock" type="AnimatableBody2D" unique_id=146703282 node_paths=PackedStringArray("pushSensor")]
 collision_mask = 33
 script = ExtResource("1_script")
 pushSensor = NodePath("PushSensor")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1007802087]
 shape = SubResource("Shape_block")
 
-[node name="PushSensor" type="Area2D" parent="."]
+[node name="PushSensor" type="Area2D" parent="." unique_id=203304058]
 collision_layer = 0
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PushSensor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PushSensor" unique_id=715317258]
 shape = SubResource("Shape_sensor")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1109269462]
+texture = SubResource("AtlasTexture_eoxw4")

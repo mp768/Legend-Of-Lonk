@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://bvmsjjxqi5yke" path="res://Assets/Scripts/UIDisplay.cs" id="1_3vdnv"]
 [ext_resource type="PackedScene" uid="uid://b2namakqqiiyq" path="res://Assets/Scenes/dungeon_1.tscn" id="1_uxxti"]
 [ext_resource type="LabelSettings" uid="uid://b674rl2mxsv56" path="res://Assets/Resources/label_settings.tres" id="2_yt2ny"]
-[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bow.tres" id="3_bow"]
-[ext_resource type="Resource" path="res://Assets/Resources/Weapons/boomerang.tres" id="4_boomr"]
-[ext_resource type="Resource" path="res://Assets/Resources/Weapons/bomb.tres" id="5_bomb"]
-[ext_resource type="Script" path="res://Assets/Scripts/DialogueBox.cs" id="6_dlg"]
+[ext_resource type="Resource" uid="uid://cr4qoyw7wso32" path="res://Assets/Resources/Weapons/bow.tres" id="3_bow"]
+[ext_resource type="Resource" uid="uid://83dpa6g4kunu" path="res://Assets/Resources/Weapons/boomerang.tres" id="4_boomr"]
+[ext_resource type="Resource" uid="uid://82aotq86485w" path="res://Assets/Resources/Weapons/bomb.tres" id="5_bomb"]
+[ext_resource type="Script" uid="uid://tflb3vocrewi" path="res://Assets/Scripts/DialogueBox.cs" id="6_dlg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dialogue"]
 font_size = 36
@@ -113,8 +113,8 @@ render_target_update_mode = 4
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 330.0
-offset_bottom = 400.0
+offset_top = 472.0
+offset_bottom = 542.0
 grow_horizontal = 2
 label_settings = SubResource("LabelSettings_dialogue")
 horizontal_alignment = 1
