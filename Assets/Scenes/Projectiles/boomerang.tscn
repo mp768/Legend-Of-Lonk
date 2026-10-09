@@ -1,26 +1,87 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bag4157w7hbl0"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/BoomerangProjectile.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://bfcy8i01ql3e7" path="res://Assets/Scripts/BoomerangProjectile.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b8pgyhmywft8j" path="res://Assets/Sprites/Boomerang.png" id="2_3c7je"]
+[ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="3_1bva5"]
 
 [sub_resource type="RectangleShape2D" id="Shape_main"]
 size = Vector2(8, 8)
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(8, 8)
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bva5"]
+atlas = ExtResource("2_3c7je")
+region = Rect2(0, 0, 8, 8)
 
-[node name="Boomerang" type="Area2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dobtr"]
+atlas = ExtResource("2_3c7je")
+region = Rect2(9, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_keb15"]
+atlas = ExtResource("2_3c7je")
+region = Rect2(18, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4dp8"]
+atlas = ExtResource("2_3c7je")
+region = Rect2(26, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi1t3"]
+atlas = ExtResource("2_3c7je")
+region = Rect2(36, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vrty"]
+atlas = ExtResource("2_3c7je")
+region = Rect2(46, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mrrlb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1bva5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dobtr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_keb15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4dp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oi1t3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vrty")
+}],
+"loop": 1,
+"name": &"boomerang",
+"speed": 5.0
+}]
+
+[node name="Boomerang" type="Area2D" unique_id=1613143412]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_script")
-Type = 4
-Value = 15
 Speed = 150.0
 DestroyOnHit = false
 RotateToDirection = false
 FreeWhenOffScreen = false
+Type = 4
+Value = 15
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=495183444]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=502755949]
+sprite_frames = SubResource("SpriteFrames_mrrlb")
+animation = &"boomerang"
+
+[node name="SpritePresenter" type="Node" parent="." unique_id=1189728073 node_paths=PackedStringArray("Sprite")]
+script = ExtResource("3_1bva5")
+Sprite = NodePath("../AnimatedSprite2D")
+SpriteOffset = Vector2i(0, 0)
+AutoAdvanceAnimation = true
+WalkHorizontal = "boomerang"
+WalkDown = "boomerang"
+WalkUp = "boomerang"
+WalkStepFrequency = 18
+metadata/_custom_type_script = "uid://dalxbpepkragd"

@@ -19,6 +19,9 @@ public partial class SpritePresenter : Node
     // Where the sprite sits relative to the entity's origin when no pose overrides it.
     [Export] public Vector2I SpriteOffset { get; set; } = new(0, -2);
 
+    // Allows a SpritePresenter to run on its own.
+    [Export] public bool AutoAdvanceAnimation { get; set; } = false;
+
     [ExportGroup("Walk Animation")]
     [Export] public string WalkHorizontal { get; set; } = "walk_horizontal";
     [Export] public string WalkDown { get; set; } = "walk_down";
@@ -45,6 +48,7 @@ public partial class SpritePresenter : Node
 
     public override void _Process(double delta)
     {
+        if (AutoAdvanceAnimation) StepWalk(Vector2.Up);
         SnapToPixelGrid();
     }
 
