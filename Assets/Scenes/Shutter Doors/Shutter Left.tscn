@@ -1,10 +1,10 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://dqxr3nkr0s2pn"]
 
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="1_tiles"]
-[ext_resource type="Script" path="res://Assets/Scripts/ShutterDoor.cs" id="2_script"]
+[ext_resource type="Script" uid="uid://ct83aof83qkga" path="res://Assets/Scripts/ShutterDoor.cs" id="2_script"]
 
-[node name="ShutterLeft" type="TileMapLayer"]
-tile_map_data = PackedByteArray("AAACAAoAAQArAA4AAAADAAoAAQArAA4AAAACAAsAAQArAA4AAAADAAsAAQArAA4AAAA=")
+[node name="ShutterLeft" type="TileMapLayer" unique_id=10706755]
+tile_map_data = PackedByteArray("AAACAAoAAQAmAAoAAAADAAoAAQAnAAoAAAACAAsAAQAmAAsAAAADAAsAAQAnAAsAAAACAAwAAQAiAAgAAAADAAwAAQAjAAgAAAACAAkAAQAhAAkAAAADAAkAAQAiAAkAAAA=")
 tile_set = ExtResource("1_tiles")
 script = ExtResource("2_script")
 StartsOpen = true
