@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dwbn42562p6ma"]
 
-[ext_resource type="Script" path="res://Assets/Scripts/RoomWarp.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://dsol2ir606dhc" path="res://Assets/Scripts/RoomWarp.cs" id="1_script"]
 
 [sub_resource type="RectangleShape2D" id="Shape_main"]
 size = Vector2(10, 10)
@@ -8,14 +8,15 @@ size = Vector2(10, 10)
 [sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
 size = Vector2(16, 16)
 
-[node name="Stairs" type="Area2D"]
+[node name="Stairs" type="Area2D" unique_id=1023097437]
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2108537297]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1905162963]
+visible = false
 modulate = Color(0.35, 0.35, 0.35, 1)
 texture = SubResource("Placeholder_main")
