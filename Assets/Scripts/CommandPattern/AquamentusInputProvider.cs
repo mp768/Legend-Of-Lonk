@@ -1,9 +1,9 @@
 using Godot;
 
 // Paces back and forth along one axis within a range of where it started, and fires its alternate weapon
-// at a fixed interval. Used by Aquamentus.
+// at a fixed interval.
 [GlobalClass]
-public partial class BossInputProvider : Node, IInputProvider
+public partial class AquamentusInputProvider : Node, IInputProvider
 {
     // The node whose position is paced, normally the entity itself.
     [Export] private Node2D body;

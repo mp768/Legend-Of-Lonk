@@ -1,23 +1,17 @@
 using Godot;
 
-// A block the player character can shove one tile by walking into it for a moment. It moves once, then
-// stays put. Connect Pushed to whatever it unlocks, like a DoorTrigger or a hidden RoomWarp's Reveal.
-// It reads the pusher's MoveIntent rather than Input, so it works for any controller.
 [GlobalClass]
 public partial class PushableBlock : AnimatableBody2D
 {
 	[Signal]
 	public delegate void PushedEventHandler();
 
-	// Overlaps whoever is pressed against the block. Make it slightly larger than the block.
 	[Export] private Area2D pushSensor;
 
-	// How long the block must be pushed before it moves.
 	[Export] public float PushDelay { get; set; } = 0.5f;
 
 	[Export] public float SlideDuration { get; set; } = 0.25f;
 
-	// Restricts pushing to one direction. Zero allows any cardinal direction.
 	[Export] public Vector2 AllowedDirection { get; set; } = Vector2.Zero;
 
 	private float pushTime;
@@ -69,7 +63,7 @@ public partial class PushableBlock : AnimatableBody2D
 				continue;
 			}
 
-			// The pusher must be walking toward the block and actually pressed against it.
+			// Makes it so the pusher has to be walking toward the block and actually pressed against it.
 			Vector2 toBlock = (GlobalPosition - pusher.GlobalPosition).Normalized();
 			if (intent.Dot(toBlock) > 0.7f && pusher.TestMove(pusher.GlobalTransform, intent))
 			{

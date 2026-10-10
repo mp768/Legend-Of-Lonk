@@ -4,8 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_p4b56"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_at6ja"]
 [ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="2_cp4x4"]
-[ext_resource type="PackedScene" uid="uid://cyx386b5pja1c" path="res://Assets/Scenes/Locked Doors/Door Locked Down.tscn" id="5_rnu3t"]
-[ext_resource type="PackedScene" uid="uid://cwk6bylfwoxxf" path="res://Assets/Scenes/Locked Doors/Door Locked Left.tscn" id="6_4na5u"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Locked Doors/Door Locked Left.tscn" id="6_4na5u"]
 [ext_resource type="PackedScene" uid="uid://cto2e8dv8epjn" path="res://Assets/Scenes/Enemies/goriya.tscn" id="7_epw5o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ohjbq"]
@@ -1922,8 +1921,6 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=1141831530]
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_ohjbq")
-
-[node name="DoorLockedDown" parent="." unique_id=864091509 instance=ExtResource("5_rnu3t")]
 
 [node name="DoorLockedLeft" parent="." unique_id=446660021 instance=ExtResource("6_4na5u")]
 

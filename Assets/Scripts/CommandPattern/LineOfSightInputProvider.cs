@@ -1,7 +1,6 @@
 using Godot;
 
-// Watches along its row and column for the player character's hurtbox and lunges at it when spotted.
-// Walls block its view. Used by blade traps.
+// Blade trap Movement.
 [GlobalClass]
 public partial class LineOfSightInputProvider : Node, IInputProvider
 {

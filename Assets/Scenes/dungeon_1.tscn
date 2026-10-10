@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b2namakqqiiyq"]
 
 [ext_resource type="Script" uid="uid://bwfh00ukyrwar" path="res://Assets/Scripts/RoomManager.cs" id="1_xx0cq"]
+[ext_resource type="AudioStream" uid="uid://btehdvsul5e1b" path="res://Assets/Sounds/03_-_Legend_of_Zelda_-_NES_-_Underworld_BGM.ogg" id="2_02wtx"]
 [ext_resource type="PackedScene" uid="uid://tq2waqkyfdur" path="res://Assets/Scenes/Rooms/room9.tscn" id="2_jjseg"]
 [ext_resource type="PackedScene" uid="uid://177g2l4b2c6d" path="res://Assets/Scenes/Rooms/room1.tscn" id="2_kk4t4"]
 [ext_resource type="PackedScene" uid="uid://xp5qhciii4y8" path="res://Assets/Scenes/Rooms/room2.tscn" id="3_tabvt"]
@@ -31,6 +32,7 @@ size = Vector2(16, 8)
 script = ExtResource("1_xx0cq")
 MainCamera = NodePath("Camera2D")
 StartingRoom = NodePath("room1")
+Music = ExtResource("2_02wtx")
 metadata/_custom_type_script = "uid://bwfh00ukyrwar"
 
 [node name="room1" parent="." unique_id=753680689 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("2_kk4t4")]
@@ -39,9 +41,6 @@ leftRoom = NodePath("../room2")
 rightRoom = NodePath("../room3")
 upRoom = NodePath("../room4")
 downRoom = NodePath(".")
-
-[node name="DoorLockedUp" parent="room1" index="4" unique_id=578636461 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room4/DoorLockedDown")
 
 [node name="EntrancePoint" type="Marker2D" parent="room1" unique_id=1689484954]
 position = Vector2(128, 136)
@@ -58,9 +57,6 @@ leftRoom = NodePath("../room1")
 position = Vector2(-128, -264)
 upRoom = NodePath("../room5")
 downRoom = NodePath("../room1")
-
-[node name="DoorLockedDown" parent="room4" index="11" unique_id=864091509 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room1/DoorLockedUp")
 
 [node name="room5" parent="." unique_id=671090097 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("6_xx0cq")]
 position = Vector2(-128, -440)
@@ -106,26 +102,14 @@ position = Vector2(-128, -792)
 upRoom = NodePath("../room12")
 downRoom = NodePath("../room10")
 
-[node name="DoorLockedUp" parent="room11" index="11" unique_id=578636461 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room12/DoorLockedDown")
-
 [node name="room12" parent="." unique_id=1910418955 node_paths=PackedStringArray("leftRoom", "downRoom") instance=ExtResource("11_hqyhv")]
 position = Vector2(-128, -968)
 leftRoom = NodePath("../room13")
 downRoom = NodePath("../room11")
 
-[node name="DoorLockedDown" parent="room12" index="8" unique_id=864091509 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room11/DoorLockedUp")
-
-[node name="DoorLockedLeft" parent="room12" index="9" unique_id=446660021 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room13/DoorLockedRight")
-
 [node name="room13" parent="." unique_id=435775721 node_paths=PackedStringArray("rightRoom") instance=ExtResource("12_q3qt3")]
 position = Vector2(-384, -968)
 rightRoom = NodePath("../room12")
-
-[node name="DoorLockedRight" parent="room13" index="12" unique_id=468136052 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room12/DoorLockedLeft")
 
 [node name="PushableBlock" parent="room13" unique_id=234639994 instance=ExtResource("20_block")]
 position = Vector2(104, 88)
@@ -153,16 +137,10 @@ position = Vector2(384, -616)
 leftRoom = NodePath("../room14")
 upRoom = NodePath("../room16")
 
-[node name="DoorLockedUp" parent="room15" index="10" unique_id=578636461 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room16/DoorLockedDown")
-
 [node name="room16" parent="." unique_id=1965363454 node_paths=PackedStringArray("rightRoom", "downRoom") instance=ExtResource("15_0sj4n")]
 position = Vector2(384, -792)
 rightRoom = NodePath("../room17")
 downRoom = NodePath("../room15")
-
-[node name="DoorLockedDown" parent="room16" index="8" unique_id=864091509 node_paths=PackedStringArray("otherSideDoor")]
-otherSideDoor = NodePath("../../room15/DoorLockedUp")
 
 [node name="room17" parent="." unique_id=1611217033 node_paths=PackedStringArray("leftRoom") instance=ExtResource("16_vhkvk")]
 position = Vector2(640, -792)
@@ -194,14 +172,7 @@ position = Vector2(0, -9)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=392307620]
 
-[editable path="room1"]
-[editable path="room4"]
 [editable path="room6"]
 [editable path="room8"]
 [editable path="room10"]
-[editable path="room11"]
-[editable path="room12"]
-[editable path="room13"]
 [editable path="room14"]
-[editable path="room15"]
-[editable path="room16"]
