@@ -226,6 +226,7 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
+HitSound = 2
 metadata/_custom_type_script = "uid://bp31qibi82v65"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordLeft" unique_id=1795324260]
@@ -237,6 +238,7 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
+HitSound = 2
 metadata/_custom_type_script = "uid://bp31qibi82v65"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordRight" unique_id=1341199181]
@@ -248,6 +250,7 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
+HitSound = 2
 metadata/_custom_type_script = "uid://bp31qibi82v65"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordUp" unique_id=1899777721]
@@ -259,6 +262,7 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_lunqy")
 Value = 1
+HitSound = 2
 metadata/_custom_type_script = "uid://bp31qibi82v65"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordDown" unique_id=567352282]

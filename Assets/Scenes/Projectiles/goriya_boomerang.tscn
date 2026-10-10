@@ -67,6 +67,7 @@ Speed = 120.0
 DestroyOnHit = false
 RotateToDirection = false
 FreeWhenOffScreen = false
+LaunchSound = 5
 Value = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=391601959]

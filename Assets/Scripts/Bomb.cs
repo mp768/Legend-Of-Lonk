@@ -43,6 +43,8 @@ public partial class Bomb : Projectile
 
     private void Explode()
     {
+        SoundPlayer.Instance.PlayAttack(SoundPlayer.AttackSound.EXPLOSION);
+
         SetDeferred(Area2D.PropertyName.Monitorable, true);
         SetDeferred(Area2D.PropertyName.Monitoring, true);
 

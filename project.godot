@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameSignals="*uid://bs3xi6s8g58ro"
 GameState="*uid://bciwytr8i4r2c"
+SoundPlayer="*uid://bxrupxcywdqpc"
 
 [display]
 

@@ -29,6 +29,9 @@ public partial class Affectables : Area2D
     [Export] public EffectType Type { get; set; }
     [Export] public int Value { get; set; }
 
+    // The clip a receiver plays when it accepts this effect, e.g. a sword connecting.
+    [Export] public SoundPlayer.AttackSound HitSound { get; set; }
+
     // Optional knockback direction for the receiver, e.g. the way a sword is swinging.
     public Vector2? Direction { get; set; }
 

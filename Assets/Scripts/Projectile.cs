@@ -16,9 +16,13 @@ public partial class Projectile : Affectables
     [Export] public bool RotateToDirection { get; set; } = true;
     [Export] public bool FreeWhenOffScreen { get; set; } = true;
 
+    // Played once, when the projectile enters the tree, and cut short if the projectile is gone before it ends.
+    [Export] public SoundPlayer.AttackSound LaunchSound { get; set; }
+
     public Entity Shooter { get; private set; }
 
     private float age;
+    private long launchSoundHandle;
 
     // Places a new projectile in front of `shooter` and launches it. It's added under the shooter's
     // parent, so enemy projectiles live in (and pause with) their room.
@@ -65,11 +69,14 @@ public partial class Projectile : Affectables
             notifier.ScreenExited += Destroy;
             AddChild(notifier);
         }
+
+        launchSoundHandle = SoundPlayer.Instance.StartAttack(LaunchSound);
     }
 
     public override void _ExitTree()
     {
         GameSignals.Instance.RoomTransitionStarted -= OnRoomTransitionStarted;
+        SoundPlayer.Instance.Stop(launchSoundHandle);
     }
 
     public override void _PhysicsProcess(double delta)

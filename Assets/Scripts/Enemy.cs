@@ -22,6 +22,9 @@ public partial class Enemy : Entity, IResettableEntity
 	// master, as most only need to appear upon room enter.
 	[Export] public bool VisibleOnCreation { get; set; } = false;
 
+	[Export] public SoundPlayer.HurtSound HurtSound { get; set; } = SoundPlayer.HurtSound.ENEMY;
+	[Export] public SoundPlayer.DeathSound DeathSound { get; set; } = SoundPlayer.DeathSound.ENEMY;
+
 	private Vector2 spawnPosition;
 
 	public override void _Ready()
@@ -29,6 +32,9 @@ public partial class Enemy : Entity, IResettableEntity
 		base._Ready();
 		AddToGroup(Constants.ENEMY_GROUP);
 		spawnPosition = GlobalPosition;
+
+		hurtSound = HurtSound;
+		deathSound = DeathSound;
 
 		Visible = VisibleOnCreation;
 	}

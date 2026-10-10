@@ -27,8 +27,37 @@ public static class Constants
 
     // Various sound effects that are common to specific objects (and do not need to be selected via the editor).
     public const string DOOR_OPEN_SOUND_EFFECT_UID = "uid://b38b8h3yi0vai";
-    
 
+    public const string PLAYER_HURT_SOUND_EFFECT_UID = "uid://catk5hjqs0v65";
+    public const string ENEMY_HURT_SOUND_EFFECT_UID = "uid://c05raosmw2dnv";
+    public const string BOSS_HURT_SOUND_EFFECT_UID = "uid://dxxnd3rch7rh4";
+
+    public const string PLAYER_DEATH_SOUND_EFFECT_UID = "uid://pwn6ewt8tkcq";
+    public const string ENEMY_DEATH_SOUND_EFFECT_UID = "uid://c4fs2n12cl1i0";
+    public const string BOSS_DEATH_SOUND_EFFECT_UID = "uid://cs4cr3i3bbifs";
+
+    public const string SWORD_SWING_SOUND_EFFECT_UID = "uid://d3is5f1y6eou5";
+    public const string SWORD_HIT_SOUND_EFFECT_UID = "uid://bbr43rjdswfkn";
+    public const string SWORD_BEAM_SOUND_EFFECT_UID = "uid://bmwl4w38e58tj";
+    public const string BOOMERANG_SOUND_EFFECT_UID = "uid://dqh28p3fu16tp";
+    // The arrow shares the boomerang's clip, as on the NES.
+    public const string ARROW_SOUND_EFFECT_UID = BOOMERANG_SOUND_EFFECT_UID;
+    public const string BOMB_PLACE_SOUND_EFFECT_UID = "uid://dn45koihfo77i";
+    public const string EXPLOSION_SOUND_EFFECT_UID = "uid://blxvdarunphbc";
+    public const string FIREBALL_SOUND_EFFECT_UID = "uid://cu6vdft8ajtwb";
+
+    public const string RUPEE_COLLECT_SOUND_EFFECT_UID = "uid://dbwo67s5xn5sf";
+    public const string KEY_COLLECT_SOUND_EFFECT_UID = "uid://cwsejud2b50od";
+    public const string REGEN_COLLECT_SOUND_EFFECT_UID = "uid://c8v0mnw0a2l4u";
+    public const string ITEM_COLLECT_SOUND_EFFECT_UID = "uid://bhwaggx7ngk7f";
+    public const string HEART_CONTAINER_COLLECT_SOUND_EFFECT_UID = "uid://ognnflc2hq1j";
+
+    // Audio buses, matching the bus names in the Audio tab.
+    public const string SFX_BUS = "SFX";
+    public const string MUSIC_BUS = "Music";
+
+    // The raw clips are much louder than the game should be, so every common sound effect is turned down by this.
+    public const float SOUND_EFFECT_VOLUME_DB = -12f;
 
     // Collision layer bits, matching the layer names in Project Settings.
     public const uint WALLS_LAYER = 1 << 0;

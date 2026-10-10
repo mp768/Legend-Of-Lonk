@@ -22,6 +22,10 @@ public abstract partial class Entity : CharacterBody2D
     // objects like pushable blocks read it.
     public Vector2 MoveIntent { get; set; }
 
+    // Which clips this entity's damage plays.
+    protected SoundPlayer.HurtSound hurtSound = SoundPlayer.HurtSound.ENEMY;
+    protected SoundPlayer.DeathSound deathSound = SoundPlayer.DeathSound.ENEMY;
+
     private readonly List<IInputProvider> inputProviders = [];
 
     public override void _Ready()
@@ -114,11 +118,19 @@ public abstract partial class Entity : CharacterBody2D
 
     protected void TakeDamage(int amount, Vector2 knockbackDirection)
     {
-        if (Health == null || !Health.TakeDamage(amount) || Health.IsDepleted)
+        if (Health == null || !Health.TakeDamage(amount))
         {
             return;
         }
 
+        // Die has already run by now, via Health.Depleted.
+        if (Health.IsDepleted)
+        {
+            SoundPlayer.Instance.PlayDeath(deathSound);
+            return;
+        }
+
+        SoundPlayer.Instance.PlayHurt(hurtSound);
         Visuals?.Flash(Health.InvincibilityDuration);
         new StunCommand(knockbackDirection).Execute(this, StateMachine);
     }
@@ -127,6 +139,7 @@ public abstract partial class Entity : CharacterBody2D
     {
         if (area is Affectables effect && effect.TryConsume())
         {
+            SoundPlayer.Instance.PlayAttack(effect.HitSound);
             ApplyEffect(effect);
         }
     }

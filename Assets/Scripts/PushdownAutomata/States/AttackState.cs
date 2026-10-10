@@ -29,6 +29,9 @@ public partial class AttackState : State
 
 	[Export] public float Duration { get; set; } = 0.5f;
 
+	// Played once when a sword attack starts.
+	[Export] public SoundPlayer.AttackSound SwingSound { get; set; } = SoundPlayer.AttackSound.SWORD_SWING;
+
 	[ExportGroup("Sword Beam")]
 	// Fired on a sword swing while health is full. Leave empty for no beam.
 	[Export] public PackedScene BeamScene { get; set; }
@@ -74,6 +77,8 @@ public partial class AttackState : State
 
 		if (kind == AttackKind.SWORD)
 		{
+			// Played here rather than in BeginSwing, which runs again on Resume.
+			SoundPlayer.Instance.PlayAttack(SwingSound);
 			TryFireBeam();
 		}
 	}
