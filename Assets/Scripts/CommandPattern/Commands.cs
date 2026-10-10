@@ -5,64 +5,64 @@ using Godot;
 // for any entity that has those states.
 public interface ICommand
 {
-    // Returns true if the command was handled.
-    bool Execute(Entity entity, PushdownStateMachine machine);
+	// Returns true if the command was handled.
+	bool Execute(Entity entity, PushdownStateMachine machine);
 }
 
 public class MoveCommand : ICommand
 {
-    public Vector2 Direction { get; }
+	public Vector2 Direction { get; }
 
-    public MoveCommand(Vector2 direction)
-    {
-        Direction = direction;
-    }
+	public MoveCommand(Vector2 direction)
+	{
+		Direction = direction;
+	}
 
-    public bool Execute(Entity entity, PushdownStateMachine machine)
-    {
-        if (machine.CurrentState is not MovementState movement)
-        {
-            return false;
-        }
+	public bool Execute(Entity entity, PushdownStateMachine machine)
+	{
+		if (machine.CurrentState is not MovementState movement)
+		{
+			return false;
+		}
 
-        movement.SetMoveInput(Direction);
-        return true;
-    }
+		movement.SetMoveInput(Direction);
+		return true;
+	}
 }
 
 public class AttackCommand : ICommand
 {
-    public AttackState.AttackKind Kind { get; }
+	public AttackState.AttackKind Kind { get; }
 
-    public AttackCommand(AttackState.AttackKind kind)
-    {
-        Kind = kind;
-    }
+	public AttackCommand(AttackState.AttackKind kind)
+	{
+		Kind = kind;
+	}
 
-    public bool Execute(Entity entity, PushdownStateMachine machine)
-    {
-        if (machine.CurrentState is not MovementState)
-        {
-            return false;
-        }
+	public bool Execute(Entity entity, PushdownStateMachine machine)
+	{
+		if (machine.CurrentState is not MovementState)
+		{
+			return false;
+		}
 
-        var attack = machine.GetState<AttackState>();
-        if (attack == null)
-        {
-            return false;
-        }
+		var attack = machine.GetState<AttackState>();
+		if (attack == null)
+		{
+			return false;
+		}
 
-        attack.Configure(Kind);
-        machine.PushState(attack);
-        return true;
-    }
+		attack.Configure(Kind);
+		machine.PushState(attack);
+		return true;
+	}
 }
 
 public class StunCommand : ICommand
 {
-    public Vector2 KnockbackDirection { get; }
+	public Vector2 KnockbackDirection { get; }
 
-    // Null uses the stun state's own settings.
+	// Null uses the stun state's own settings.
     public float? Duration { get; }
     public float? KnockbackSpeed { get; }
 
