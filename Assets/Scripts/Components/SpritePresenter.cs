@@ -60,7 +60,7 @@ public partial class SpritePresenter : Node
         KillFlashTween();
     }
 
-    // Advances the walk cycle one tick in the given direction. A zero direction holds the current frame mid-stride.
+    // Advances the animation and changes the direction.
     public void StepWalk(Vector2 direction)
     {
         if (Sprite == null)
@@ -84,7 +84,7 @@ public partial class SpritePresenter : Node
         }
     }
 
-    // Shows the walk animation for a direction without advancing it.
+    // Determines which way an animation should be facing.
     public void FaceWalk(Vector2 direction)
     {
         if (Sprite == null)

@@ -1,7 +1,5 @@
 using Godot;
 
-// Movement for side-on rooms like the basement: horizontal input walks, gravity pulls down, and vertical
-// input only climbs while the entity is on a ladder (an area on the Ladder layer).
 [GlobalClass]
 public partial class SideScrollMovementState : MovementState
 {
@@ -9,7 +7,7 @@ public partial class SideScrollMovementState : MovementState
     [Export] public float MaxFallSpeed { get; set; } = 160f;
     [Export] public float ClimbSpeed { get; set; } = 50f;
 
-    // Where the ladder check is made, relative to the entity's origin. Defaults to its feet.
+    [Export] public float LandingSnap { get; set; } = 4f;
     [Export] public Vector2 LadderProbeOffset { get; set; } = new(0, 4);
 
     private Vector2 moveInput;
@@ -21,62 +19,61 @@ public partial class SideScrollMovementState : MovementState
 
     public override void Enter()
     {
-        // Only left and right make sense side-on, so attacks swing horizontally.
-        if (Entity.FacingDirection.X == 0f)
-        {
-            Entity.FacingDirection = Vector2.Right;
-        }
         Entity.Velocity = Vector2.Zero;
-        Visuals?.FaceWalk(Entity.FacingDirection);
-    }
-
-    public override void Resume()
-    {
         Visuals?.FaceWalk(Entity.FacingDirection);
     }
 
     public override void PhysicsUpdate(double delta)
     {
-        float dt = (float)delta;
-        Vector2 input = moveInput;
+        Vector2 walk = new(Mathf.Sign(moveInput.X), 0f);
+        Vector2 climb = new(0f, Mathf.Sign(moveInput.Y));
         moveInput = Vector2.Zero;
 
-        float horizontal = Mathf.Sign(input.X);
-        float vertical = Mathf.Sign(input.Y);
         Area2D ladder = FindLadder();
+        bool onFloor = IsOnFloor();
 
-        Vector2 velocity = Entity.Velocity;
-        velocity.X = horizontal * MoveSpeed;
+        bool hanging = ladder != null && !onFloor;
+        bool canClimb = ladder != null && (climb.Y < 0f ? FindLadder(Vector2.Up) != null : climb.Y > 0f && !onFloor);
 
-        if (ladder != null)
+        Vector2 move = Vector2.Zero;
+        if (walk != Vector2.Zero && (!hanging || TryLand(ladder, walk)))
         {
-            velocity.Y = vertical * ClimbSpeed;
-
-            // Climbing centres the entity on the ladder, so it fits through the shaft.
-            if (vertical != 0f)
-            {
-                velocity.X = 0f;
-                Vector2 position = Entity.GlobalPosition;
-                position.X = ladder.GlobalPosition.X;
-                Entity.GlobalPosition = position;
-            }
+            move = walk;
         }
-        else
+        else if (canClimb)
         {
-            velocity.Y = Mathf.Min(velocity.Y + Gravity * dt, MaxFallSpeed);
+            move = climb;
+
+            // Have the entity centered on the ladder.
+            Entity.GlobalPosition = new Vector2(ladder.GlobalPosition.X, Entity.GlobalPosition.Y);
         }
 
-        if (horizontal != 0f)
+        // On a ladder either axis turns the entity so the attacks can still be aimed.
+        Vector2 facing = move;
+        if (facing == Vector2.Zero && hanging)
         {
-            Entity.FacingDirection = new Vector2(horizontal, 0f);
+            facing = climb != Vector2.Zero ? climb : walk;
         }
-        Entity.MoveIntent = new Vector2(horizontal, ladder != null ? vertical : 0f);
+        if (facing != Vector2.Zero)
+        {
+            Entity.FacingDirection = facing;
+        }
+        Entity.MoveIntent = move;
+
+        Vector2 velocity = move * (move == walk ? MoveSpeed : ClimbSpeed);
+
+        // Gravity is enabled only for recovery in case the entity gets knocked into the air, off of the floor and a ladder.
+        if (ladder == null && !onFloor)
+        {
+            velocity.Y = Mathf.Min(Entity.Velocity.Y + Gravity * (float)delta, MaxFallSpeed);
+        }
 
         Entity.Velocity = velocity;
         Entity.UpDirection = Vector2.Up;
         Entity.MoveAndSlide();
 
-        Visuals?.StepWalk(horizontal != 0f ? new Vector2(horizontal, 0f) : Vector2.Zero);
+        Visuals?.FaceWalk(Entity.FacingDirection);
+        Visuals?.StepWalk(move);
     }
 
     public override void Exit()
@@ -85,11 +82,34 @@ public partial class SideScrollMovementState : MovementState
         Entity.Velocity = Vector2.Zero;
     }
 
-    private Area2D FindLadder()
+    private bool TryLand(Area2D ladder, Vector2 walk)
+    {
+        Transform2D onLadder = Entity.GlobalTransform;
+        onLadder.Origin = new Vector2(ladder.GlobalPosition.X, onLadder.Origin.Y);
+
+        Vector2 sideStep = walk * Constants.TILE_SIZE / 2f;
+        if (Entity.TestMove(onLadder, sideStep))
+        {
+            return false;
+        }
+
+        var floor = new KinematicCollision2D();
+        if (!Entity.TestMove(onLadder.Translated(sideStep), Vector2.Down * LandingSnap, floor))
+        {
+            return false;
+        }
+
+        Entity.GlobalPosition += floor.GetTravel();
+        return true;
+    }
+
+    private bool IsOnFloor() => Entity.TestMove(Entity.GlobalTransform, Vector2.Down);
+
+    private Area2D FindLadder(Vector2 probeShift = default)
     {
         PhysicsPointQueryParameters2D query = new()
         {
-            Position = Entity.GlobalPosition + LadderProbeOffset,
+            Position = Entity.GlobalPosition + LadderProbeOffset + probeShift,
             CollideWithAreas = true,
             CollideWithBodies = false,
             CollisionMask = Constants.LADDER_LAYER,
