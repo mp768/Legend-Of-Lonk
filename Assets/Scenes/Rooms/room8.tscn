@@ -919,8 +919,9 @@ StartsOpen = false
 [node name="PushableBlock" parent="." unique_id=319238669 instance=ExtResource("gen1_pusha")]
 position = Vector2(120, 88)
 
-[node name="DoorTrigger" type="Node" parent="." unique_id=110757771]
+[node name="DoorTrigger" type="Node" parent="." unique_id=110757771 node_paths=PackedStringArray("Targets")]
 script = ExtResource("gen2_DoorT")
+Targets = [NodePath("../ShutterLeft")]
 
 [node name="Gel" parent="." unique_id=549909943 instance=ExtResource("7_eoxw4")]
 position = Vector2(128, 120)
