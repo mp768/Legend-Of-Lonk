@@ -82,12 +82,22 @@ size_flags_horizontal = 3
 text = "Bombs: 0"
 label_settings = ExtResource("2_yt2ny")
 
-[node name="WeaponLabel" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515134]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/HUD Background/VBoxContainer" unique_id=1632719333]
 layout_mode = 2
-text = "B: "
+
+[node name="PrimaryWeaponLabel" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer3" unique_id=1726069447]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X: Sword "
 label_settings = ExtResource("2_yt2ny")
 
-[node name="Weapon" type="TextureRect" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer2" unique_id=1854515132]
+[node name="WeaponLabel" type="Label" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer3" unique_id=1854515134]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Z:"
+label_settings = ExtResource("2_yt2ny")
+
+[node name="Weapon" type="TextureRect" parent="VBoxContainer/HUD Background/VBoxContainer/HBoxContainer3" unique_id=1854515132]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 64)
 layout_mode = 2
@@ -108,6 +118,7 @@ size_2d_override_stretch = true
 render_target_update_mode = 4
 
 [node name="Dungeon1" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=386369034 instance=ExtResource("1_uxxti")]
+Music = null
 
 [node name="DialogueBox" type="Label" parent="." unique_id=1013581541]
 layout_mode = 1

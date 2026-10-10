@@ -1,7 +1,6 @@
 using Godot;
 
-// A scripted L-shaped path: out of the wall, along it, and back in. Whoever spawned the entity configures
-// the path and listens for PathFinished to remove it.
+// An input provider that simply moves outward, along, and backward on an L-shaped path.
 [GlobalClass]
 public partial class WallmasterInputProvider : Node, IInputProvider
 {

@@ -22,7 +22,7 @@ public static class Constants
     // without type-checking.
     public const string PLAYER_GROUP = "player";
 
-    // Every enemy joins this group so rooms can count what is left to defeat.
+    // Every enemy joins this group so rooms can count how many are left to defeat.
     public const string ENEMY_GROUP = "enemy";
 
     // Various sound effects that are common to specific objects (and do not need to be selected via the editor).

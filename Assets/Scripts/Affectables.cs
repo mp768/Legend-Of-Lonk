@@ -1,14 +1,14 @@
 using Godot;
 
-// Which side an entity or attack is on. An attack only hurts the opposing team's hurtboxes.
+// Which side an entity or attack is on. An attack only hurts the opposing team.
 public enum Team
 {
     PLAYER,
     ENEMY,
 }
 
-// Describes an effect on whatever touches this area. The receiving entity decides how to apply it.
-// Inherits Area2D because every affectable is a contact area.
+// Describes an affect on whatever touches this area. The receiving entity decides how to apply it.
+// Inherits Area2D because every affectable is something that can be contacted with.
 [GlobalClass]
 public partial class Affectables : Area2D
 {
