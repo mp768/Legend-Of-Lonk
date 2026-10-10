@@ -107,7 +107,6 @@ stretch_mode = 5
 [node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer" unique_id=800053097]
 layout_mode = 2
 size_flags_vertical = 3
-stretch = true
 mouse_target = true
 
 [node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer" unique_id=2054380392]
