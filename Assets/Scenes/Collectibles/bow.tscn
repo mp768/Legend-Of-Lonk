@@ -14,6 +14,7 @@ region = Rect2(144, 0, 8, 16)
 collision_layer = 8
 collision_mask = 80
 script = ExtResource("1_script")
+CollectSound = 3
 Type = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2125948498]

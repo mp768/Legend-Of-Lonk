@@ -65,6 +65,7 @@ Speed = 150.0
 DestroyOnHit = false
 RotateToDirection = false
 FreeWhenOffScreen = false
+LaunchSound = 5
 Type = 4
 Value = 15
 

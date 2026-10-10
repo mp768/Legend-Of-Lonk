@@ -10,6 +10,9 @@ public partial class Lonk : Entity
 		base._Ready();
 		AddToGroup(Constants.PLAYER_GROUP);
 
+		hurtSound = SoundPlayer.HurtSound.PLAYER;
+		deathSound = SoundPlayer.DeathSound.PLAYER;
+
 		Health.Changed += OnHealthChanged;
 		GameSignals.Instance.CheatModeChanged += OnCheatModeChanged;
 		GameSignals.Instance.SelectedWeaponChanged += OnSelectedWeaponChanged;

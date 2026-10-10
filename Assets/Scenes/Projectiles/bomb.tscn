@@ -26,6 +26,7 @@ PassesThroughWalls = true
 DestroyOnHit = false
 RotateToDirection = false
 FreeWhenOffScreen = false
+LaunchSound = 6
 Value = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1719888564]

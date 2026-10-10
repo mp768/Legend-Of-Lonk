@@ -16,6 +16,7 @@ collision_mask = 0
 script = ExtResource("1_script")
 Speed = 150.0
 Lifetime = 3.0
+LaunchSound = 4
 Value = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=669390246]

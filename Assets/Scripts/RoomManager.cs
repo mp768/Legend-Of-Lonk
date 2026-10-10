@@ -10,6 +10,9 @@ public partial class RoomManager : Node
     // Where the player is dropped in the starting room after being grabbed by a Wallmaster.
     [Export] public Marker2D EntrancePoint { get; set; }
 
+    // This background track.
+    [Export] public AudioStream Music { get; set; }
+
     [ExportGroup("Retro Step Settings")]
     [Export] public int PixelsPerStep { get; set; } = 2;
     [Export] public int FramesBetweenSteps { get; set; } = 2;
@@ -25,6 +28,18 @@ public partial class RoomManager : Node
         GameSignals.Instance.RoomExitEntered += OnRoomExitEntered;
         GameSignals.Instance.WarpRequested += OnWarpRequested;
         GameSignals.Instance.PlayerGrabbed += OnPlayerGrabbed;
+
+        if (Music != null)
+        {
+            var musicPlayer = new AudioStreamPlayer
+            {
+                Stream = Music,
+                Bus = Constants.MUSIC_BUS,
+            };
+
+            AddChild(musicPlayer);
+            musicPlayer.Play();
+        }
 
         CurrentRoom = StartingRoom;
         if (CurrentRoom == null)

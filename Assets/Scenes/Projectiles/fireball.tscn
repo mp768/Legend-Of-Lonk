@@ -18,6 +18,7 @@ Speed = 90.0
 Lifetime = 5.0
 PassesThroughWalls = true
 RotateToDirection = false
+LaunchSound = 8
 Value = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=75843365]
