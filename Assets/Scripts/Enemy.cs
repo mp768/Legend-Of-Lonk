@@ -5,92 +5,92 @@ using Godot;
 [GlobalClass]
 public partial class Enemy : Entity, IResettableEntity
 {
-	// Emitted when the enemy is killed. Unlike TreeExiting, it doesn't fire when a scene reload frees it.
-	[Signal]
-	public delegate void DefeatedEventHandler();
+    // Emitted when the enemy is killed. Unlike TreeExiting, it doesn't fire when a scene reload frees it.
+    [Signal]
+    public delegate void DefeatedEventHandler();
 
-	[Export] public DropTable Drops { get; set; }
+    [Export] public DropTable Drops { get; set; }
 
-	// Whether its room waits for it to be defeated before counting as cleared. Off for invincible
-	// hazards like blade traps.
-	[Export] public bool CountsTowardClear { get; set; } = true;
+    // Whether its room waits for it to be defeated before counting as cleared. Off for invincible
+    // hazards like blade traps.
+    [Export] public bool CountsTowardClear { get; set; } = true;
 
-	// Whether a stun (e.g. the boomerang) is enough to kill it outright.
-	[Export] public bool StunKills { get; set; } = false;
-	
-	// Whether the enemy should be visible at node creation. Off for every enemy except the wall
-	// master, as most only need to appear upon room enter.
-	[Export] public bool VisibleOnCreation { get; set; } = false;
+    // Whether a stun (e.g. the boomerang) is enough to kill it outright.
+    [Export] public bool StunKills { get; set; } = false;
 
-	[Export] public SoundPlayer.HurtSound HurtSound { get; set; } = SoundPlayer.HurtSound.ENEMY;
-	[Export] public SoundPlayer.DeathSound DeathSound { get; set; } = SoundPlayer.DeathSound.ENEMY;
+    // Whether the enemy should be visible at node creation. Off for every enemy except the wall
+    // master, as most only need to appear upon room enter.
+    [Export] public bool VisibleOnCreation { get; set; } = false;
 
-	private Vector2 spawnPosition;
+    [Export] public SoundPlayer.HurtSound HurtSound { get; set; } = SoundPlayer.HurtSound.ENEMY;
+    [Export] public SoundPlayer.DeathSound DeathSound { get; set; } = SoundPlayer.DeathSound.ENEMY;
 
-	public override void _Ready()
-	{
-		base._Ready();
-		AddToGroup(Constants.ENEMY_GROUP);
-		spawnPosition = GlobalPosition;
+    private Vector2 spawnPosition;
 
-		hurtSound = HurtSound;
-		deathSound = DeathSound;
+    public override void _Ready()
+    {
+        base._Ready();
+        AddToGroup(Constants.ENEMY_GROUP);
+        spawnPosition = GlobalPosition;
 
-		Visible = VisibleOnCreation;
-	}
+        hurtSound = HurtSound;
+        deathSound = DeathSound;
 
-	public async void OnRoomEntered()
-	{
-		// Hold off on letting the enemy from moving for a bit.
-		CallDeferred(Node.MethodName.SetProcess, false);
-		CallDeferred(Node.MethodName.SetPhysicsProcess, false);
+        Visible = VisibleOnCreation;
+    }
 
-		GlobalPosition = spawnPosition;
-		CallDeferred(CanvasItem.MethodName.SetVisible, true);
+    public async void OnRoomEntered()
+    {
+        // Hold off on letting the enemy from moving for a bit.
+        CallDeferred(Node.MethodName.SetProcess, false);
+        CallDeferred(Node.MethodName.SetPhysicsProcess, false);
 
-		// Let the enemy move again.
-		await ToSignal(GetTree().CreateTimer(0.75f), SceneTreeTimer.SignalName.Timeout);
+        GlobalPosition = spawnPosition;
+        CallDeferred(CanvasItem.MethodName.SetVisible, true);
 
-		CallDeferred(Node.MethodName.SetProcess, true);
-		CallDeferred(Node.MethodName.SetPhysicsProcess, true);
-	}
+        // Let the enemy move again.
+        await ToSignal(GetTree().CreateTimer(0.75f), SceneTreeTimer.SignalName.Timeout);
 
-	public void OnRoomExited()
-	{
-		Visible = false;
-	}
+        CallDeferred(Node.MethodName.SetProcess, true);
+        CallDeferred(Node.MethodName.SetPhysicsProcess, true);
+    }
 
-	protected override void ApplyEffect(Affectables effect)
-	{
-		if (effect.Type == Affectables.EffectType.STUN && StunKills && Health != null)
-		{
-			TakeDamage(Health.Current, KnockbackFrom(effect));
-			return;
-		}
+    public void OnRoomExited()
+    {
+        Visible = false;
+    }
 
-		base.ApplyEffect(effect);
-	}
+    protected override void ApplyEffect(Affectables effect)
+    {
+        if (effect.Type == Affectables.EffectType.STUN && StunKills && Health != null)
+        {
+            TakeDamage(Health.Current, KnockbackFrom(effect));
+            return;
+        }
 
-	protected override void Die()
-	{
-		// Death is triggered from a hitbox callback. Stop simulating now and let the free happen at the end of the frame.
-		StateMachine?.SetPhysicsProcess(false);
-		SpawnDrop();
-		QueueFree();
+        base.ApplyEffect(effect);
+    }
 
-		// Emitted after QueueFree so listeners counting what's left can already see this enemy as gone.
-		EmitSignal(SignalName.Defeated);
-	}
+    protected override void Die()
+    {
+        // Death is triggered from a hitbox callback. Stop simulating now and let the free happen at the end of the frame.
+        StateMachine?.SetPhysicsProcess(false);
+        SpawnDrop();
+        QueueFree();
 
-	private void SpawnDrop()
-	{
-		if (Drops?.Roll()?.Instantiate() is not Node2D item)
-		{
-			return;
-		}
+        // Emitted after QueueFree so listeners counting what's left can already see this enemy as gone.
+        EmitSignal(SignalName.Defeated);
+    }
 
-		// The drop joins the enemy's room, so it stays behind when the room is left.
-		item.Position = Position;
-		GetParent().CallDeferred(Node.MethodName.AddChild, item);
-	}
+    private void SpawnDrop()
+    {
+        if (Drops?.Roll()?.Instantiate() is not Node2D item)
+        {
+            return;
+        }
+
+        // The drop joins the enemy's room, so it stays behind when the room is left.
+        item.Position = Position;
+        GetParent().CallDeferred(Node.MethodName.AddChild, item);
+    }
 }

@@ -5,13 +5,13 @@ using System.Collections.Generic;
 [GlobalClass]
 public partial class WallmasterSpawner : Node2D, IResettableEntity
 {
-	// Must have an a WallMaster Enemy
-	[Export] public PackedScene WallmasterScene { get; set; }
+    // Must have an a WallMaster Enemy
+    [Export] public PackedScene WallmasterScene { get; set; }
 
-	[Export] public float Cooldown { get; set; } = 4f;
-	[Export] public int MaxAlive { get; set; } = 1;
+    [Export] public float Cooldown { get; set; } = 4f;
+    [Export] public int MaxAlive { get; set; } = 1;
 
-	// How far along the wall a Wallmaster travels, centered on the player's position.
+    // How far along the wall a Wallmaster travels, centered on the player's position.
     [Export] public float AlongDistance { get; set; } = 64f;
 
     private readonly List<Node2D> alive = [];
