@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bbr43rjdswfkn"
+path="res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Shield Deflecting.wav-93ba08323151fa90d5c7a74ce7e2bc5b.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/The Legend of Zelda Cartoon Sound Effects Shield Deflecting.wav"
+dest_files=["res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Shield Deflecting.wav-93ba08323151fa90d5c7a74ce7e2bc5b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

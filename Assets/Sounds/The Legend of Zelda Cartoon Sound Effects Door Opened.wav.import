@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://odk3my4b2ror"
+path="res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Door Opened.wav-544556eb3138a4064a49b31b683ef774.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/The Legend of Zelda Cartoon Sound Effects Door Opened.wav"
+dest_files=["res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Door Opened.wav-544556eb3138a4064a49b31b683ef774.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ctw3o0ow2yeab"
+path="res://.godot/imported/Key Appear.wav-3db3c4cd3d09687a90eeb2355823179c.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Key Appear.wav"
+dest_files=["res://.godot/imported/Key Appear.wav-3db3c4cd3d09687a90eeb2355823179c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
