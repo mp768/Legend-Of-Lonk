@@ -35,6 +35,10 @@ public partial class Affectables : Area2D
     // Optional knockback direction for the receiver, e.g. the way a sword is swinging.
     public Vector2? Direction { get; set; }
 
+    // The entity this area is attached to, e.g. the enemy behind a contact damage area. Null for areas that
+    // stand on their own, like projectiles and pickups.
+    public Entity Source { get; set; }
+
     private Team team;
 
     // Moves the area onto its team's attack layer. Set on spawned attacks, whose team comes from whoever
@@ -52,6 +56,18 @@ public partial class Affectables : Area2D
     // Called by a receiver before it applies this effect. Returns false if the effect has already been
     // used up and must not be applied again. Reusable effects, like a sword, can always be applied.
     public virtual bool TryConsume() => true;
+
+    public Vector2? KnockbackDirectionFor(Node2D receiver)
+    {
+        if (Direction != null || Source == null || Source.MoveIntent == Vector2.Zero)
+        {
+            return Direction;
+        }
+
+        Vector2 heading = Source.MoveIntent.Normalized();
+        bool inPath = heading.Dot(receiver.GlobalPosition - Source.GlobalPosition) > 0f;
+        return inPath ? heading : null;
+    }
 
     public static uint AttackLayerOf(Team team) =>
         team == Team.PLAYER ? Constants.PLAYER_ATTACK_LAYER : Constants.ENEMY_ATTACK_LAYER;

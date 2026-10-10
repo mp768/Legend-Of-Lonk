@@ -28,6 +28,12 @@ public partial class LungeState : State
         home = Entity.GlobalPosition;
         returning = false;
         Entity.FacingDirection = direction;
+        Entity.MoveIntent = direction;
+    }
+
+    public override void Exit()
+    {
+        Entity.MoveIntent = Vector2.Zero;
     }
 
     public override void PhysicsUpdate(double delta)
@@ -41,6 +47,7 @@ public partial class LungeState : State
             if (collision != null || Entity.GlobalPosition.DistanceTo(home) >= maxDistance)
             {
                 returning = true;
+                Entity.MoveIntent = -direction;
             }
             return;
         }

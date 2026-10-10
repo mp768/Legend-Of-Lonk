@@ -64,7 +64,7 @@ public partial class Enemy : Entity, IResettableEntity
 	{
 		if (effect.Type == Affectables.EffectType.STUN && StunKills && Health != null)
 		{
-			TakeDamage(Health.Current, effect.Direction ?? -FacingDirection);
+			TakeDamage(Health.Current, KnockbackFrom(effect));
 			return;
 		}
 
