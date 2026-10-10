@@ -6,148 +6,148 @@ using System.Collections.Generic;
 [GlobalClass]
 public partial class Room : Node2D
 {
-    public enum RoomView
-    {
-        TOP_DOWN,
-        SIDE_SCROLL,
-    }
+	public enum RoomView
+	{
+		TOP_DOWN,
+		SIDE_SCROLL,
+	}
 
-    // Emitted once, when the last enemy that counts toward clearing the room is defeated.
-    [Signal]
-    public delegate void ClearedEventHandler();
+	// Emitted once, when the last enemy that counts toward clearing the room is defeated.
+	[Signal]
+	public delegate void ClearedEventHandler();
 
-    [Export] public Room leftRoom;
-    [Export] public Room rightRoom;
-    [Export] public Room upRoom;
-    [Export] public Room downRoom;
+	[Export] public Room leftRoom;
+	[Export] public Room rightRoom;
+	[Export] public Room upRoom;
+	[Export] public Room downRoom;
 
-    [Export] public RoomView View { get; set; } = RoomView.TOP_DOWN;
+	[Export] public RoomView View { get; set; } = RoomView.TOP_DOWN;
 
-    [ExportGroup("Clearing")]
-    // Closes the room's shutter doors while enemies remain.
+	[ExportGroup("Clearing")]
+	// Closes the room's shutter doors while enemies remain.
     [Export] public bool LockUntilCleared { get; set; }
 
     // Appears once when the room is cleared.
     [Export] public PackedScene ClearReward { get; set; }
 
-    // Where the reward appears. If not set, it'll just appear in the center of the room.
-    [Export] public Marker2D RewardSpawn { get; set; }
+	// Where the reward appears. If not set, it'll just appear in the center of the room.
+	[Export] public Marker2D RewardSpawn { get; set; }
 
-    public Vector2 Center => GlobalPosition + Constants.SCREEN_SIZE / 2;
+	public Vector2 Center => GlobalPosition + Constants.SCREEN_SIZE / 2;
 
-    public bool IsCleared { get; private set; }
+	public bool IsCleared { get; private set; }
 
-    private readonly List<Enemy> trackedEnemies = [];
+	private readonly List<Enemy> trackedEnemies = [];
 
-    public override void _Ready()
-    {
-        Visible = false;
-        SetProcessing(false);
+	public override void _Ready()
+	{
+		Visible = false;
+		SetProcessing(false);
 
-        ConnectExit("LeftExit", leftRoom, Vector2.Left);
-        ConnectExit("RightExit", rightRoom, Vector2.Right);
-        ConnectExit("UpExit", upRoom, Vector2.Up);
-        ConnectExit("DownExit", downRoom, Vector2.Down);
-    }
+		ConnectExit("LeftExit", leftRoom, Vector2.Left);
+		ConnectExit("RightExit", rightRoom, Vector2.Right);
+		ConnectExit("UpExit", upRoom, Vector2.Up);
+		ConnectExit("DownExit", downRoom, Vector2.Down);
+	}
 
-    public void Activate()
-    {
-        Visible = true;
-        SetProcessing(true);
+	public void Activate()
+	{
+		Visible = true;
+		SetProcessing(true);
 
-        foreach (Node child in GetChildren())
-        {
-            if (child is IResettableEntity entity)
-            {
-                entity.OnRoomEntered();
-            }
-        }
+		foreach (Node child in GetChildren())
+		{
+			if (child is IResettableEntity entity)
+			{
+				entity.OnRoomEntered();
+			}
+		}
 
-        if (!IsCleared)
-        {
-            TrackEnemies();
-        }
-    }
+		if (!IsCleared)
+		{
+			TrackEnemies();
+		}
+	}
 
-    // Freezes the room but leaves it visible, so it can scroll off screen during a transition.
-    public void Deactivate()
-    {
-        SetProcessing(false);
-        UntrackEnemies();
+	// Freezes the room but leaves it visible, so it can scroll off screen during a transition.
+	public void Deactivate()
+	{
+		SetProcessing(false);
+		UntrackEnemies();
 
-        foreach (Node child in GetChildren())
-        {
-            if (child is IResettableEntity entity)
-            {
-                entity.OnRoomExited();
-            }
-        }
-    }
+		foreach (Node child in GetChildren())
+		{
+			if (child is IResettableEntity entity)
+			{
+				entity.OnRoomExited();
+			}
+		}
+	}
 
-    private void TrackEnemies()
-    {
-        UntrackEnemies();
+	private void TrackEnemies()
+	{
+		UntrackEnemies();
 
-        foreach (Node child in GetChildren())
-        {
-            if (child is Enemy enemy && enemy.IsInGroup(Constants.ENEMY_GROUP) && enemy.CountsTowardClear && !enemy.IsQueuedForDeletion())
-            {
-                enemy.Defeated += OnEnemyDefeated;
-                trackedEnemies.Add(enemy);
-            }
-        }
+		foreach (Node child in GetChildren())
+		{
+			if (child is Enemy enemy && enemy.IsInGroup(Constants.ENEMY_GROUP) && enemy.CountsTowardClear && !enemy.IsQueuedForDeletion())
+			{
+				enemy.Defeated += OnEnemyDefeated;
+				trackedEnemies.Add(enemy);
+			}
+		}
 
-        // Covers rooms with no enemies and rooms emptied on an earlier visit.
-        if (trackedEnemies.Count == 0)
-        {
-            MarkCleared();
-        }
-        else if (LockUntilCleared)
-        {
-            SetShuttersOpen(false);
-        }
-    }
+		// Covers rooms with no enemies and rooms emptied on an earlier visit.
+		if (trackedEnemies.Count == 0)
+		{
+			MarkCleared();
+		}
+		else if (LockUntilCleared)
+		{
+			SetShuttersOpen(false);
+		}
+	}
 
-    private void UntrackEnemies()
-    {
-        foreach (Enemy enemy in trackedEnemies)
-        {
-            if (IsInstanceValid(enemy))
-            {
-                enemy.Defeated -= OnEnemyDefeated;
-            }
-        }
-        trackedEnemies.Clear();
-    }
+	private void UntrackEnemies()
+	{
+		foreach (Enemy enemy in trackedEnemies)
+		{
+			if (IsInstanceValid(enemy))
+			{
+				enemy.Defeated -= OnEnemyDefeated;
+			}
+		}
+		trackedEnemies.Clear();
+	}
 
-    private void OnEnemyDefeated()
-    {
-        trackedEnemies.RemoveAll(enemy => !IsInstanceValid(enemy) || enemy.IsQueuedForDeletion());
-        if (trackedEnemies.Count == 0)
-        {
-            MarkCleared();
-        }
-    }
+	private void OnEnemyDefeated()
+	{
+		trackedEnemies.RemoveAll(enemy => !IsInstanceValid(enemy) || enemy.IsQueuedForDeletion());
+		if (trackedEnemies.Count == 0)
+		{
+			MarkCleared();
+		}
+	}
 
-    private void MarkCleared()
-    {
-        if (IsCleared)
-        {
-            return;
-        }
+	private void MarkCleared()
+	{
+		if (IsCleared)
+		{
+			return;
+		}
 
-        IsCleared = true;
+		IsCleared = true;
 
-        if (LockUntilCleared)
-        {
-            SetShuttersOpen(true);
-        }
+		if (LockUntilCleared)
+		{
+			SetShuttersOpen(true);
+		}
 
-        if (ClearReward?.Instantiate() is Node2D reward)
-        {
-            reward.Position = RewardSpawn?.Position ?? (Vector2)Constants.SCREEN_SIZE / 2;
+		if (ClearReward?.Instantiate() is Node2D reward)
+		{
+			reward.Position = RewardSpawn?.Position ?? (Vector2)Constants.SCREEN_SIZE / 2;
 
-            // Usually reached from an enemy's death inside a physics callback.
+			// Usually reached from an enemy's death inside a physics callback.
             CallDeferred(Node.MethodName.AddChild, reward);
         }
 
@@ -199,25 +199,25 @@ public partial class Room : Node2D
         AddEnemyBarrier(exit);
     }
 
-    // A wall only enemies collide with, over the exit, so they can't wander out through open doorways.
-    private void AddEnemyBarrier(Area2D exit)
-    {
-        var barrier = new StaticBody2D
-        {
-            Name = exit.Name + "EnemyBarrier",
-            Position = exit.Position,
-            CollisionLayer = Constants.ENEMY_NO_ESCAPE_LAYER,
-            CollisionMask = 0,
-        };
+	// A wall only enemies collide with, over the exit, so they can't wander out through open doorways.
+	private void AddEnemyBarrier(Area2D exit)
+	{
+		var barrier = new StaticBody2D
+		{
+			Name = exit.Name + "EnemyBarrier",
+			Position = exit.Position,
+			CollisionLayer = Constants.ENEMY_NO_ESCAPE_LAYER,
+			CollisionMask = 0,
+		};
 
-        foreach (Node child in exit.GetChildren())
-        {
-            if (child is CollisionShape2D shape)
-            {
-                barrier.AddChild(shape.Duplicate());
-            }
-        }
+		foreach (Node child in exit.GetChildren())
+		{
+			if (child is CollisionShape2D shape)
+			{
+				barrier.AddChild(shape.Duplicate());
+			}
+		}
 
-        CallDeferred(Node.MethodName.AddChild, barrier);
-    }
+		CallDeferred(Node.MethodName.AddChild, barrier);
+	}
 }
