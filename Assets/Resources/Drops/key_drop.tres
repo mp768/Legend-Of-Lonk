@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="DropTable" format=3 uid="uid://c5t58o4cjtjnl"]
 
-[ext_resource type="Script" uid="uid://ct4rb0emx65j3" path="res://Assets/Scripts/DropTable.cs" id="1_table"]
-[ext_resource type="Script" uid="uid://bs1pibh7ki74o" path="res://Assets/Scripts/DropEntry.cs" id="2_entry"]
+[ext_resource type="Script" uid="uid://ct4rb0emx65j3" path="res://Assets/Scripts/ResourceClasses/DropTable.cs" id="1_table"]
+[ext_resource type="Script" uid="uid://bs1pibh7ki74o" path="res://Assets/Scripts/ResourceClasses/DropEntry.cs" id="2_entry"]
 [ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="3_key"]
 
 [sub_resource type="Resource" id="Entry_key"]

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://cxbilp06327yg"]
 
 [ext_resource type="Script" uid="uid://bh3uiqovw57rk" path="res://Assets/Scripts/Weapon.cs" id="1_script"]
-[ext_resource type="PackedScene" path="res://Assets/Scenes/Projectiles/fireball.tscn" id="2_scene"]
+[ext_resource type="PackedScene" uid="uid://dic27edohilih" path="res://Assets/Scenes/Projectiles/fireball.tscn" id="2_scene"]
 
 [sub_resource type="PlaceholderTexture2D" id="Placeholder_icon"]
 size = Vector2(8, 8)

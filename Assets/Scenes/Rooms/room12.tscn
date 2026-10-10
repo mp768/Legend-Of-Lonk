@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_4px7r"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_4px7r"]
 [ext_resource type="PackedScene" uid="uid://bvllk0snvqw8n" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="4_tqvi1"]
-[ext_resource type="PackedScene" uid="uid://goqjt6giuy2b" path="res://Assets/Scenes/Locked Doors/Door Locked Right.tscn" id="5_bfvux"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vqmu2"]
 texture = ExtResource("1_2lcyt")
@@ -1903,5 +1902,3 @@ position = Vector2(40, 40)
 
 [node name="BladeTrap4" parent="." unique_id=551581534 instance=ExtResource("4_tqvi1")]
 position = Vector2(40, 136)
-
-[node name="DoorLockedRight" parent="." unique_id=468136052 instance=ExtResource("5_bfvux")]

@@ -1899,11 +1899,12 @@ shape = SubResource("RectangleShape2D_yhoe2")
 [node name="KeySpawnPoint" type="Marker2D" parent="." unique_id=1152327529]
 position = Vector2(168, 136)
 
-[node name="WallmasterSpawner2" type="Node2D" parent="." unique_id=1751315285]
+[node name="WallmasterSpawner" type="Node2D" parent="." unique_id=1751315285]
 script = ExtResource("5_n4e64")
 WallmasterScene = ExtResource("6_n4e64")
+Cooldown = 2.5
 MaxAlive = 8
-AlongDistance = 48.0
+AlongDistance = 20.0
 
 [node name="DoorLockedUp" parent="." unique_id=578636461 instance=ExtResource("7_6bca4")]
 position = Vector2(128, 24)

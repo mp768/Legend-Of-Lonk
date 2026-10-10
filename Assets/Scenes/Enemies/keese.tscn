@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://csyqrdua0jgyx" path="res://Assets/Resources/Drops/common_drops.tres" id="6_res"]
 [ext_resource type="Script" uid="uid://dltjvjc2kxawo" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="7_res"]
 [ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="8_res"]
-[ext_resource type="Script" uid="uid://bsqybw2otn0l2" path="res://Assets/Scripts/CommandPattern/ErraticFlightInputProvider.cs" id="9_res"]
+[ext_resource type="Script" uid="uid://bsqybw2otn0l2" path="res://Assets/Scripts/CommandPattern/KeeseFlightInputProvider.cs" id="9_res"]
 [ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="10_res"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fpk4c"]

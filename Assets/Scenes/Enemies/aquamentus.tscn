@@ -10,7 +10,7 @@
 [ext_resource type="Resource" uid="uid://cxbilp06327yg" path="res://Assets/Resources/Weapons/aquamentus_fireball.tres" id="7_res"]
 [ext_resource type="Script" uid="uid://dltjvjc2kxawo" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="9_res"]
 [ext_resource type="Script" uid="uid://oef726hkks6y" path="res://Assets/Scripts/PushdownAutomata/States/AttackState.cs" id="10_res"]
-[ext_resource type="Script" uid="uid://d24ekpoemkcci" path="res://Assets/Scripts/CommandPattern/BossInputProvider.cs" id="11_res"]
+[ext_resource type="Script" uid="uid://d24ekpoemkcci" path="res://Assets/Scripts/CommandPattern/AquamentusInputProvider.cs" id="11_res"]
 [ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="12_res"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kf2jv"]

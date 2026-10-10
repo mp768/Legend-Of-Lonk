@@ -34,6 +34,8 @@ public partial class RoomManager : Node
             var musicPlayer = new AudioStreamPlayer
             {
                 Stream = Music,
+                VolumeDb = Constants.SOUND_EFFECT_VOLUME_DB,
+                Autoplay = true,
                 Bus = Constants.MUSIC_BUS,
             };
 

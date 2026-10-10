@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_4jca8"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_thqob"]
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_thqob"]
-[ext_resource type="PackedScene" uid="uid://cyx386b5pja1c" path="res://Assets/Scenes/Locked Doors/Door Locked Down.tscn" id="5_bcy68"]
 [ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="gen1_Stalf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5oqnf"]
@@ -1900,5 +1899,3 @@ position = Vector2(104, 80)
 
 [node name="Stalfos3" parent="." unique_id=453477989 instance=ExtResource("gen1_Stalf")]
 position = Vector2(96, 104)
-
-[node name="DoorLockedDown" parent="." unique_id=864091509 instance=ExtResource("5_bcy68")]

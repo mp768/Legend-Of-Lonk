@@ -1,10 +1,8 @@
 using Godot;
 
-// Keese-style flight: bursts of flying that speed up and slow down, with frequent random turns in any of
-// eight directions, broken up by perching still for a while. Pair it with FreeMovementState, which turns
-// shorter inputs into slower movement.
+// Keese-style flight
 [GlobalClass]
-public partial class ErraticFlightInputProvider : Node, IInputProvider
+public partial class KeeseFlightInputProvider : Node, IInputProvider
 {
     private static readonly Vector2[] EIGHT_DIRECTIONS =
     [

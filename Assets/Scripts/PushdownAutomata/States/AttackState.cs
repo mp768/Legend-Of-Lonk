@@ -77,7 +77,7 @@ public partial class AttackState : State
 
 		if (kind == AttackKind.SWORD)
 		{
-			// Played here rather than in BeginSwing, which runs again on Resume.
+			// Played here instead of BeginSwing, which runs again on Resume.
 			SoundPlayer.Instance.PlayAttack(SwingSound);
 			TryFireBeam();
 		}
