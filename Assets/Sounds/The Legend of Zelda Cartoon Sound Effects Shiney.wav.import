@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d3h1w3id3ducq"
+path="res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Shiney.wav-9ed4158890dc64368b61a039ce8df779.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/The Legend of Zelda Cartoon Sound Effects Shiney.wav"
+dest_files=["res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Shiney.wav-9ed4158890dc64368b61a039ce8df779.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

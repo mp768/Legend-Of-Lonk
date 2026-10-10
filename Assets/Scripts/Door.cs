@@ -8,6 +8,8 @@ public partial class Door : TileMapLayer
 
     public bool IsOpen { get; private set; }
 
+    private AudioStreamPlayer soundPlayer;
+
     public override void _Ready()
     {
         if (StartsOpen)
@@ -18,6 +20,16 @@ public partial class Door : TileMapLayer
         {
             Close();
         }
+
+        var doorOpenSoundEffect = GD.Load<AudioStream>(Constants.DOOR_OPEN_SOUND_EFFECT_UID);
+
+        soundPlayer = new AudioStreamPlayer
+        {
+            Stream = doorOpenSoundEffect,
+            VolumeDb = -12,
+        };
+
+        AddChild(soundPlayer);
     }
 
     public void Open()
@@ -26,6 +38,8 @@ public partial class Door : TileMapLayer
 
         // Deferred because doors usually open from inside physics callbacks.
         SetDeferred(TileMapLayer.PropertyName.Enabled, false);
+
+        soundPlayer?.Play();
     }
 
     public void Close()

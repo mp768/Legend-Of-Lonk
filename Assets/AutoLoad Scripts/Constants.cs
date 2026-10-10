@@ -25,6 +25,11 @@ public static class Constants
     // Every enemy joins this group so rooms can count what is left to defeat.
     public const string ENEMY_GROUP = "enemy";
 
+    // Various sound effects that are common to specific objects (and do not need to be selected via the editor).
+    public const string DOOR_OPEN_SOUND_EFFECT_UID = "uid://b38b8h3yi0vai";
+    
+
+
     // Collision layer bits, matching the layer names in Project Settings.
     public const uint WALLS_LAYER = 1 << 0;
     public const uint PLAYER_ATTACK_LAYER = 1 << 1;

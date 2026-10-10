@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://mda4ehm4wnf5"
+path="res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Rupees Decreasing.wav-cf5e282e167d12265d6f77eb95fb6f1e.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/The Legend of Zelda Cartoon Sound Effects Rupees Decreasing.wav"
+dest_files=["res://.godot/imported/The Legend of Zelda Cartoon Sound Effects Rupees Decreasing.wav-cf5e282e167d12265d6f77eb95fb6f1e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
