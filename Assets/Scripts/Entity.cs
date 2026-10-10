@@ -18,8 +18,8 @@ public abstract partial class Entity : CharacterBody2D
     // The direction the entity last moved in. Movement states update it, and attacks and knockback read it.
     public Vector2 FacingDirection { get; set; } = Vector2.Down;
 
-    // The direction the entity is trying to move this tick, or zero. Movement states update it, and world
-    // objects like pushable blocks read it.
+    // The direction the entity is trying to move this tick, or zero. States that move the entity update it.
+    // Things like world objects like pushable blocks read it, and so does the knockback of the entity's contact areas.
     public Vector2 MoveIntent { get; set; }
 
     // Which clips this entity's damage plays.
@@ -35,6 +35,12 @@ public abstract partial class Entity : CharacterBody2D
             if (child is IInputProvider provider)
             {
                 inputProviders.Add(provider);
+            }
+
+            // Contact areas on the entity (like an enemy's contact damage).
+            if (child is Affectables contact)
+            {
+                contact.Source = this;
             }
         }
 
@@ -85,8 +91,7 @@ public abstract partial class Entity : CharacterBody2D
         switch (effect.Type)
         {
             case Affectables.EffectType.DAMAGE:
-                // Sources without a direction knock the entity back the way it came.
-                TakeDamage(effect.Value, effect.Direction ?? -FacingDirection);
+                TakeDamage(effect.Value, KnockbackFrom(effect));
                 break;
 
             case Affectables.EffectType.HEALTH:
@@ -112,6 +117,8 @@ public abstract partial class Entity : CharacterBody2D
     }
 
     protected abstract void Die();
+
+    protected Vector2 KnockbackFrom(Affectables effect) => effect.KnockbackDirectionFor(this) ?? -FacingDirection;
 
     // Called after a grab has taken hold of the entity.
     protected virtual void OnGrabbed() { }
