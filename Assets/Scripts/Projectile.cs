@@ -1,8 +1,6 @@
 using Godot;
 
-// An Affectables that moves: sword beams, arrows, boomerangs, fireballs and bombs. Whoever launches it
-// decides its team, so it hurts the shooter's enemies no matter who is controlling the shooter.
-// Scenes are authored facing right; launching rotates them to face their direction.
+// An Affectables that moves.
 [GlobalClass]
 public partial class Projectile : Affectables
 {
