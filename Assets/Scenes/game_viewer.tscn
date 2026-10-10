@@ -115,10 +115,10 @@ handle_input_locally = false
 size = Vector2i(1024, 680)
 size_2d_override = Vector2i(256, 170)
 size_2d_override_stretch = true
+canvas_item_default_texture_filter = 0
 render_target_update_mode = 4
 
 [node name="Dungeon1" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=386369034 instance=ExtResource("1_uxxti")]
-Music = null
 
 [node name="DialogueBox" type="Label" parent="." unique_id=1013581541]
 layout_mode = 1
