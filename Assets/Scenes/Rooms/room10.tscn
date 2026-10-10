@@ -5,6 +5,7 @@
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="1_uhaqb"]
 [ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="4_w1htq"]
 [ext_resource type="PackedScene" uid="uid://bqn83m3s5fhrs" path="res://Assets/Scenes/Locked Doors/Door Locked Up.tscn" id="5_ixwwr"]
+[ext_resource type="Resource" uid="uid://c5t58o4cjtjnl" path="res://Assets/Resources/Drops/key_drop.tres" id="5_xp8w3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4m06u"]
 texture = ExtResource("1_4m06u")
@@ -1903,6 +1904,7 @@ position = Vector2(64, 56)
 
 [node name="Stalfos3" parent="." unique_id=1140248131 instance=ExtResource("4_w1htq")]
 position = Vector2(200, 64)
+Drops = ExtResource("5_xp8w3")
 
 [node name="DoorLockedUp" parent="." unique_id=578636461 instance=ExtResource("5_ixwwr")]
 position = Vector2(128, 24)
