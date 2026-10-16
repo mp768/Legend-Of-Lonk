@@ -18,8 +18,8 @@ public static class Constants
 
     public const int MAX_BOMBS = 8;
 
-    // The player character joins this group so world objects like exits and doors can recognise him
-    // without type-checking.
+    // Whichever body the player is right now (Lonk, or an enemy he has possessed) is the only member of this
+    // group, so world objects like exits and doors can recognise it without type-checking.
     public const string PLAYER_GROUP = "player";
 
     // Every enemy joins this group so rooms can count how many are left to defeat.

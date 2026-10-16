@@ -18,7 +18,7 @@ public partial class LockedDoor : Door
 
     private async void OnTriggerBodyEntered(Node2D body)
     {
-        if (opening || IsOpen || !body.IsInGroup(Constants.PLAYER_GROUP) || !GameState.Instance.TryUseKeys(KeyCost))
+        if (opening || IsOpen || !PlayerEntity.CanPlayerDo(body, PlayerAbility.OPEN_DOORS) || !GameState.Instance.TryUseKeys(KeyCost))
         {
             return;
         }

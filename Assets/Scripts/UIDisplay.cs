@@ -1,11 +1,7 @@
 using Godot;
-using System;
 
 public partial class UIDisplay : ColorRect
 {
-    // Used to look up the icon for the selected alternate weapon.
-    [Export] private Weapon[] weapons = [];
-
     private Label health;
     private Label rupees;
     private Label keys;
@@ -24,15 +20,13 @@ public partial class UIDisplay : ColorRect
         GameSignals.Instance.RupeesChanged += OnRupeesChanged;
         GameSignals.Instance.KeysChanged += OnKeysChanged;
         GameSignals.Instance.BombsChanged += OnBombsChanged;
-        GameSignals.Instance.SelectedWeaponChanged += OnSelectedWeaponChanged;
+        GameSignals.Instance.PlayerWeaponChanged += OnPlayerWeaponChanged;
 
         // GameState survives scene reloads, so read its current values instead of waiting for a change.
-        // Health comes from the player when he spawns.
+        // Health and the alternate weapon come from the player's body when it spawns or takes over.
         OnRupeesChanged(GameState.Instance.Rupees);
         OnKeysChanged(GameState.Instance.Keys);
         OnBombsChanged(GameState.Instance.Bombs);
-        AltWeapon? selected = GameState.Instance.SelectedWeapon;
-        OnSelectedWeaponChanged(selected.HasValue ? (int)selected.Value : -1);
     }
 
     public override void _ExitTree()
@@ -41,7 +35,7 @@ public partial class UIDisplay : ColorRect
         GameSignals.Instance.RupeesChanged -= OnRupeesChanged;
         GameSignals.Instance.KeysChanged -= OnKeysChanged;
         GameSignals.Instance.BombsChanged -= OnBombsChanged;
-        GameSignals.Instance.SelectedWeaponChanged -= OnSelectedWeaponChanged;
+        GameSignals.Instance.PlayerWeaponChanged -= OnPlayerWeaponChanged;
     }
 
     // Health is in half-hearts, shown as hearts.
@@ -56,9 +50,8 @@ public partial class UIDisplay : ColorRect
 
     private void OnBombsChanged(int value) => ShowStat(bombs, value);
 
-    private void OnSelectedWeaponChanged(int kind)
+    private void OnPlayerWeaponChanged(Weapon weapon)
     {
-        Weapon weapon = kind < 0 ? null : Array.Find(weapons, w => w != null && (int)w.Kind == kind);
         weaponIcon.Texture = weapon?.Icon;
         weaponIcon.TooltipText = weapon?.DisplayName ?? "";
     }

@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Assets/Scripts/PossessedEnemy.cs" id="1_vessel"]
+[ext_resource type="SpriteFrames" path="res://Assets/Resources/SpriteFrames/goriya_frames.tres" id="2_frames"]
+[ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="3_machine"]
+[ext_resource type="Script" uid="uid://olo2qg05lfux" path="res://Assets/Scripts/PushdownAutomata/States/GridMovementState.cs" id="4_move"]
+[ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="5_stun"]
+[ext_resource type="Script" uid="uid://b5asephyhb36i" path="res://Assets/Scripts/PushdownAutomata/States/TransitionState.cs" id="6_trans"]
+[ext_resource type="Script" uid="uid://oef726hkks6y" path="res://Assets/Scripts/PushdownAutomata/States/AttackState.cs" id="7_attack"]
+[ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="8_present"]
+[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="9_input"]
+[ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="10_health"]
+[ext_resource type="Script" uid="uid://d2ha0ewintt75" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="11_weapons"]
+[ext_resource type="Resource" uid="uid://cf6inv6c8140i" path="res://Assets/Resources/Weapons/goriya_boomerang.tres" id="12_boomr"]
+[ext_resource type="Shader" path="res://Assets/Shaders/silhouette.gdshader" id="21_silhouette"]
+
+[sub_resource type="RectangleShape2D" id="Shape_body"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="Shape_hurt"]
+size = Vector2(14, 15)
+
+[node name="GoriyaPossessed" type="CharacterBody2D" node_paths=PackedStringArray("transitionState", "StateMachine", "Visuals", "Health", "Weapons", "hitbox")]
+z_index = 1
+collision_layer = 16
+collision_mask = 33
+script = ExtResource("1_vessel")
+outlineShader = ExtResource("21_silhouette")
+Abilities = 3
+transitionState = NodePath("PushdownStateMachine/TransitionState")
+StateMachine = NodePath("PushdownStateMachine")
+Visuals = NodePath("SpritePresenter")
+Health = NodePath("Health")
+Weapons = NodePath("WeaponHolder")
+hitbox = NodePath("Hitbox")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.7, 1, 1, 1)
+sprite_frames = ExtResource("2_frames")
+animation = &"walk_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("Shape_body")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 576
+collision_mask = 264
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -2)
+shape = SubResource("Shape_hurt")
+
+[node name="PushdownStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "initialInputProvider")]
+script = ExtResource("3_machine")
+initialState = NodePath("GridMovementState")
+initialInputProvider = NodePath("../PlayerInputProvider")
+
+[node name="GridMovementState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("4_move")
+MoveSpeed = 40.0
+
+[node name="StunState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("5_stun")
+Duration = 0.25
+
+[node name="TransitionState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("6_trans")
+
+[node name="AttackState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("7_attack")
+AnimHorizontal = "walk_horizontal"
+AnimDown = "walk_down"
+AnimUp = "walk_up"
+HorizontalSwordOffset = Vector2i(0, -1)
+UpOffset = Vector2i(0, -1)
+DownOffset = Vector2i(0, -1)
+Duration = 0.3
+
+[node name="SpritePresenter" type="Node" parent="." node_paths=PackedStringArray("Sprite")]
+script = ExtResource("8_present")
+Sprite = NodePath("../AnimatedSprite2D")
+SpriteOffset = Vector2i(0, -1)
+
+[node name="PlayerInputProvider" type="Node" parent="."]
+script = ExtResource("9_input")
+Primary = 1
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("10_health")
+Max = 3
+InvincibilityDuration = 0.8
+
+[node name="WeaponHolder" type="Node" parent="."]
+script = ExtResource("11_weapons")
+Weapons = [ExtResource("12_boomr")]

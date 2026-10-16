@@ -26,21 +26,20 @@ public abstract partial class Entity : CharacterBody2D
     protected SoundPlayer.HurtSound hurtSound = SoundPlayer.HurtSound.ENEMY;
     protected SoundPlayer.DeathSound deathSound = SoundPlayer.DeathSound.ENEMY;
 
-    private readonly List<IInputProvider> inputProviders = [];
+    // Effects this entity never accepts. Areas carrying them are left untouched rather than consumed.
+    protected readonly HashSet<Affectables.EffectType> ignoredEffects = [];
+
+    private readonly List<Area2D> contactAreas = [];
 
     public override void _Ready()
     {
         foreach (Node child in GetChildren())
         {
-            if (child is IInputProvider provider)
-            {
-                inputProviders.Add(provider);
-            }
-
             // Contact areas on the entity (like an enemy's contact damage).
             if (child is Affectables contact)
             {
                 contact.Source = this;
+                contactAreas.Add(contact);
             }
         }
 
@@ -57,33 +56,27 @@ public abstract partial class Entity : CharacterBody2D
         StateMachine?.Start(this);
     }
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        // Debug toggle that demonstrates swappable controllers.
-        if (@event.IsActionPressed("swap"))
-        {
-            CycleInputProvider();
-        }
-    }
-
-    // Hands control to the next IInputProvider among the entity's children.
-    public void CycleInputProvider()
-    {
-        if (inputProviders.Count == 0)
-        {
-            return;
-        }
-
-        int next = (inputProviders.IndexOf(StateMachine.InputProvider) + 1) % inputProviders.Count;
-        StateMachine.InputProvider = inputProviders[next];
-    }
-
     // Pays for one shot of `weapon`. Returns false if the entity can't afford it. Enemies have infinite ammo.
     public virtual bool TrySpendAmmo(Weapon weapon) => true;
 
     public virtual void CycleWeapon()
     {
         Weapons?.CycleNext(_ => true);
+    }
+
+    // Turns the entity's hitbox and contact areas on or off, e.g. while it's dormant. Disabling the shapes, not
+    // Monitoring, also hides it from ray checks like a blade trap's line of sight.
+    public void SetTangible(bool tangible)
+    {
+        if (hitbox != null)
+        {
+            SetShapesDisabled(hitbox, !tangible);
+        }
+
+        foreach (Area2D area in contactAreas)
+        {
+            SetShapesDisabled(area, !tangible);
+        }
     }
 
     protected virtual void ApplyEffect(Affectables effect)
@@ -144,10 +137,22 @@ public abstract partial class Entity : CharacterBody2D
 
     private void OnHitboxAreaEntered(Area2D area)
     {
-        if (area is Affectables effect && effect.TryConsume())
+        if (area is Affectables effect && !ignoredEffects.Contains(effect.Type) && effect.TryConsume())
         {
             SoundPlayer.Instance.PlayAttack(effect.HitSound);
             ApplyEffect(effect);
+        }
+    }
+
+    private static void SetShapesDisabled(Area2D area, bool disabled)
+    {
+        foreach (Node child in area.GetChildren())
+        {
+            if (child is CollisionShape2D shape)
+            {
+                // Deferred because entities go dormant from inside hitbox callbacks.
+                shape.SetDeferred(CollisionShape2D.PropertyName.Disabled, disabled);
+            }
         }
     }
 }

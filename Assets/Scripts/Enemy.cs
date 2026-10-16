@@ -25,6 +25,9 @@ public partial class Enemy : Entity, IResettableEntity
     [Export] public SoundPlayer.HurtSound HurtSound { get; set; } = SoundPlayer.HurtSound.ENEMY;
     [Export] public SoundPlayer.DeathSound DeathSound { get; set; } = SoundPlayer.DeathSound.ENEMY;
 
+    // Leave empty for enemies that can't be possessed.
+    [Export] public Possessable Possessable { get; set; }
+
     private Vector2 spawnPosition;
 
     public override void _Ready()
@@ -45,7 +48,6 @@ public partial class Enemy : Entity, IResettableEntity
         CallDeferred(Node.MethodName.SetProcess, false);
         CallDeferred(Node.MethodName.SetPhysicsProcess, false);
 
-        GlobalPosition = spawnPosition;
         CallDeferred(CanvasItem.MethodName.SetVisible, true);
 
         // Let the enemy move again.
@@ -58,10 +60,27 @@ public partial class Enemy : Entity, IResettableEntity
     public void OnRoomExited()
     {
         Visible = false;
+
+        // Reset on the way out rather than on the way in, so a dormant enemy keeps the spot it was possessed
+        // in, even through a warp back into its room.
+        if (StateMachine?.CurrentState is not DormantState)
+        {
+            // Deferred because rooms are left from inside exit callbacks.
+            SetDeferred(Node2D.PropertyName.GlobalPosition, spawnPosition);
+        }
     }
 
     protected override void ApplyEffect(Affectables effect)
     {
+        if (effect.Type == Affectables.EffectType.POSSESS)
+        {
+            if (effect.Instigator is PlayerEntity possessor)
+            {
+                Possessable?.TryPossess(this, possessor);
+            }
+            return;
+        }
+
         if (effect.Type == Affectables.EffectType.STUN && StunKills && Health != null)
         {
             TakeDamage(Health.Current, KnockbackFrom(effect));

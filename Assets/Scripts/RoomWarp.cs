@@ -15,7 +15,7 @@ public partial class RoomWarp : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		if (Destination == null || Arrival == null || !body.IsInGroup(Constants.PLAYER_GROUP))
+		if (Destination == null || Arrival == null || !PlayerEntity.CanPlayerDo(body, PlayerAbility.TAKE_STAIRS))
 		{
 			return;
 		}

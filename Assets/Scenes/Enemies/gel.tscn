@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://olo2qg05lfux" path="res://Assets/Scripts/PushdownAutomata/States/GridMovementState.cs" id="7_res"]
 [ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="8_res"]
 [ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="9_res"]
-[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="10_res"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_slew0"]
 atlas = ExtResource("3_kdrgb")
@@ -104,9 +103,6 @@ script = ExtResource("9_res")
 DirectionChangeInterval = 0.35
 PauseChance = 0.5
 PauseDuration = 0.6
-
-[node name="PlayerInputProvider" type="Node" parent="." unique_id=1104717785]
-script = ExtResource("10_res")
 
 [node name="Health" type="Node" parent="." unique_id=1352251745]
 script = ExtResource("5_res")

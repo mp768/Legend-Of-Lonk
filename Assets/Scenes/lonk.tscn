@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="9_03c5t"]
 [ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="9_5lw22"]
 [ext_resource type="Script" uid="uid://b5asephyhb36i" path="res://Assets/Scripts/PushdownAutomata/States/TransitionState.cs" id="10_tmlrr"]
-[ext_resource type="Script" uid="uid://b66paybvi38sb" path="res://Assets/Scripts/CommandPattern/RandomWalkInputProvider.cs" id="11_5lw22"]
 [ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="12_hlth1"]
 [ext_resource type="Script" uid="uid://d2ha0ewintt75" path="res://Assets/Scripts/Components/WeaponHolder.cs" id="13_whold"]
 [ext_resource type="Script" uid="uid://xc3svpclcavh" path="res://Assets/Scripts/PushdownAutomata/States/SideScrollMovementState.cs" id="14_sides"]
@@ -19,6 +18,8 @@
 [ext_resource type="Resource" uid="uid://cr4qoyw7wso32" path="res://Assets/Resources/Weapons/bow.tres" id="17_bow"]
 [ext_resource type="Resource" uid="uid://83dpa6g4kunu" path="res://Assets/Resources/Weapons/boomerang.tres" id="18_boomr"]
 [ext_resource type="Resource" uid="uid://82aotq86485w" path="res://Assets/Resources/Weapons/bomb.tres" id="19_bomb"]
+[ext_resource type="Resource" path="res://Assets/Resources/Weapons/possession.tres" id="20_possess"]
+[ext_resource type="Script" path="res://Assets/Scripts/PushdownAutomata/States/DormantState.cs" id="21_dormant"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1j3ky"]
 atlas = ExtResource("2_kq13k")
@@ -302,6 +303,10 @@ script = ExtResource("14_sides")
 [node name="GrabbedState" type="Node" parent="PushdownStateMachine" unique_id=1809652748]
 script = ExtResource("15_grabd")
 
+[node name="DormantState" type="Node" parent="PushdownStateMachine" unique_id=1809652749]
+script = ExtResource("21_dormant")
+Appearance = 1
+
 [node name="SpritePresenter" type="Node" parent="." unique_id=411043305 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("9_5lw22")
 Sprite = NodePath("../AnimatedSprite2D")
@@ -311,10 +316,6 @@ metadata/_custom_type_script = "uid://dalxbpepkragd"
 script = ExtResource("9_03c5t")
 metadata/_custom_type_script = "uid://du8hxi0wj5cw4"
 
-[node name="RandomWalkInputProvider" type="Node" parent="." unique_id=901033775]
-script = ExtResource("11_5lw22")
-metadata/_custom_type_script = "uid://b66paybvi38sb"
-
 [node name="Health" type="Node" parent="." unique_id=1409091216]
 script = ExtResource("12_hlth1")
 InvincibilityDuration = 0.8
@@ -322,4 +323,4 @@ metadata/_custom_type_script = "uid://frnkyinflmju"
 
 [node name="WeaponHolder" type="Node" parent="." unique_id=1409091217]
 script = ExtResource("13_whold")
-Weapons = [ExtResource("17_bow"), ExtResource("18_boomr"), ExtResource("19_bomb")]
+Weapons = [ExtResource("17_bow"), ExtResource("18_boomr"), ExtResource("19_bomb"), ExtResource("20_possess")]

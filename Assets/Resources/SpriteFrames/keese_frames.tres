@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" uid="uid://bxgnaw5vdnv7w" path="res://Assets/Sprites/Keese.png" id="3_d2rlr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpk4c"]
+atlas = ExtResource("3_d2rlr")
+region = Rect2(17, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpban"]
+atlas = ExtResource("3_d2rlr")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fpk4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpban")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 5.0
+}]

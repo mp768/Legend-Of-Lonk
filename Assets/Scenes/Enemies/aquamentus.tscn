@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://dltjvjc2kxawo" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="9_res"]
 [ext_resource type="Script" uid="uid://oef726hkks6y" path="res://Assets/Scripts/PushdownAutomata/States/AttackState.cs" id="10_res"]
 [ext_resource type="Script" uid="uid://d24ekpoemkcci" path="res://Assets/Scripts/CommandPattern/AquamentusInputProvider.cs" id="11_res"]
-[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="12_res"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kf2jv"]
 atlas = ExtResource("3_mdc3u")
@@ -122,9 +121,6 @@ body = NodePath("..")
 PaceRange = 18.0
 FireInterval = 3.5
 PauseChance = 0.26
-
-[node name="PlayerInputProvider" type="Node" parent="." unique_id=878578297]
-script = ExtResource("12_res")
 
 [node name="Health" type="Node" parent="." unique_id=619522664]
 script = ExtResource("5_res")

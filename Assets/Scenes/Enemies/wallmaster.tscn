@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="7_7xyj7"]
 [ext_resource type="Script" uid="uid://dltjvjc2kxawo" path="res://Assets/Scripts/PushdownAutomata/States/FreeMovementState.cs" id="7_res"]
 [ext_resource type="Script" uid="uid://beay422c734md" path="res://Assets/Scripts/CommandPattern/WallmasterInputProvider.cs" id="8_res"]
-[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="9_res"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7xyj7"]
 atlas = ExtResource("3_583wc")
@@ -108,9 +107,6 @@ WalkUp = "walk"
 [node name="WallmasterInputProvider" type="Node" parent="." unique_id=557662263 node_paths=PackedStringArray("body")]
 script = ExtResource("8_res")
 body = NodePath("..")
-
-[node name="PlayerInputProvider" type="Node" parent="." unique_id=1941937774]
-script = ExtResource("9_res")
 
 [node name="Health" type="Node" parent="." unique_id=735380018]
 script = ExtResource("5_res")

@@ -1,0 +1,83 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Assets/Scripts/PossessedEnemy.cs" id="1_vessel"]
+[ext_resource type="SpriteFrames" path="res://Assets/Resources/SpriteFrames/stalfos_frames.tres" id="2_frames"]
+[ext_resource type="Script" uid="uid://cn6f6axpbbd6f" path="res://Assets/Scripts/PushdownAutomata/PushdownStateMachine.cs" id="3_machine"]
+[ext_resource type="Script" uid="uid://olo2qg05lfux" path="res://Assets/Scripts/PushdownAutomata/States/GridMovementState.cs" id="4_move"]
+[ext_resource type="Script" uid="uid://b05gbd8um177f" path="res://Assets/Scripts/PushdownAutomata/States/StunState.cs" id="5_stun"]
+[ext_resource type="Script" uid="uid://b5asephyhb36i" path="res://Assets/Scripts/PushdownAutomata/States/TransitionState.cs" id="6_trans"]
+[ext_resource type="Script" uid="uid://dalxbpepkragd" path="res://Assets/Scripts/Components/SpritePresenter.cs" id="7_present"]
+[ext_resource type="Script" uid="uid://du8hxi0wj5cw4" path="res://Assets/Scripts/CommandPattern/PlayerInputProvider.cs" id="8_input"]
+[ext_resource type="Script" uid="uid://frnkyinflmju" path="res://Assets/Scripts/Components/Health.cs" id="9_health"]
+[ext_resource type="Shader" path="res://Assets/Shaders/silhouette.gdshader" id="21_silhouette"]
+
+[sub_resource type="RectangleShape2D" id="Shape_body"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="Shape_hurt"]
+size = Vector2(14, 15)
+
+[node name="StalfosPossessed" type="CharacterBody2D" node_paths=PackedStringArray("transitionState", "StateMachine", "Visuals", "Health", "hitbox")]
+z_index = 1
+collision_layer = 16
+collision_mask = 33
+script = ExtResource("1_vessel")
+outlineShader = ExtResource("21_silhouette")
+OutlineColor = Color(0, 0, 0, 1)
+Abilities = 1
+transitionState = NodePath("PushdownStateMachine/TransitionState")
+StateMachine = NodePath("PushdownStateMachine")
+Visuals = NodePath("SpritePresenter")
+Health = NodePath("Health")
+hitbox = NodePath("Hitbox")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.7, 1, 1, 1)
+position = Vector2(0, -2)
+sprite_frames = ExtResource("2_frames")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("Shape_body")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 576
+collision_mask = 264
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -2)
+shape = SubResource("Shape_hurt")
+
+[node name="PushdownStateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState", "initialInputProvider")]
+script = ExtResource("3_machine")
+initialState = NodePath("GridMovementState")
+initialInputProvider = NodePath("../PlayerInputProvider")
+
+[node name="GridMovementState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("4_move")
+MoveSpeed = 35.0
+
+[node name="StunState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("5_stun")
+
+[node name="TransitionState" type="Node" parent="PushdownStateMachine"]
+script = ExtResource("6_trans")
+
+[node name="SpritePresenter" type="Node" parent="." node_paths=PackedStringArray("Sprite")]
+script = ExtResource("7_present")
+Sprite = NodePath("../AnimatedSprite2D")
+SpriteOffset = Vector2i(0, 2)
+WalkHorizontal = "walk"
+WalkDown = "walk"
+WalkUp = "walk"
+WalkStepFrequency = 12
+
+[node name="PlayerInputProvider" type="Node" parent="."]
+script = ExtResource("8_input")
+Primary = 1
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("9_health")
+Max = 2
+InvincibilityDuration = 0.8

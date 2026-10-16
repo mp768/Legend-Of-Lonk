@@ -52,7 +52,7 @@ public partial class PushableBlock : AnimatableBody2D
 	{
 		foreach (Node2D body in pushSensor.GetOverlappingBodies())
 		{
-			if (body is not Entity pusher || !pusher.IsInGroup(Constants.PLAYER_GROUP))
+			if (body is not Entity pusher || !PlayerEntity.CanPlayerDo(pusher, PlayerAbility.PUSH_BLOCKS))
 			{
 				continue;
 			}
