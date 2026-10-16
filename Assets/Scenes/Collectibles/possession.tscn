@@ -1,14 +1,12 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://ckptrta251foe"]
 
 [ext_resource type="Script" uid="uid://c07ngcbt1eukw" path="res://Assets/Scripts/Collectible.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cb07y2j0r4grn" path="res://Assets/Sprites/Posession-Orb.png" id="2_kvrp6"]
 
 [sub_resource type="RectangleShape2D" id="Shape_main"]
-size = Vector2(8, 8)
+size = Vector2(12, 12)
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(8, 8)
-
-[node name="PossessionPickup" type="Area2D"]
+[node name="PossessionPickup" type="Area2D" unique_id=1346775374]
 collision_layer = 8
 collision_mask = 80
 script = ExtResource("1_script")
@@ -16,8 +14,8 @@ CollectSound = 3
 Type = 6
 Value = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1376983633]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=254094400]
+texture = ExtResource("2_kvrp6")

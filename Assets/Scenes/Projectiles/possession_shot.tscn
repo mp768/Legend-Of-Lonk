@@ -1,24 +1,22 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://db5nmwtjq81q0"]
 
 [ext_resource type="Script" uid="uid://bbn10aif3e3mp" path="res://Assets/Scripts/Projectile.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b68w6gp2qtix5" path="res://Assets/Sprites/Posession-Orb-Projectile.png" id="2_bf71j"]
 
 [sub_resource type="RectangleShape2D" id="Shape_main"]
-size = Vector2(6, 6)
+size = Vector2(8, 8)
 
-[sub_resource type="PlaceholderTexture2D" id="Placeholder_main"]
-size = Vector2(6, 6)
-
-[node name="PossessionShot" type="Area2D"]
+[node name="PossessionShot" type="Area2D" unique_id=1688652696]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_script")
 Speed = 150.0
 Lifetime = 3.0
-LaunchSound = 4
+LaunchSound = 3
 Type = 9
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=581169532]
 shape = SubResource("Shape_main")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("Placeholder_main")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1819746563]
+texture = ExtResource("2_bf71j")
