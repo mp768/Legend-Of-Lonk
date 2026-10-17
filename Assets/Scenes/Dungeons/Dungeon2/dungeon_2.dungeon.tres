@@ -586,6 +586,7 @@ room_name = "Room8"
 grid_pos = Vector2i(0, -2)
 tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_r1xwe"), SubResource("Resource_46vya"), SubResource("Resource_ghgyg"), SubResource("Resource_5jucs"), SubResource("Resource_3lsbc"), SubResource("Resource_k0maa"), SubResource("Resource_a7tj2"), SubResource("Resource_s06sv"), SubResource("Resource_wn6hh"), SubResource("Resource_n1xcg"), SubResource("Resource_8mpqv"), SubResource("Resource_xypv4"), SubResource("Resource_4saqp"), SubResource("Resource_rnk06"), SubResource("Resource_3wm0e"), SubResource("Resource_ofd4j"), SubResource("Resource_no82h"), SubResource("Resource_jb8a2"), SubResource("Resource_nuy2e"), SubResource("Resource_ggjgm"), SubResource("Resource_ct31s"), SubResource("Resource_44v0q"), SubResource("Resource_t0og2"), SubResource("Resource_pd6fh"), SubResource("Resource_ax41g"), SubResource("Resource_lo2vn"), SubResource("Resource_b02ka"), SubResource("Resource_0n73l"), SubResource("Resource_byiol"), SubResource("Resource_n3hyk")])
+entry_text = "YOU WON"
 
 [sub_resource type="Resource" id="Resource_vxaeq"]
 script = ExtResource("4_xg2pl")
