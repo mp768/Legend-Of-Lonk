@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://nliglumms2g4" path="res://Assets/Scenes/Collectibles/boomerang.tscn" id="15_qsi2g"]
 [ext_resource type="PackedScene" uid="uid://cwlvkhwlli3cr" path="res://Assets/Scenes/Collectibles/bomb.tscn" id="16_pw38t"]
 [ext_resource type="PackedScene" uid="uid://b26vitb6rc1eu" path="res://Assets/Scenes/Collectibles/rupee.tscn" id="17_u2i6y"]
+[ext_resource type="PackedScene" uid="uid://cwscvihu18f6c" path="res://Assets/Scenes/Collectibles/regen.tscn" id="18_qsi2g"]
 
 [sub_resource type="Resource" id="Resource_nxta8"]
 script = ExtResource("2_q7vim")
@@ -217,19 +218,13 @@ id = 32
 scene = ExtResource("9_giso7")
 position = Vector2i(56, 88)
 
-[sub_resource type="Resource" id="Resource_t0og2"]
-script = ExtResource("4_ej34s")
-id = 55
-scene = ExtResource("8_o762e")
-position = Vector2i(56, 72)
-
 [sub_resource type="Resource" id="Resource_2efpo"]
 script = ExtResource("3_rlfgk")
 id = 1
 room_name = "Room1"
 grid_pos = Vector2i(0, -1)
-tiles = PackedByteArray("AgICAgIAAAICAgICAgICAgIAAAICAgICAgACAgIAAAICAgICAAAAAgIAAAAAAAAAAgACAgIAAAICAgICAgICAgIAAAICAgICAgICAgIAAAICAgIC")
-placements = Array[ExtResource("4_ej34s")]([SubResource("Resource_sqb22"), SubResource("Resource_dqq4q"), SubResource("Resource_t0og2")])
+tiles = PackedByteArray("AgICAgIAAAICAgICAgICAgIAAAICAgICAgICAgIAAAICAgICAAAAAgIAAAAAAAAAAgICAgIAAAICAgICAgICAgIAAAICAgICAgICAgIAAAICAgIC")
+placements = Array[ExtResource("4_ej34s")]([SubResource("Resource_sqb22"), SubResource("Resource_dqq4q")])
 
 [sub_resource type="Resource" id="Resource_w8vpn"]
 script = ExtResource("4_ej34s")
@@ -532,13 +527,61 @@ id = 54
 scene = ExtResource("17_u2i6y")
 position = Vector2i(152, 88)
 
+[sub_resource type="Resource" id="Resource_t0og2"]
+script = ExtResource("4_ej34s")
+id = 58
+scene = ExtResource("18_qsi2g")
+position = Vector2i(168, 56)
+
+[sub_resource type="Resource" id="Resource_pd6fh"]
+script = ExtResource("4_ej34s")
+id = 59
+scene = ExtResource("18_qsi2g")
+position = Vector2i(88, 56)
+
+[sub_resource type="Resource" id="Resource_ax41g"]
+script = ExtResource("4_ej34s")
+id = 60
+scene = ExtResource("18_qsi2g")
+position = Vector2i(152, 56)
+
+[sub_resource type="Resource" id="Resource_lo2vn"]
+script = ExtResource("4_ej34s")
+id = 61
+scene = ExtResource("18_qsi2g")
+position = Vector2i(104, 56)
+
+[sub_resource type="Resource" id="Resource_b02ka"]
+script = ExtResource("4_ej34s")
+id = 62
+scene = ExtResource("18_qsi2g")
+position = Vector2i(120, 72)
+
+[sub_resource type="Resource" id="Resource_0n73l"]
+script = ExtResource("4_ej34s")
+id = 63
+scene = ExtResource("18_qsi2g")
+position = Vector2i(136, 72)
+
+[sub_resource type="Resource" id="Resource_byiol"]
+script = ExtResource("4_ej34s")
+id = 64
+scene = ExtResource("17_u2i6y")
+position = Vector2i(88, 136)
+
+[sub_resource type="Resource" id="Resource_n3hyk"]
+script = ExtResource("4_ej34s")
+id = 65
+scene = ExtResource("17_u2i6y")
+position = Vector2i(168, 136)
+
 [sub_resource type="Resource" id="Resource_m87rh"]
 script = ExtResource("3_rlfgk")
 id = 8
 room_name = "Room8"
 grid_pos = Vector2i(0, -2)
 tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-placements = Array[ExtResource("4_ej34s")]([SubResource("Resource_r1xwe"), SubResource("Resource_46vya"), SubResource("Resource_ghgyg"), SubResource("Resource_5jucs"), SubResource("Resource_3lsbc"), SubResource("Resource_k0maa"), SubResource("Resource_a7tj2"), SubResource("Resource_s06sv"), SubResource("Resource_wn6hh"), SubResource("Resource_n1xcg"), SubResource("Resource_8mpqv"), SubResource("Resource_xypv4"), SubResource("Resource_4saqp"), SubResource("Resource_rnk06"), SubResource("Resource_3wm0e"), SubResource("Resource_ofd4j"), SubResource("Resource_no82h"), SubResource("Resource_jb8a2"), SubResource("Resource_nuy2e"), SubResource("Resource_ggjgm"), SubResource("Resource_ct31s"), SubResource("Resource_44v0q")])
+placements = Array[ExtResource("4_ej34s")]([SubResource("Resource_r1xwe"), SubResource("Resource_46vya"), SubResource("Resource_ghgyg"), SubResource("Resource_5jucs"), SubResource("Resource_3lsbc"), SubResource("Resource_k0maa"), SubResource("Resource_a7tj2"), SubResource("Resource_s06sv"), SubResource("Resource_wn6hh"), SubResource("Resource_n1xcg"), SubResource("Resource_8mpqv"), SubResource("Resource_xypv4"), SubResource("Resource_4saqp"), SubResource("Resource_rnk06"), SubResource("Resource_3wm0e"), SubResource("Resource_ofd4j"), SubResource("Resource_no82h"), SubResource("Resource_jb8a2"), SubResource("Resource_nuy2e"), SubResource("Resource_ggjgm"), SubResource("Resource_ct31s"), SubResource("Resource_44v0q"), SubResource("Resource_t0og2"), SubResource("Resource_pd6fh"), SubResource("Resource_ax41g"), SubResource("Resource_lo2vn"), SubResource("Resource_b02ka"), SubResource("Resource_0n73l"), SubResource("Resource_byiol"), SubResource("Resource_n3hyk")])
 
 [sub_resource type="Resource" id="Resource_vxaeq"]
 script = ExtResource("3_rlfgk")
@@ -563,4 +606,4 @@ edges = Array[ExtResource("1_n4ebh")]([SubResource("Resource_saite"), SubResourc
 start_room_id = 0
 entrance_side = 2
 next_room_id = 11
-next_placement_id = 56
+next_placement_id = 66
