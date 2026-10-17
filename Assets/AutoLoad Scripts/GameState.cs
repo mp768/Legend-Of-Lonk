@@ -57,6 +57,10 @@ public partial class GameState : Node
     // While enabled, rupees, keys and bombs sit at the cap and spending them costs nothing.
     public bool CheatsEnabled { get; private set; }
 
+    // Which of the game viewer's dungeons is being played. Survives ResetGame, so a game over restarts the
+    // same dungeon.
+    public int CurrentDungeon { get; set; }
+
     private readonly HashSet<AltWeapon> unlockedWeapons = [];
 
     public override void _Ready()

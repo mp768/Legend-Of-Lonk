@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://Assets/Scenes/Collectibles/boomerang.tscn" id="2_o0sct"]
 [ext_resource type="PackedScene" uid="uid://cwk6bylfwoxxf" path="res://Assets/Scenes/Locked Doors/Door Locked Left.tscn" id="4_y813c"]
 [ext_resource type="PackedScene" uid="uid://cto2e8dv8epjn" path="res://Assets/Scenes/Enemies/goriya.tscn" id="5_o0sct"]
+[ext_resource type="Script" uid="uid://dmnd3nxclp4fy" path="res://Assets/Scripts/HiddenItem.cs" id="dm_hidden_item"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_shlq3"]
 texture = ExtResource("1_rgbw2")
@@ -1837,10 +1838,8 @@ sources/1 = SubResource("TileSetAtlasSource_anmyw")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rgbw2"]
 size = Vector2(16, 16)
 
-[node name="room13" type="Node2D" unique_id=1076296411 node_paths=PackedStringArray("RewardSpawn")]
+[node name="room13" type="Node2D" unique_id=1076296411]
 script = ExtResource("1_anmyw")
-ClearReward = ExtResource("2_o0sct")
-RewardSpawn = NodePath("BoomerangSpawnPoint")
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
 
 [node name="GroundLayer" type="TileMapLayer" parent="." unique_id=1227893685]
@@ -1897,9 +1896,6 @@ shape = SubResource("RectangleShape2D_rgbw2")
 
 [node name="DoorLockedLeft" parent="." unique_id=446660021 instance=ExtResource("4_y813c")]
 
-[node name="BoomerangSpawnPoint" type="Marker2D" parent="." unique_id=716824106]
-position = Vector2(136, 56)
-
 [node name="Goriya" parent="." unique_id=1085998361 instance=ExtResource("5_o0sct")]
 position = Vector2(152, 40)
 
@@ -1908,3 +1904,11 @@ position = Vector2(192, 56)
 
 [node name="Goriya3" parent="." unique_id=1836505671 instance=ExtResource("5_o0sct")]
 position = Vector2(152, 104)
+
+[node name="BoomerangReward" type="Node2D" parent="."]
+position = Vector2(136, 56)
+script = ExtResource("dm_hidden_item")
+
+[node name="Boomerang" parent="BoomerangReward" instance=ExtResource("2_o0sct")]
+
+[connection signal="Cleared" from="." to="BoomerangReward" method="Fire"]

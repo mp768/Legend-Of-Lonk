@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://clnbeo8t04vrt" path="res://Assets/Sprites/TileMap/Compact Dungeon Tilesett.png" id="1_267gw"]
 [ext_resource type="Script" uid="uid://d2fmyjry07hm1" path="res://Assets/Scripts/Room.cs" id="1_pd6te"]
 [ext_resource type="PackedScene" uid="uid://bqn83m3s5fhrs" path="res://Assets/Scenes/Locked Doors/Door Locked Up.tscn" id="3_g2kf4"]
-[ext_resource type="PackedScene" uid="uid://ckptrta251foe" path="res://Assets/Scenes/Collectibles/possession.tscn" id="4_pd6te"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_267gw"]
 texture = ExtResource("1_267gw")
@@ -2875,6 +2874,3 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownExit" unique_id=165996457]
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_q02sc")
-
-[node name="PossessionPickup" parent="." unique_id=1346775374 instance=ExtResource("4_pd6te")]
-position = Vector2(128, 48)

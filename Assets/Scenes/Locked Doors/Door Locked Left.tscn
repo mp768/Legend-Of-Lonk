@@ -11,6 +11,7 @@ tile_map_data = PackedByteArray("AAACAAoAAQAgAAoAAAADAAoAAQAhAAoAAAACAAsAAQAgAAs
 tile_set = ExtResource("1_tiles")
 script = ExtResource("2_script")
 trigger = NodePath("Trigger")
+Side = 2
 
 [node name="Trigger" type="Area2D" parent="." unique_id=1512830843]
 collision_layer = 0

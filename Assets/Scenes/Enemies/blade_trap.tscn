@@ -25,10 +25,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="Shape_body"]
-size = Vector2(14, 14)
+size = Vector2(13, 13)
 
 [sub_resource type="RectangleShape2D" id="Shape_hurt"]
-size = Vector2(14, 15)
+size = Vector2(12, 12)
 
 [node name="BladeTrap" type="CharacterBody2D" unique_id=1365702441 node_paths=PackedStringArray("StateMachine", "Visuals")]
 collision_layer = 0
@@ -81,4 +81,3 @@ WalkUp = "walk"
 [node name="LineOfSightInputProvider" type="Node" parent="." unique_id=750540825 node_paths=PackedStringArray("eyes")]
 script = ExtResource("7_res")
 eyes = NodePath("..")
-

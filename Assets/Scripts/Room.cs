@@ -12,9 +12,23 @@ public partial class Room : Node2D
 		SIDE_SCROLL,
 	}
 
+	// The four walls of a room, where its exits and doors are.
+	public enum Side
+	{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+	}
+
 	// Emitted once, when the last enemy that counts toward clearing the room is defeated.
 	[Signal]
 	public delegate void ClearedEventHandler();
+
+	// Emitted when the room's secret is found, e.g. a block is pushed. Lets the dungeon scene reveal things it
+	// added to the room, like stairs, without pointing at nodes inside the room scene.
+	[Signal]
+	public delegate void SecretRevealedEventHandler();
 
 	[Export] public Room leftRoom;
 	[Export] public Room rightRoom;
@@ -25,13 +39,7 @@ public partial class Room : Node2D
 
 	[ExportGroup("Clearing")]
 	// Closes the room's shutter doors while enemies remain.
-    [Export] public bool LockUntilCleared { get; set; }
-
-    // Appears once when the room is cleared.
-    [Export] public PackedScene ClearReward { get; set; }
-
-	// Where the reward appears. If not set, it'll just appear in the center of the room.
-	[Export] public Marker2D RewardSpawn { get; set; }
+	[Export] public bool LockUntilCleared { get; set; }
 
 	public Vector2 Center => GlobalPosition + Constants.SCREEN_SIZE / 2;
 
@@ -48,6 +56,47 @@ public partial class Room : Node2D
 		ConnectExit("RightExit", rightRoom, Vector2.Right);
 		ConnectExit("UpExit", upRoom, Vector2.Up);
 		ConnectExit("DownExit", downRoom, Vector2.Down);
+
+		foreach (Node child in GetChildren())
+		{
+			if (child is LockedDoor door)
+			{
+				door.Opened += () => OnLockedDoorOpened(door);
+			}
+		}
+	}
+
+	public Room NeighbourOn(Side side) => side switch
+	{
+		Side.UP => upRoom,
+		Side.DOWN => downRoom,
+		Side.LEFT => leftRoom,
+		_ => rightRoom,
+	};
+
+	public static Side Opposite(Side side) => side switch
+	{
+		Side.UP => Side.DOWN,
+		Side.DOWN => Side.UP,
+		Side.LEFT => Side.RIGHT,
+		_ => Side.LEFT,
+	};
+
+	// Opened from the other side of the doorway, so it stays silent: this room isn't the one on screen.
+	public void OpenLockedDoor(Side side)
+	{
+		foreach (Node child in GetChildren())
+		{
+			if (child is LockedDoor door && door.Side == side && !door.IsOpen)
+			{
+				door.Open(playSound: false);
+			}
+		}
+	}
+
+	public void RevealSecret()
+	{
+		EmitSignal(SignalName.SecretRevealed);
 	}
 
 	public void Activate()
@@ -143,22 +192,15 @@ public partial class Room : Node2D
 			SetShuttersOpen(true);
 		}
 
-		if (ClearReward?.Instantiate() is Node2D reward)
-		{
-			reward.Position = RewardSpawn?.Position ?? (Vector2)Constants.SCREEN_SIZE / 2;
-
-			// Usually reached from an enemy's death inside a physics callback.
-            CallDeferred(Node.MethodName.AddChild, reward);
-        }
-
         EmitSignal(SignalName.Cleared);
     }
 
+    // Only touches shutters driven by clearing the room. Others, like one opened by a pushed block, are left alone.
     private void SetShuttersOpen(bool open)
     {
         foreach (Node child in GetChildren())
         {
-            if (child is ShutterDoor shutter)
+            if (child is ShutterDoor shutter && shutter.OpensWhenCleared)
             {
                 if (open)
                 {
@@ -169,6 +211,16 @@ public partial class Room : Node2D
                     shutter.Close();
                 }
             }
+        }
+    }
+
+    private void OnLockedDoorOpened(LockedDoor door)
+    {
+        // A room that lists itself as a neighbour is blocking that exit, like the entrance.
+        Room neighbour = NeighbourOn(door.Side);
+        if (neighbour != null && neighbour != this)
+        {
+            neighbour.OpenLockedDoor(Opposite(door.Side));
         }
     }
 
