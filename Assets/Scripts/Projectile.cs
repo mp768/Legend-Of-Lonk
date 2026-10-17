@@ -19,6 +19,8 @@ public partial class Projectile : Affectables
 
     public Entity Shooter { get; private set; }
 
+    public override Entity Instigator => Shooter;
+
     private float age;
     private long launchSoundHandle;
 

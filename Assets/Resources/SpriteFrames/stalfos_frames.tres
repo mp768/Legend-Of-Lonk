@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cgg7l4p7m3xl3"]
+
+[ext_resource type="Texture2D" uid="uid://ivqx0u1soxkj" path="res://Assets/Sprites/Stalfos.png" id="2_bfri6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsp3l"]
+atlas = ExtResource("2_bfri6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vwrt"]
+atlas = ExtResource("2_bfri6")
+region = Rect2(16, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsp3l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vwrt")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 5.0
+}]

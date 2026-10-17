@@ -42,6 +42,18 @@ public partial class GameSignals : Node
     [Signal]
     public delegate void SelectedWeaponChangedEventHandler(int kind);
 
+    // The alternate weapon the player's current body holds, or null for none.
+    [Signal]
+    public delegate void PlayerWeaponChangedEventHandler(Weapon weapon);
+
+    // The player has moved into a possessed enemy.
+    [Signal]
+    public delegate void PossessionStartedEventHandler();
+
+    // The possessed enemy was released or died, and the player is back in their original body.
+    [Signal]
+    public delegate void PossessionEndedEventHandler();
+
     [Signal]
     public delegate void RoomExitEnteredEventHandler(Room destination, Node2D traveler, Vector2 direction);
 

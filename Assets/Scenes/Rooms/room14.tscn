@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cvn47dikv7y0y" path="res://Assets/Scripts/WallmasterSpawner.cs" id="5_n4e64"]
 [ext_resource type="PackedScene" uid="uid://cdkvg6t8qvfkf" path="res://Assets/Scenes/Enemies/wallmaster.tscn" id="6_n4e64"]
 [ext_resource type="PackedScene" uid="uid://bqn83m3s5fhrs" path="res://Assets/Scenes/Locked Doors/Door Locked Up.tscn" id="7_6bca4"]
+[ext_resource type="Script" uid="uid://dmnd3nxclp4fy" path="res://Assets/Scripts/HiddenItem.cs" id="dm_hidden_item"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yhoe2"]
 texture = ExtResource("1_g24yh")
@@ -1838,10 +1839,8 @@ sources/1 = SubResource("TileSetAtlasSource_0e86f")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yhoe2"]
 size = Vector2(16, 16)
 
-[node name="room14" type="Node2D" unique_id=1473869900 node_paths=PackedStringArray("RewardSpawn")]
+[node name="room14" type="Node2D" unique_id=1473869900]
 script = ExtResource("1_0e86f")
-ClearReward = ExtResource("2_y75ok")
-RewardSpawn = NodePath("KeySpawnPoint")
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
 
 [node name="GroundLayer" type="TileMapLayer" parent="." unique_id=310742558]
@@ -1896,9 +1895,6 @@ collision_mask = 16
 position = Vector2(16, 88)
 shape = SubResource("RectangleShape2D_yhoe2")
 
-[node name="KeySpawnPoint" type="Marker2D" parent="." unique_id=1152327529]
-position = Vector2(168, 136)
-
 [node name="WallmasterSpawner" type="Node2D" parent="." unique_id=1751315285]
 script = ExtResource("5_n4e64")
 WallmasterScene = ExtResource("6_n4e64")
@@ -1908,3 +1904,11 @@ AlongDistance = 20.0
 
 [node name="DoorLockedUp" parent="." unique_id=578636461 instance=ExtResource("7_6bca4")]
 position = Vector2(128, 24)
+
+[node name="KeyReward" type="Node2D" parent="."]
+position = Vector2(168, 136)
+script = ExtResource("dm_hidden_item")
+
+[node name="Key" parent="KeyReward" instance=ExtResource("2_y75ok")]
+
+[connection signal="Cleared" from="." to="KeyReward" method="Fire"]

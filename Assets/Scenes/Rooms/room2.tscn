@@ -5,6 +5,7 @@
 [ext_resource type="TileSet" uid="uid://7c1163lsffg6" path="res://Assets/Resources/dungeon_tile_set.tres" id="2_4wdh3"]
 [ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="5_cayjm"]
 [ext_resource type="PackedScene" uid="uid://ognfmr8q7or8" path="res://Assets/Scenes/Enemies/keese.tscn" id="gen1_keese"]
+[ext_resource type="Script" uid="uid://dmnd3nxclp4fy" path="res://Assets/Scripts/HiddenItem.cs" id="dm_hidden_item"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nvwu0"]
 texture = ExtResource("1_1a83f")
@@ -1836,10 +1837,8 @@ sources/1 = SubResource("TileSetAtlasSource_mv55n")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tmr7j"]
 size = Vector2(16, 16)
 
-[node name="room2" type="Node2D" unique_id=1234452423 node_paths=PackedStringArray("RewardSpawn")]
+[node name="room2" type="Node2D" unique_id=1234452423]
 script = ExtResource("1_4wdh3")
-ClearReward = ExtResource("5_cayjm")
-RewardSpawn = NodePath("KeySpawnPoint")
 metadata/_custom_type_script = "uid://d2fmyjry07hm1"
 
 [node name="GroundLayer" type="TileMapLayer" parent="." unique_id=626844473]
@@ -1906,5 +1905,10 @@ position = Vector2(88, 72)
 [node name="Keese3" parent="." unique_id=619439113 instance=ExtResource("gen1_keese")]
 position = Vector2(56, 120)
 
-[node name="KeySpawnPoint" type="Marker2D" parent="." unique_id=1334490768]
+[node name="KeyReward" type="Node2D" parent="."]
 position = Vector2(168, 136)
+script = ExtResource("dm_hidden_item")
+
+[node name="Key" parent="KeyReward" instance=ExtResource("5_cayjm")]
+
+[connection signal="Cleared" from="." to="KeyReward" method="Fire"]

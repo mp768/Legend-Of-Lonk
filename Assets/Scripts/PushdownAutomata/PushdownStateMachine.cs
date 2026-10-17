@@ -51,7 +51,10 @@ public partial class PushdownStateMachine : Node
             return;
         }
 
-        InputProvider?.FetchNextCommand()?.Execute(Entity, this);
+        if (CurrentState is not { IgnoresInput: true })
+        {
+            InputProvider?.FetchNextCommand()?.Execute(Entity, this);
+        }
         CurrentState?.PhysicsUpdate(delta);
     }
 

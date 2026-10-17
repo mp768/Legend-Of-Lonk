@@ -25,6 +25,9 @@ public partial class SpritePresenter : Node
     // Determines whether we flip the sprite horizontally when moving along the horizontal axis.
     [Export] public bool FlipHorizontally { get; set; } = true;
 
+    // Tint used while the entity is dormant but still on screen (e.g., Lonk while possessing).
+    [Export] public Color DimmedColor { get; set; } = new(0.45f, 0.45f, 0.55f);
+
     [ExportGroup("Walk Animation")]
     [Export] public string WalkHorizontal { get; set; } = "walk_horizontal";
     [Export] public string WalkDown { get; set; } = "walk_down";
@@ -137,6 +140,23 @@ public partial class SpritePresenter : Node
     {
         poseOffset = null;
         SnapToPixelGrid();
+    }
+
+    public void SetHidden(bool hidden)
+    {
+        if (Sprite != null)
+        {
+            Sprite.Visible = !hidden;
+        }
+    }
+
+    // Uses Modulate, so it combines with Flash, which drives SelfModulate.
+    public void SetDimmed(bool dimmed)
+    {
+        if (Sprite != null)
+        {
+            Sprite.Modulate = dimmed ? DimmedColor : Colors.White;
+        }
     }
 
     // Cycles the sprite through the flash palette for `duration` seconds, then restores its colour.

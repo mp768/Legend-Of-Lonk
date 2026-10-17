@@ -1,0 +1,616 @@
+[gd_resource type="Resource" script_class="DMDungeonLayout" format=4 uid="uid://ced1yg2bgp78u"]
+
+[ext_resource type="Script" uid="uid://d0mfn7u6rmk0e" path="res://addons/dungeon_maker/data/dm_door_edge.gd" id="1_qsi2g"]
+[ext_resource type="Script" uid="uid://cryvn8n4m86sn" path="res://addons/dungeon_maker/data/dm_shutter_rule.gd" id="2_pw38t"]
+[ext_resource type="AudioStream" uid="uid://btehdvsul5e1b" path="res://Assets/Sounds/03_-_Legend_of_Zelda_-_NES_-_Underworld_BGM.ogg" id="3_u2i6y"]
+[ext_resource type="Script" uid="uid://n0paacebvuv4" path="res://addons/dungeon_maker/data/dm_room_layout.gd" id="4_xg2pl"]
+[ext_resource type="Script" uid="uid://csvdsiu1yfq8" path="res://addons/dungeon_maker/data/dm_placement.gd" id="5_h5hch"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Collectibles/possession.tscn" id="6_tt25x"]
+[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="7_qyv42"]
+[ext_resource type="PackedScene" uid="uid://cto2e8dv8epjn" path="res://Assets/Scenes/Enemies/goriya.tscn" id="8_jl7uy"]
+[ext_resource type="PackedScene" uid="uid://du416pbf2fmx0" path="res://Assets/Scenes/World/pushable_block.tscn" id="9_64ejo"]
+[ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="10_73iks"]
+[ext_resource type="PackedScene" uid="uid://bvllk0snvqw8n" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="11_55ibs"]
+[ext_resource type="PackedScene" uid="uid://ognfmr8q7or8" path="res://Assets/Scenes/Enemies/keese.tscn" id="12_dodoa"]
+[ext_resource type="PackedScene" uid="uid://cll3wngoso2or" path="res://Assets/Scenes/Enemies/aquamentus.tscn" id="13_mjgxm"]
+[ext_resource type="PackedScene" uid="uid://cwsevf4soapkc" path="res://Assets/Scenes/Collectibles/bow.tscn" id="14_j50tc"]
+[ext_resource type="PackedScene" uid="uid://nliglumms2g4" path="res://Assets/Scenes/Collectibles/boomerang.tscn" id="15_3joyx"]
+[ext_resource type="PackedScene" uid="uid://cwlvkhwlli3cr" path="res://Assets/Scenes/Collectibles/bomb.tscn" id="16_a7e57"]
+[ext_resource type="PackedScene" uid="uid://b26vitb6rc1eu" path="res://Assets/Scenes/Collectibles/rupee.tscn" id="17_8h5s5"]
+[ext_resource type="PackedScene" uid="uid://cwscvihu18f6c" path="res://Assets/Scenes/Collectibles/regen.tscn" id="18_iyemy"]
+[ext_resource type="Script" uid="uid://bm4330roa5rp7" path="res://addons/dungeon_maker/data/dm_dungeon_layout.gd" id="19_u2nnr"]
+[ext_resource type="Resource" uid="uid://bltwv5x7l8noy" path="res://addons/dungeon_maker/themes/eagle/eagle_theme.tres" id="20_401pi"]
+[ext_resource type="Script" uid="uid://g5jhusiixewk" path="res://addons/dungeon_maker/data/dm_warp_link.gd" id="21_m3k7x"]
+
+[sub_resource type="Resource" id="Resource_nxta8"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_8i2of"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_saite"]
+script = ExtResource("1_qsi2g")
+room_a = 1
+room_b = 0
+shutter_a = SubResource("Resource_nxta8")
+shutter_b = SubResource("Resource_8i2of")
+
+[sub_resource type="Resource" id="Resource_c7ji1"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_4ecb3"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_8wbuy"]
+script = ExtResource("1_qsi2g")
+room_a = 1
+room_b = 3
+shutter_a = SubResource("Resource_c7ji1")
+shutter_b = SubResource("Resource_4ecb3")
+
+[sub_resource type="Resource" id="Resource_4yw6f"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_h07tn"]
+script = ExtResource("2_pw38t")
+mode = 1
+block_id = 13
+
+[sub_resource type="Resource" id="Resource_ig1qu"]
+script = ExtResource("1_qsi2g")
+room_a = 3
+room_b = 2
+shutter_a = SubResource("Resource_4yw6f")
+shutter_b = SubResource("Resource_h07tn")
+
+[sub_resource type="Resource" id="Resource_0uksj"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_lmc6x"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_f6ebx"]
+script = ExtResource("1_qsi2g")
+room_a = 0
+room_b = 2
+kind = 1
+shutter_a = SubResource("Resource_0uksj")
+shutter_b = SubResource("Resource_lmc6x")
+
+[sub_resource type="Resource" id="Resource_3qgag"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_sd48r"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_eltdk"]
+script = ExtResource("1_qsi2g")
+room_a = 2
+room_b = 4
+shutter_a = SubResource("Resource_3qgag")
+shutter_b = SubResource("Resource_sd48r")
+
+[sub_resource type="Resource" id="Resource_ktov2"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_sdins"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_wbpc8"]
+script = ExtResource("1_qsi2g")
+room_a = 4
+room_b = 5
+shutter_a = SubResource("Resource_ktov2")
+shutter_b = SubResource("Resource_sdins")
+
+[sub_resource type="Resource" id="Resource_rupfk"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_ke00j"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_fmjel"]
+script = ExtResource("1_qsi2g")
+room_a = 4
+room_b = 6
+kind = 1
+shutter_a = SubResource("Resource_rupfk")
+shutter_b = SubResource("Resource_ke00j")
+
+[sub_resource type="Resource" id="Resource_ysvdm"]
+script = ExtResource("2_pw38t")
+mode = 1
+
+[sub_resource type="Resource" id="Resource_phq2j"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_db8jj"]
+script = ExtResource("1_qsi2g")
+room_a = 5
+room_b = 7
+shutter_a = SubResource("Resource_ysvdm")
+shutter_b = SubResource("Resource_phq2j")
+
+[sub_resource type="Resource" id="Resource_j1uay"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_dxnkd"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_fswb5"]
+script = ExtResource("1_qsi2g")
+room_a = 2
+room_b = 9
+shutter_a = SubResource("Resource_j1uay")
+shutter_b = SubResource("Resource_dxnkd")
+
+[sub_resource type="Resource" id="Resource_3fnce"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_7830h"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_812ju"]
+script = ExtResource("1_qsi2g")
+room_a = 9
+room_b = 6
+shutter_a = SubResource("Resource_3fnce")
+shutter_b = SubResource("Resource_7830h")
+
+[sub_resource type="Resource" id="Resource_nmd2d"]
+script = ExtResource("2_pw38t")
+mode = 2
+block_id = 26
+
+[sub_resource type="Resource" id="Resource_df25b"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_mvoc8"]
+script = ExtResource("1_qsi2g")
+room_a = 6
+room_b = 10
+shutter_a = SubResource("Resource_nmd2d")
+shutter_b = SubResource("Resource_df25b")
+
+[sub_resource type="Resource" id="Resource_5tvt5"]
+script = ExtResource("2_pw38t")
+
+[sub_resource type="Resource" id="Resource_uo6e8"]
+script = ExtResource("2_pw38t")
+mode = 2
+block_id = 32
+
+[sub_resource type="Resource" id="Resource_qffsy"]
+script = ExtResource("1_qsi2g")
+room_a = 8
+room_b = 1
+shutter_a = SubResource("Resource_5tvt5")
+shutter_b = SubResource("Resource_uo6e8")
+
+[sub_resource type="Resource" id="Resource_2t455"]
+script = ExtResource("5_h5hch")
+id = 8
+scene = ExtResource("6_tt25x")
+position = Vector2i(128, 88)
+
+[sub_resource type="Resource" id="Resource_s8rp3"]
+script = ExtResource("5_h5hch")
+id = 9
+scene = ExtResource("7_qyv42")
+position = Vector2i(128, 40)
+
+[sub_resource type="Resource" id="Resource_n7fbc"]
+script = ExtResource("4_xg2pl")
+id = 0
+room_name = "Entrance"
+tiles = PackedByteArray("BAQEBQAAAAAFBAQEBAQEBAQEBAQEBAQEAQEBAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_2t455"), SubResource("Resource_s8rp3")])
+
+[sub_resource type="Resource" id="Resource_sqb22"]
+script = ExtResource("5_h5hch")
+id = 10
+scene = ExtResource("8_jl7uy")
+position = Vector2i(72, 88)
+
+[sub_resource type="Resource" id="Resource_dqq4q"]
+script = ExtResource("5_h5hch")
+id = 32
+scene = ExtResource("9_64ejo")
+position = Vector2i(56, 88)
+
+[sub_resource type="Resource" id="Resource_sr4qv"]
+script = ExtResource("5_h5hch")
+id = 66
+scene = ExtResource("8_jl7uy")
+position = Vector2i(56, 72)
+
+[sub_resource type="Resource" id="Resource_2efpo"]
+script = ExtResource("4_xg2pl")
+id = 1
+room_name = "Room1"
+grid_pos = Vector2i(0, -1)
+tiles = PackedByteArray("AgICAgIAAAICAgICAgICAgIAAAICAgICAgACAgIAAAICAgICAAAAAgIAAAAAAAAAAgACAgIAAAICAgICAgICAgIAAAICAgICAgICAgIAAAICAgIC")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_sqb22"), SubResource("Resource_dqq4q"), SubResource("Resource_sr4qv")])
+
+[sub_resource type="Resource" id="Resource_w8vpn"]
+script = ExtResource("5_h5hch")
+id = 14
+scene = ExtResource("10_73iks")
+position = Vector2i(128, 96)
+
+[sub_resource type="Resource" id="Resource_pc51g"]
+script = ExtResource("5_h5hch")
+id = 30
+scene = ExtResource("7_qyv42")
+position = Vector2i(184, 136)
+
+[sub_resource type="Resource" id="Resource_tdyg2"]
+script = ExtResource("5_h5hch")
+id = 31
+scene = ExtResource("7_qyv42")
+position = Vector2i(72, 136)
+
+[sub_resource type="Resource" id="Resource_ndv24"]
+script = ExtResource("4_xg2pl")
+id = 2
+room_name = "Room2"
+grid_pos = Vector2i(1, 0)
+tiles = PackedByteArray("AQICAgIAAAICAgIBAgICAAAAAAAAAgICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgICAgICAgICAgICAgIAAgIAAAICAAIC")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_w8vpn"), SubResource("Resource_pc51g"), SubResource("Resource_tdyg2")])
+
+[sub_resource type="Resource" id="Resource_1j181"]
+script = ExtResource("5_h5hch")
+id = 11
+scene = ExtResource("11_55ibs")
+position = Vector2i(72, 120)
+overrides = {
+"LungeSpeed": 65.0,
+"ReturnSpeed": 32.0
+}
+
+[sub_resource type="Resource" id="Resource_08oeu"]
+script = ExtResource("4_xg2pl")
+id = 3
+room_name = "Room3"
+grid_pos = Vector2i(1, -1)
+tiles = PackedByteArray("AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAAAAAAAAAAAAAAACAgIAAgICAgICAgACAgIAAgIAAAAAAAACAgICAgIAAAEAAQAC")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_1j181")])
+
+[sub_resource type="Resource" id="Resource_exkv5"]
+script = ExtResource("5_h5hch")
+id = 15
+scene = ExtResource("12_dodoa")
+position = Vector2i(200, 64)
+
+[sub_resource type="Resource" id="Resource_uw7gf"]
+script = ExtResource("5_h5hch")
+id = 16
+scene = ExtResource("12_dodoa")
+position = Vector2i(200, 112)
+
+[sub_resource type="Resource" id="Resource_djp00"]
+script = ExtResource("4_xg2pl")
+id = 4
+room_name = "Room4"
+grid_pos = Vector2i(2, 0)
+tiles = PackedByteArray("BAQAAAAAAAMDAQAAAAAAAAAAAAMDAQAAAAAAAAAEBAMDAAAAAAAAAAAEBAMDAAAAAAAAAAAEBAMDAAAAAAAAAAAAAAMDAQAABAQAAAAAAAMDAQAA")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_exkv5"), SubResource("Resource_uw7gf")])
+
+[sub_resource type="Resource" id="Resource_8opq7"]
+script = ExtResource("5_h5hch")
+id = 17
+scene = ExtResource("8_jl7uy")
+position = Vector2i(168, 56)
+
+[sub_resource type="Resource" id="Resource_csqyb"]
+script = ExtResource("5_h5hch")
+id = 18
+scene = ExtResource("8_jl7uy")
+position = Vector2i(88, 56)
+
+[sub_resource type="Resource" id="Resource_xfrqh"]
+script = ExtResource("5_h5hch")
+id = 19
+scene = ExtResource("8_jl7uy")
+position = Vector2i(88, 120)
+
+[sub_resource type="Resource" id="Resource_8jj6l"]
+script = ExtResource("5_h5hch")
+id = 20
+scene = ExtResource("8_jl7uy")
+position = Vector2i(168, 120)
+
+[sub_resource type="Resource" id="Resource_wc7jb"]
+script = ExtResource("5_h5hch")
+id = 21
+scene = ExtResource("11_55ibs")
+position = Vector2i(128, 88)
+
+[sub_resource type="Resource" id="Resource_ie27j"]
+script = ExtResource("4_xg2pl")
+id = 5
+room_name = "Room5"
+grid_pos = Vector2i(3, 0)
+tiles = PackedByteArray("BAQEBAQEBAQEBAQEBAQEAAQEBAQABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAQEBAQABAQEBAQEBAQEBAQEBAQE")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_8opq7"), SubResource("Resource_csqyb"), SubResource("Resource_xfrqh"), SubResource("Resource_8jj6l"), SubResource("Resource_wc7jb")])
+
+[sub_resource type="Resource" id="Resource_4q7x5"]
+script = ExtResource("5_h5hch")
+id = 26
+scene = ExtResource("9_64ejo")
+position = Vector2i(200, 72)
+
+[sub_resource type="Resource" id="Resource_vt3mg"]
+script = ExtResource("5_h5hch")
+id = 27
+scene = ExtResource("8_jl7uy")
+position = Vector2i(200, 56)
+
+[sub_resource type="Resource" id="Resource_bb80w"]
+script = ExtResource("5_h5hch")
+id = 28
+scene = ExtResource("8_jl7uy")
+position = Vector2i(200, 120)
+
+[sub_resource type="Resource" id="Resource_2awjq"]
+script = ExtResource("5_h5hch")
+id = 29
+scene = ExtResource("8_jl7uy")
+position = Vector2i(56, 88)
+
+[sub_resource type="Resource" id="Resource_inxki"]
+script = ExtResource("4_xg2pl")
+id = 6
+room_name = "Room6"
+grid_pos = Vector2i(2, 1)
+tiles = PackedByteArray("AAAABQAAAAAFAAAAAAAABAAAAAAEAAAAAAEABAAAAAAEAAAAAAAABAAAAAAEAAAAAAEABAAAAAAEAAEAAAAABAAAAAAEAAAAAAAABAAAAAAEAAAA")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_4q7x5"), SubResource("Resource_vt3mg"), SubResource("Resource_bb80w"), SubResource("Resource_2awjq")])
+
+[sub_resource type="Resource" id="Resource_w3ie6"]
+script = ExtResource("5_h5hch")
+id = 22
+scene = ExtResource("13_mjgxm")
+position = Vector2i(184, 88)
+
+[sub_resource type="Resource" id="Resource_pafnu"]
+script = ExtResource("5_h5hch")
+id = 23
+scene = ExtResource("8_jl7uy")
+position = Vector2i(72, 64)
+
+[sub_resource type="Resource" id="Resource_8hd3v"]
+script = ExtResource("5_h5hch")
+id = 24
+scene = ExtResource("8_jl7uy")
+position = Vector2i(72, 104)
+
+[sub_resource type="Resource" id="Resource_7gft4"]
+script = ExtResource("5_h5hch")
+id = 25
+scene = ExtResource("10_73iks")
+position = Vector2i(128, 88)
+appears = 1
+
+[sub_resource type="Resource" id="Resource_hf62a"]
+script = ExtResource("4_xg2pl")
+id = 7
+room_name = "Room7"
+grid_pos = Vector2i(3, 1)
+tiles = PackedByteArray("AQEEBAQEBAQEBAEBAQAAAAQEBAQAAAABBAAAAAQEBAQAAAAEBAAAAAQEBAQAAAAEBAAAAAQEBAQAAAAEAQAAAAQEBAQAAAABAQEEBAQEBAQEBAEB")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_w3ie6"), SubResource("Resource_pafnu"), SubResource("Resource_8hd3v"), SubResource("Resource_7gft4")])
+
+[sub_resource type="Resource" id="Resource_r1xwe"]
+script = ExtResource("5_h5hch")
+id = 33
+scene = ExtResource("14_j50tc")
+position = Vector2i(200, 112)
+
+[sub_resource type="Resource" id="Resource_46vya"]
+script = ExtResource("5_h5hch")
+id = 34
+scene = ExtResource("15_3joyx")
+position = Vector2i(56, 112)
+
+[sub_resource type="Resource" id="Resource_ghgyg"]
+script = ExtResource("5_h5hch")
+id = 35
+scene = ExtResource("16_a7e57")
+position = Vector2i(200, 48)
+
+[sub_resource type="Resource" id="Resource_5jucs"]
+script = ExtResource("5_h5hch")
+id = 36
+scene = ExtResource("16_a7e57")
+position = Vector2i(56, 48)
+
+[sub_resource type="Resource" id="Resource_3lsbc"]
+script = ExtResource("5_h5hch")
+id = 37
+scene = ExtResource("17_8h5s5")
+position = Vector2i(216, 136)
+
+[sub_resource type="Resource" id="Resource_k0maa"]
+script = ExtResource("5_h5hch")
+id = 38
+scene = ExtResource("17_8h5s5")
+position = Vector2i(216, 120)
+
+[sub_resource type="Resource" id="Resource_a7tj2"]
+script = ExtResource("5_h5hch")
+id = 39
+scene = ExtResource("17_8h5s5")
+position = Vector2i(216, 104)
+
+[sub_resource type="Resource" id="Resource_s06sv"]
+script = ExtResource("5_h5hch")
+id = 40
+scene = ExtResource("17_8h5s5")
+position = Vector2i(216, 88)
+
+[sub_resource type="Resource" id="Resource_wn6hh"]
+script = ExtResource("5_h5hch")
+id = 41
+scene = ExtResource("17_8h5s5")
+position = Vector2i(216, 72)
+
+[sub_resource type="Resource" id="Resource_n1xcg"]
+script = ExtResource("5_h5hch")
+id = 42
+scene = ExtResource("17_8h5s5")
+position = Vector2i(200, 136)
+
+[sub_resource type="Resource" id="Resource_8mpqv"]
+script = ExtResource("5_h5hch")
+id = 43
+scene = ExtResource("17_8h5s5")
+position = Vector2i(184, 136)
+
+[sub_resource type="Resource" id="Resource_xypv4"]
+script = ExtResource("5_h5hch")
+id = 44
+scene = ExtResource("17_8h5s5")
+position = Vector2i(72, 136)
+
+[sub_resource type="Resource" id="Resource_4saqp"]
+script = ExtResource("5_h5hch")
+id = 45
+scene = ExtResource("17_8h5s5")
+position = Vector2i(56, 136)
+
+[sub_resource type="Resource" id="Resource_rnk06"]
+script = ExtResource("5_h5hch")
+id = 46
+scene = ExtResource("17_8h5s5")
+position = Vector2i(40, 136)
+
+[sub_resource type="Resource" id="Resource_3wm0e"]
+script = ExtResource("5_h5hch")
+id = 47
+scene = ExtResource("17_8h5s5")
+position = Vector2i(40, 120)
+
+[sub_resource type="Resource" id="Resource_ofd4j"]
+script = ExtResource("5_h5hch")
+id = 48
+scene = ExtResource("17_8h5s5")
+position = Vector2i(40, 104)
+
+[sub_resource type="Resource" id="Resource_no82h"]
+script = ExtResource("5_h5hch")
+id = 49
+scene = ExtResource("17_8h5s5")
+position = Vector2i(40, 88)
+
+[sub_resource type="Resource" id="Resource_jb8a2"]
+script = ExtResource("5_h5hch")
+id = 50
+scene = ExtResource("17_8h5s5")
+position = Vector2i(40, 72)
+
+[sub_resource type="Resource" id="Resource_nuy2e"]
+script = ExtResource("5_h5hch")
+id = 51
+scene = ExtResource("17_8h5s5")
+position = Vector2i(104, 72)
+
+[sub_resource type="Resource" id="Resource_ggjgm"]
+script = ExtResource("5_h5hch")
+id = 52
+scene = ExtResource("17_8h5s5")
+position = Vector2i(152, 72)
+
+[sub_resource type="Resource" id="Resource_ct31s"]
+script = ExtResource("5_h5hch")
+id = 53
+scene = ExtResource("17_8h5s5")
+position = Vector2i(104, 88)
+
+[sub_resource type="Resource" id="Resource_44v0q"]
+script = ExtResource("5_h5hch")
+id = 54
+scene = ExtResource("17_8h5s5")
+position = Vector2i(152, 88)
+
+[sub_resource type="Resource" id="Resource_t0og2"]
+script = ExtResource("5_h5hch")
+id = 58
+scene = ExtResource("18_iyemy")
+position = Vector2i(168, 56)
+
+[sub_resource type="Resource" id="Resource_pd6fh"]
+script = ExtResource("5_h5hch")
+id = 59
+scene = ExtResource("18_iyemy")
+position = Vector2i(88, 56)
+
+[sub_resource type="Resource" id="Resource_ax41g"]
+script = ExtResource("5_h5hch")
+id = 60
+scene = ExtResource("18_iyemy")
+position = Vector2i(152, 56)
+
+[sub_resource type="Resource" id="Resource_lo2vn"]
+script = ExtResource("5_h5hch")
+id = 61
+scene = ExtResource("18_iyemy")
+position = Vector2i(104, 56)
+
+[sub_resource type="Resource" id="Resource_b02ka"]
+script = ExtResource("5_h5hch")
+id = 62
+scene = ExtResource("18_iyemy")
+position = Vector2i(120, 72)
+
+[sub_resource type="Resource" id="Resource_0n73l"]
+script = ExtResource("5_h5hch")
+id = 63
+scene = ExtResource("18_iyemy")
+position = Vector2i(136, 72)
+
+[sub_resource type="Resource" id="Resource_byiol"]
+script = ExtResource("5_h5hch")
+id = 64
+scene = ExtResource("17_8h5s5")
+position = Vector2i(88, 136)
+
+[sub_resource type="Resource" id="Resource_n3hyk"]
+script = ExtResource("5_h5hch")
+id = 65
+scene = ExtResource("17_8h5s5")
+position = Vector2i(168, 136)
+
+[sub_resource type="Resource" id="Resource_m87rh"]
+script = ExtResource("4_xg2pl")
+id = 8
+room_name = "Room8"
+grid_pos = Vector2i(0, -2)
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_h5hch")]([SubResource("Resource_r1xwe"), SubResource("Resource_46vya"), SubResource("Resource_ghgyg"), SubResource("Resource_5jucs"), SubResource("Resource_3lsbc"), SubResource("Resource_k0maa"), SubResource("Resource_a7tj2"), SubResource("Resource_s06sv"), SubResource("Resource_wn6hh"), SubResource("Resource_n1xcg"), SubResource("Resource_8mpqv"), SubResource("Resource_xypv4"), SubResource("Resource_4saqp"), SubResource("Resource_rnk06"), SubResource("Resource_3wm0e"), SubResource("Resource_ofd4j"), SubResource("Resource_no82h"), SubResource("Resource_jb8a2"), SubResource("Resource_nuy2e"), SubResource("Resource_ggjgm"), SubResource("Resource_ct31s"), SubResource("Resource_44v0q"), SubResource("Resource_t0og2"), SubResource("Resource_pd6fh"), SubResource("Resource_ax41g"), SubResource("Resource_lo2vn"), SubResource("Resource_b02ka"), SubResource("Resource_0n73l"), SubResource("Resource_byiol"), SubResource("Resource_n3hyk")])
+entry_text = "YOU WON"
+
+[sub_resource type="Resource" id="Resource_vxaeq"]
+script = ExtResource("4_xg2pl")
+id = 9
+room_name = "Room9"
+grid_pos = Vector2i(1, 1)
+tiles = PackedByteArray("AgICAgIAAAICAgICAgICAgIAAAICAgICAgICAgIAAAAAAAAAAgICAgIAAAAAAAAAAgICAgIAAAAAAAAAAgICAgICAgICAgICAgICAgICAgICAgIC")
+
+[sub_resource type="Resource" id="Resource_b1s4t"]
+script = ExtResource("4_xg2pl")
+id = 10
+room_name = "Room10"
+grid_pos = Vector2i(2, 2)
+tiles = PackedByteArray("BAQEBAQAAAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE")
+entry_text = "THE WAY OUT REQUIRES A GOOD PUSH 
+AT THE START."
+
+[resource]
+script = ExtResource("19_u2nnr")
+theme = ExtResource("20_401pi")
+music = ExtResource("3_u2i6y")
+rooms = Array[ExtResource("4_xg2pl")]([SubResource("Resource_n7fbc"), SubResource("Resource_2efpo"), SubResource("Resource_ndv24"), SubResource("Resource_08oeu"), SubResource("Resource_djp00"), SubResource("Resource_ie27j"), SubResource("Resource_inxki"), SubResource("Resource_hf62a"), SubResource("Resource_m87rh"), SubResource("Resource_vxaeq"), SubResource("Resource_b1s4t")])
+edges = Array[ExtResource("1_qsi2g")]([SubResource("Resource_saite"), SubResource("Resource_8wbuy"), SubResource("Resource_ig1qu"), SubResource("Resource_f6ebx"), SubResource("Resource_eltdk"), SubResource("Resource_wbpc8"), SubResource("Resource_fmjel"), SubResource("Resource_db8jj"), SubResource("Resource_fswb5"), SubResource("Resource_812ju"), SubResource("Resource_mvoc8"), SubResource("Resource_qffsy")])
+start_room_id = 0
+entrance_side = 2
+next_room_id = 11
+next_placement_id = 67

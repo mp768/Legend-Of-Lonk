@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://8qcpismbeuns"]
+
+[ext_resource type="Script" uid="uid://bwfh00ukyrwar" path="res://Assets/Scripts/RoomManager.cs" id="1_iwfhv"]
+[ext_resource type="PackedScene" uid="uid://m8tno5n5yqcy" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/entrance.tscn" id="2_hobcs"]
+[ext_resource type="AudioStream" uid="uid://btehdvsul5e1b" path="res://Assets/Sounds/03_-_Legend_of_Zelda_-_NES_-_Underworld_BGM.ogg" id="2_x3mej"]
+[ext_resource type="PackedScene" uid="uid://bwsls3apli6nn" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_1.tscn" id="3_ll0nf"]
+[ext_resource type="PackedScene" uid="uid://m85sx2wsp7bb" path="res://Assets/Scenes/lonk.tscn" id="4_x3mej"]
+[ext_resource type="PackedScene" uid="uid://cxcpgdtqxwx38" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_2.tscn" id="5_vxxh6"]
+[ext_resource type="PackedScene" uid="uid://b6ptglwwdci25" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_3.tscn" id="6_vnb0i"]
+[ext_resource type="PackedScene" uid="uid://nxunu2wljhm4" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_4.tscn" id="7_ly234"]
+[ext_resource type="PackedScene" uid="uid://ccrs104i4hslr" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_5.tscn" id="8_kfd6o"]
+[ext_resource type="PackedScene" uid="uid://drfrgv1oiyak8" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_6.tscn" id="9_tpav2"]
+[ext_resource type="PackedScene" uid="uid://1cwj41lyowhn" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_7.tscn" id="10_q6viy"]
+[ext_resource type="PackedScene" uid="uid://bpb1rt6x5ol10" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_8.tscn" id="11_q6viy"]
+[ext_resource type="PackedScene" uid="uid://bv54dgpe65tyd" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_9.tscn" id="12_wdooa"]
+[ext_resource type="PackedScene" uid="uid://iue8ilvupsle" path="res://Assets/Scenes/Dungeons/Dungeon2/Rooms/room_10.tscn" id="13_xkyul"]
+
+[node name="Dungeon2" type="Node" unique_id=1346158407 node_paths=PackedStringArray("MainCamera", "StartingRoom", "EntrancePoint")]
+script = ExtResource("1_iwfhv")
+MainCamera = NodePath("Camera2D")
+StartingRoom = NodePath("Entrance")
+EntrancePoint = NodePath("Entrance/EntrancePoint")
+Music = ExtResource("2_x3mej")
+metadata/dungeon_maker_generated = true
+
+[node name="Entrance" parent="." unique_id=2069598412 node_paths=PackedStringArray("rightRoom", "upRoom", "downRoom") instance=ExtResource("2_hobcs")]
+rightRoom = NodePath("../Room2")
+upRoom = NodePath("../Room1")
+downRoom = NodePath(".")
+
+[node name="EntrancePoint" type="Marker2D" parent="Entrance" unique_id=1927772057]
+position = Vector2(128, 136)
+metadata/dungeon_maker_generated = true
+
+[node name="Room1" parent="." unique_id=2131366990 node_paths=PackedStringArray("rightRoom", "upRoom", "downRoom") instance=ExtResource("3_ll0nf")]
+position = Vector2(0, -176)
+rightRoom = NodePath("../Room3")
+upRoom = NodePath("../Room8")
+downRoom = NodePath("../Entrance")
+
+[node name="Room2" parent="." unique_id=949108704 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("5_vxxh6")]
+position = Vector2(256, 0)
+leftRoom = NodePath("../Entrance")
+rightRoom = NodePath("../Room4")
+upRoom = NodePath("../Room3")
+downRoom = NodePath("../Room9")
+
+[node name="Room3" parent="." unique_id=2017456771 node_paths=PackedStringArray("leftRoom", "downRoom") instance=ExtResource("6_vnb0i")]
+position = Vector2(256, -176)
+leftRoom = NodePath("../Room1")
+downRoom = NodePath("../Room2")
+
+[node name="Room4" parent="." unique_id=799739239 node_paths=PackedStringArray("leftRoom", "rightRoom", "downRoom") instance=ExtResource("7_ly234")]
+position = Vector2(512, 0)
+leftRoom = NodePath("../Room2")
+rightRoom = NodePath("../Room5")
+downRoom = NodePath("../Room6")
+
+[node name="Room5" parent="." unique_id=1556744713 node_paths=PackedStringArray("leftRoom", "downRoom") instance=ExtResource("8_kfd6o")]
+position = Vector2(768, 0)
+leftRoom = NodePath("../Room4")
+downRoom = NodePath("../Room7")
+
+[node name="Room6" parent="." unique_id=1108685751 node_paths=PackedStringArray("leftRoom", "upRoom", "downRoom") instance=ExtResource("9_tpav2")]
+position = Vector2(512, 176)
+leftRoom = NodePath("../Room9")
+upRoom = NodePath("../Room4")
+downRoom = NodePath("../Room10")
+
+[node name="Room7" parent="." unique_id=2146777024 node_paths=PackedStringArray("upRoom") instance=ExtResource("10_q6viy")]
+position = Vector2(768, 176)
+upRoom = NodePath("../Room5")
+
+[node name="Room8" parent="." unique_id=717541056 node_paths=PackedStringArray("downRoom") instance=ExtResource("11_q6viy")]
+position = Vector2(0, -352)
+downRoom = NodePath("../Room1")
+
+[node name="Room9" parent="." unique_id=286687888 node_paths=PackedStringArray("rightRoom", "upRoom") instance=ExtResource("12_wdooa")]
+position = Vector2(256, 176)
+rightRoom = NodePath("../Room6")
+upRoom = NodePath("../Room2")
+
+[node name="Room10" parent="." unique_id=752915544 node_paths=PackedStringArray("upRoom") instance=ExtResource("13_xkyul")]
+position = Vector2(512, 352)
+upRoom = NodePath("../Room6")
+
+[node name="Lonk" parent="." unique_id=609894711 instance=ExtResource("4_x3mej")]
+position = Vector2(128, 136)
+metadata/dungeon_maker_generated = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1222280842]
+metadata/dungeon_maker_generated = true

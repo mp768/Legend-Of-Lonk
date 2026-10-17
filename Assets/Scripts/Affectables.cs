@@ -24,6 +24,7 @@ public partial class Affectables : Area2D
         WEAPON,
         MAX_HEALTH,
         GRAB,
+        POSSESS,
     }
 
     [Export] public EffectType Type { get; set; }
@@ -38,6 +39,9 @@ public partial class Affectables : Area2D
     // The entity this area is attached to, e.g. the enemy behind a contact damage area. Null for areas that
     // stand on their own, like projectiles and pickups.
     public Entity Source { get; set; }
+
+    // The entity responsible for this effect, e.g. whoever fired a projectile. Defaults to the attached entity.
+    public virtual Entity Instigator => Source;
 
     private Team team;
 

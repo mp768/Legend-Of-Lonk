@@ -1897,6 +1897,7 @@ shape = SubResource("RectangleShape2D_6f73f")
 
 [node name="ShutterLeft" parent="." unique_id=1435978130 instance=ExtResource("gen3_Shutt")]
 StartsOpen = false
+OpensWhenCleared = false
 
 [node name="PushableBlock" parent="." unique_id=319238669 instance=ExtResource("gen1_pusha")]
 position = Vector2(120, 88)

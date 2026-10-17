@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://ct83aof83qkga" path="res://Assets/Scripts/ShutterDoor.cs" id="2_script"]
 
 [node name="ShutterUp" type="TileMapLayer" unique_id=362367696]
-tile_map_data = PackedByteArray("AAAPAAMAAQAkAAoAAAAQAAMAAQAlAAoAAAAPAAQAAQAkAAsAAAAQAAQAAQAlAAsAAAARAAMAAQAtAAcAAAAOAAMAAQAsAAcAAAAOAAQAAQAtAAYAAAARAAQAAQAuAAYAAAA=")
+tile_map_data = PackedByteArray("AAAPAAIAAQAkAAoAAAAQAAIAAQAlAAoAAAAPAAMAAQAkAAsAAAAQAAMAAQAlAAsAAAARAAIAAQAtAAcAAAAOAAIAAQAsAAcAAAAOAAMAAQAtAAYAAAARAAMAAQAuAAYAAAA=")
 tile_set = ExtResource("1_tiles")
 script = ExtResource("2_script")
 StartsOpen = true
+Side = 0

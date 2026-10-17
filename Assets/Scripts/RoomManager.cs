@@ -23,11 +23,16 @@ public partial class RoomManager : Node
     public Room CurrentRoom { get; private set; }
     public bool IsTransitioning { get; private set; }
 
+    // The room the player's original body was left in. Possession always starts in the active room.
+    private Room possessionHome;
+
     public override void _Ready()
     {
         GameSignals.Instance.RoomExitEntered += OnRoomExitEntered;
         GameSignals.Instance.WarpRequested += OnWarpRequested;
         GameSignals.Instance.PlayerGrabbed += OnPlayerGrabbed;
+        GameSignals.Instance.PossessionStarted += OnPossessionStarted;
+        GameSignals.Instance.PossessionEnded += OnPossessionEnded;
 
         if (Music != null)
         {
@@ -61,6 +66,8 @@ public partial class RoomManager : Node
         GameSignals.Instance.RoomExitEntered -= OnRoomExitEntered;
         GameSignals.Instance.WarpRequested -= OnWarpRequested;
         GameSignals.Instance.PlayerGrabbed -= OnPlayerGrabbed;
+        GameSignals.Instance.PossessionStarted -= OnPossessionStarted;
+        GameSignals.Instance.PossessionEnded -= OnPossessionEnded;
     }
 
     private async void OnRoomExitEntered(Room destination, Node2D traveler, Vector2 direction)
@@ -129,6 +136,32 @@ public partial class RoomManager : Node
 
         Vector2 entrance = EntrancePoint?.GlobalPosition ?? StartingRoom.Center;
         Warp(StartingRoom, player, entrance);
+    }
+
+    private void OnPossessionStarted()
+    {
+        possessionHome = CurrentRoom;
+    }
+
+    private void OnPossessionEnded()
+    {
+        Room home = possessionHome;
+        possessionHome = null;
+
+        if (home == null || home == CurrentRoom)
+        {
+            return;
+        }
+
+        // Deferred because the vessel can die inside a physics callback. The original body never left home, so
+        // it keeps its position.
+        Callable.From(() =>
+        {
+            if (GetTree().GetFirstNodeInGroup(Constants.PLAYER_GROUP) is Node2D player)
+            {
+                Warp(home, player, player.GlobalPosition);
+            }
+        }).CallDeferred();
     }
 
     // A hard cut: no scrolling, the camera and traveler snap straight into the destination.

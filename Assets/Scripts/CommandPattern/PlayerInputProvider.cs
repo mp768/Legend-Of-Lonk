@@ -3,11 +3,20 @@ using Godot;
 [GlobalClass]
 public partial class PlayerInputProvider : Node, IInputProvider
 {
+    public enum PrimaryAction
+    {
+        SWORD,
+        RELEASE,
+    }
+
+    // What the primary weapon button does. A possessed body uses it to let go.
+    [Export] public PrimaryAction Primary { get; set; } = PrimaryAction.SWORD;
+
     public ICommand FetchNextCommand()
     {
         if (Input.IsActionJustPressed("standard_attack"))
         {
-            return new AttackCommand(AttackState.AttackKind.SWORD);
+            return Primary == PrimaryAction.RELEASE ? new ReleaseCommand() : new AttackCommand(AttackState.AttackKind.SWORD);
         }
 
         if (Input.IsActionJustPressed("alternate_attack"))

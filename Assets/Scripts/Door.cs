@@ -4,7 +4,13 @@ using Godot;
 [GlobalClass]
 public partial class Door : TileMapLayer
 {
+    [Signal]
+    public delegate void OpenedEventHandler();
+
     [Export] public bool StartsOpen { get; set; }
+
+    // Which wall of its room the door sits in. Set once in each door scene, so every instance inherits it.
+    [Export] public Room.Side Side { get; set; }
 
     public bool IsOpen { get; private set; }
 
@@ -14,7 +20,7 @@ public partial class Door : TileMapLayer
     {
         if (StartsOpen)
         {
-            Open();
+            Open(playSound: false);
         }
         else
         {
@@ -32,14 +38,19 @@ public partial class Door : TileMapLayer
         AddChild(soundPlayer);
     }
 
-    public void Open()
+    public void Open(bool playSound = true)
     {
         IsOpen = true;
 
         // Deferred because doors usually open from inside physics callbacks.
         SetDeferred(TileMapLayer.PropertyName.Enabled, false);
 
-        soundPlayer?.Play();
+        if (playSound)
+        {
+            soundPlayer?.Play();
+        }
+
+        EmitSignal(SignalName.Opened);
     }
 
     public void Close()

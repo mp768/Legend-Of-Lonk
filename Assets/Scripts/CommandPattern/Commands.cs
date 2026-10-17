@@ -162,3 +162,64 @@ public class GrabCommand : ICommand
         return true;
     }
 }
+
+// Puts the target and its possessor to sleep together, or neither. Fails if either is busy with something
+// that can't be interrupted (a stun, a grab, a room transition) or is already dormant.
+public class PossessCommand : ICommand
+{
+	public Entity Possessor { get; }
+
+	public PossessCommand(Entity possessor)
+	{
+		Possessor = possessor;
+	}
+
+	public bool Execute(Entity entity, PushdownStateMachine machine)
+	{
+		PushdownStateMachine possessorMachine = Possessor?.StateMachine;
+		var targetDormant = machine.GetState<DormantState>();
+		var possessorDormant = possessorMachine?.GetState<DormantState>();
+		if (targetDormant == null || possessorDormant == null)
+		{
+			return false;
+		}
+
+		if (machine.CurrentState is { IsInterruptable: false } || possessorMachine.CurrentState is { IsInterruptable: false })
+		{
+			return false;
+		}
+
+		machine.PushState(targetDormant);
+		possessorMachine.PushState(possessorDormant);
+		return true;
+	}
+}
+
+public class WakeCommand : ICommand
+{
+	public bool Execute(Entity entity, PushdownStateMachine machine)
+	{
+		if (machine.CurrentState is not DormantState)
+		{
+			return false;
+		}
+
+		machine.PopState();
+		return true;
+	}
+}
+
+// Leaves a possessed body. Not while stunned or mid room transition, since the warp back can't start during one.
+public class ReleaseCommand : ICommand
+{
+    public bool Execute(Entity entity, PushdownStateMachine machine)
+    {
+        if (entity is not PossessedEnemy vessel || machine.CurrentState is { IsInterruptable: false })
+        {
+            return false;
+        }
+
+        vessel.Release();
+        return true;
+    }
+}

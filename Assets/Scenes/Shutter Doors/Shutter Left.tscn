@@ -8,3 +8,4 @@ tile_map_data = PackedByteArray("AAACAAoAAQAmAAoAAAADAAoAAQAnAAoAAAACAAsAAQAmAAs
 tile_set = ExtResource("1_tiles")
 script = ExtResource("2_script")
 StartsOpen = true
+Side = 2

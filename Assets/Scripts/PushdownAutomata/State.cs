@@ -11,6 +11,9 @@ public abstract partial class State : Node
     // Whether being hit may push a stun on top of this state.
     public virtual bool IsInterruptable => true;
 
+    // Whether the machine stops asking the input provider for commands while this state is on top.
+    public virtual bool IgnoresInput => false;
+
     public virtual void Initialize(PushdownStateMachine machine)
     {
         Machine = machine;

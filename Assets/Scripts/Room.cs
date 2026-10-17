@@ -6,159 +6,201 @@ using System.Collections.Generic;
 [GlobalClass]
 public partial class Room : Node2D
 {
-    public enum RoomView
-    {
-        TOP_DOWN,
-        SIDE_SCROLL,
-    }
+	public enum RoomView
+	{
+		TOP_DOWN,
+		SIDE_SCROLL,
+	}
 
-    // Emitted once, when the last enemy that counts toward clearing the room is defeated.
-    [Signal]
-    public delegate void ClearedEventHandler();
+	// The four walls of a room, where its exits and doors are.
+	public enum Side
+	{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+	}
 
-    [Export] public Room leftRoom;
-    [Export] public Room rightRoom;
-    [Export] public Room upRoom;
-    [Export] public Room downRoom;
+	// Emitted once, when the last enemy that counts toward clearing the room is defeated.
+	[Signal]
+	public delegate void ClearedEventHandler();
 
-    [Export] public RoomView View { get; set; } = RoomView.TOP_DOWN;
+	// Emitted when the room's secret is found, e.g. a block is pushed. Lets the dungeon scene reveal things it
+	// added to the room, like stairs, without pointing at nodes inside the room scene.
+	[Signal]
+	public delegate void SecretRevealedEventHandler();
 
-    [ExportGroup("Clearing")]
-    // Closes the room's shutter doors while enemies remain.
-    [Export] public bool LockUntilCleared { get; set; }
+	[Export] public Room leftRoom;
+	[Export] public Room rightRoom;
+	[Export] public Room upRoom;
+	[Export] public Room downRoom;
 
-    // Appears once when the room is cleared.
-    [Export] public PackedScene ClearReward { get; set; }
+	[Export] public RoomView View { get; set; } = RoomView.TOP_DOWN;
 
-    // Where the reward appears. If not set, it'll just appear in the center of the room.
-    [Export] public Marker2D RewardSpawn { get; set; }
+	[ExportGroup("Clearing")]
+	// Closes the room's shutter doors while enemies remain.
+	[Export] public bool LockUntilCleared { get; set; }
 
-    public Vector2 Center => GlobalPosition + Constants.SCREEN_SIZE / 2;
+	public Vector2 Center => GlobalPosition + Constants.SCREEN_SIZE / 2;
 
-    public bool IsCleared { get; private set; }
+	public bool IsCleared { get; private set; }
 
-    private readonly List<Enemy> trackedEnemies = [];
+	private readonly List<Enemy> trackedEnemies = [];
 
-    public override void _Ready()
-    {
-        Visible = false;
-        SetProcessing(false);
+	public override void _Ready()
+	{
+		Visible = false;
+		SetProcessing(false);
 
-        ConnectExit("LeftExit", leftRoom, Vector2.Left);
-        ConnectExit("RightExit", rightRoom, Vector2.Right);
-        ConnectExit("UpExit", upRoom, Vector2.Up);
-        ConnectExit("DownExit", downRoom, Vector2.Down);
-    }
+		ConnectExit("LeftExit", leftRoom, Vector2.Left);
+		ConnectExit("RightExit", rightRoom, Vector2.Right);
+		ConnectExit("UpExit", upRoom, Vector2.Up);
+		ConnectExit("DownExit", downRoom, Vector2.Down);
 
-    public void Activate()
-    {
-        Visible = true;
-        SetProcessing(true);
+		foreach (Node child in GetChildren())
+		{
+			if (child is LockedDoor door)
+			{
+				door.Opened += () => OnLockedDoorOpened(door);
+			}
+		}
+	}
 
-        foreach (Node child in GetChildren())
-        {
-            if (child is IResettableEntity entity)
-            {
-                entity.OnRoomEntered();
-            }
-        }
+	public Room NeighbourOn(Side side) => side switch
+	{
+		Side.UP => upRoom,
+		Side.DOWN => downRoom,
+		Side.LEFT => leftRoom,
+		_ => rightRoom,
+	};
 
-        if (!IsCleared)
-        {
-            TrackEnemies();
-        }
-    }
+	public static Side Opposite(Side side) => side switch
+	{
+		Side.UP => Side.DOWN,
+		Side.DOWN => Side.UP,
+		Side.LEFT => Side.RIGHT,
+		_ => Side.LEFT,
+	};
 
-    // Freezes the room but leaves it visible, so it can scroll off screen during a transition.
-    public void Deactivate()
-    {
-        SetProcessing(false);
-        UntrackEnemies();
+	// Opened from the other side of the doorway, so it stays silent: this room isn't the one on screen.
+	public void OpenLockedDoor(Side side)
+	{
+		foreach (Node child in GetChildren())
+		{
+			if (child is LockedDoor door && door.Side == side && !door.IsOpen)
+			{
+				door.Open(playSound: false);
+			}
+		}
+	}
 
-        foreach (Node child in GetChildren())
-        {
-            if (child is IResettableEntity entity)
-            {
-                entity.OnRoomExited();
-            }
-        }
-    }
+	public void RevealSecret()
+	{
+		EmitSignal(SignalName.SecretRevealed);
+	}
 
-    private void TrackEnemies()
-    {
-        UntrackEnemies();
+	public void Activate()
+	{
+		Visible = true;
+		SetProcessing(true);
 
-        foreach (Node child in GetChildren())
-        {
-            if (child is Enemy enemy && enemy.IsInGroup(Constants.ENEMY_GROUP) && enemy.CountsTowardClear && !enemy.IsQueuedForDeletion())
-            {
-                enemy.Defeated += OnEnemyDefeated;
-                trackedEnemies.Add(enemy);
-            }
-        }
+		foreach (Node child in GetChildren())
+		{
+			if (child is IResettableEntity entity)
+			{
+				entity.OnRoomEntered();
+			}
+		}
 
-        // Covers rooms with no enemies and rooms emptied on an earlier visit.
-        if (trackedEnemies.Count == 0)
-        {
-            MarkCleared();
-        }
-        else if (LockUntilCleared)
-        {
-            SetShuttersOpen(false);
-        }
-    }
+		if (!IsCleared)
+		{
+			TrackEnemies();
+		}
+	}
 
-    private void UntrackEnemies()
-    {
-        foreach (Enemy enemy in trackedEnemies)
-        {
-            if (IsInstanceValid(enemy))
-            {
-                enemy.Defeated -= OnEnemyDefeated;
-            }
-        }
-        trackedEnemies.Clear();
-    }
+	// Freezes the room but leaves it visible, so it can scroll off screen during a transition.
+	public void Deactivate()
+	{
+		SetProcessing(false);
+		UntrackEnemies();
 
-    private void OnEnemyDefeated()
-    {
-        trackedEnemies.RemoveAll(enemy => !IsInstanceValid(enemy) || enemy.IsQueuedForDeletion());
-        if (trackedEnemies.Count == 0)
-        {
-            MarkCleared();
-        }
-    }
+		foreach (Node child in GetChildren())
+		{
+			if (child is IResettableEntity entity)
+			{
+				entity.OnRoomExited();
+			}
+		}
+	}
 
-    private void MarkCleared()
-    {
-        if (IsCleared)
-        {
-            return;
-        }
+	private void TrackEnemies()
+	{
+		UntrackEnemies();
 
-        IsCleared = true;
+		foreach (Node child in GetChildren())
+		{
+			if (child is Enemy enemy && enemy.IsInGroup(Constants.ENEMY_GROUP) && enemy.CountsTowardClear && !enemy.IsQueuedForDeletion())
+			{
+				enemy.Defeated += OnEnemyDefeated;
+				trackedEnemies.Add(enemy);
+			}
+		}
 
-        if (LockUntilCleared)
-        {
-            SetShuttersOpen(true);
-        }
+		// Covers rooms with no enemies and rooms emptied on an earlier visit.
+		if (trackedEnemies.Count == 0)
+		{
+			MarkCleared();
+		}
+		else if (LockUntilCleared)
+		{
+			SetShuttersOpen(false);
+		}
+	}
 
-        if (ClearReward?.Instantiate() is Node2D reward)
-        {
-            reward.Position = RewardSpawn?.Position ?? (Vector2)Constants.SCREEN_SIZE / 2;
+	private void UntrackEnemies()
+	{
+		foreach (Enemy enemy in trackedEnemies)
+		{
+			if (IsInstanceValid(enemy))
+			{
+				enemy.Defeated -= OnEnemyDefeated;
+			}
+		}
+		trackedEnemies.Clear();
+	}
 
-            // Usually reached from an enemy's death inside a physics callback.
-            CallDeferred(Node.MethodName.AddChild, reward);
-        }
+	private void OnEnemyDefeated()
+	{
+		trackedEnemies.RemoveAll(enemy => !IsInstanceValid(enemy) || enemy.IsQueuedForDeletion());
+		if (trackedEnemies.Count == 0)
+		{
+			MarkCleared();
+		}
+	}
+
+	private void MarkCleared()
+	{
+		if (IsCleared)
+		{
+			return;
+		}
+
+		IsCleared = true;
+
+		if (LockUntilCleared)
+		{
+			SetShuttersOpen(true);
+		}
 
         EmitSignal(SignalName.Cleared);
     }
 
+    // Only touches shutters driven by clearing the room. Others, like one opened by a pushed block, are left alone.
     private void SetShuttersOpen(bool open)
     {
         foreach (Node child in GetChildren())
         {
-            if (child is ShutterDoor shutter)
+            if (child is ShutterDoor shutter && shutter.OpensWhenCleared)
             {
                 if (open)
                 {
@@ -169,6 +211,16 @@ public partial class Room : Node2D
                     shutter.Close();
                 }
             }
+        }
+    }
+
+    private void OnLockedDoorOpened(LockedDoor door)
+    {
+        // A room that lists itself as a neighbour is blocking that exit, like the entrance.
+        Room neighbour = NeighbourOn(door.Side);
+        if (neighbour != null && neighbour != this)
+        {
+            neighbour.OpenLockedDoor(Opposite(door.Side));
         }
     }
 
@@ -199,25 +251,25 @@ public partial class Room : Node2D
         AddEnemyBarrier(exit);
     }
 
-    // A wall only enemies collide with, over the exit, so they can't wander out through open doorways.
-    private void AddEnemyBarrier(Area2D exit)
-    {
-        var barrier = new StaticBody2D
-        {
-            Name = exit.Name + "EnemyBarrier",
-            Position = exit.Position,
-            CollisionLayer = Constants.ENEMY_NO_ESCAPE_LAYER,
-            CollisionMask = 0,
-        };
+	// A wall only enemies collide with, over the exit, so they can't wander out through open doorways.
+	private void AddEnemyBarrier(Area2D exit)
+	{
+		var barrier = new StaticBody2D
+		{
+			Name = exit.Name + "EnemyBarrier",
+			Position = exit.Position,
+			CollisionLayer = Constants.ENEMY_NO_ESCAPE_LAYER,
+			CollisionMask = 0,
+		};
 
-        foreach (Node child in exit.GetChildren())
-        {
-            if (child is CollisionShape2D shape)
-            {
-                barrier.AddChild(shape.Duplicate());
-            }
-        }
+		foreach (Node child in exit.GetChildren())
+		{
+			if (child is CollisionShape2D shape)
+			{
+				barrier.AddChild(shape.Duplicate());
+			}
+		}
 
-        CallDeferred(Node.MethodName.AddChild, barrier);
-    }
+		CallDeferred(Node.MethodName.AddChild, barrier);
+	}
 }

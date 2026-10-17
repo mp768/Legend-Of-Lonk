@@ -7,6 +7,7 @@ public enum AltWeapon
     BOW,
     BOOMERANG,
     BOMB,
+    POSSESSION,
 }
 
 public enum AmmoType

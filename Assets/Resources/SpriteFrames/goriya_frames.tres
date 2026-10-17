@@ -1,0 +1,63 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://doefg1chkwfjy"]
+
+[ext_resource type="Texture2D" uid="uid://dm42mdws1js8j" path="res://Assets/Sprites/Goriya.png" id="3_cwnhh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wk30"]
+atlas = ExtResource("3_cwnhh")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0txcn"]
+atlas = ExtResource("3_cwnhh")
+region = Rect2(0, 17, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewduv"]
+atlas = ExtResource("3_cwnhh")
+region = Rect2(34, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03w65"]
+atlas = ExtResource("3_cwnhh")
+region = Rect2(51, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5oye"]
+atlas = ExtResource("3_cwnhh")
+region = Rect2(17, 17, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfofh"]
+atlas = ExtResource("3_cwnhh")
+region = Rect2(17, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wk30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0txcn")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewduv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03w65")
+}],
+"loop": 1,
+"name": &"walk_horizontal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5oye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfofh")
+}],
+"loop": 1,
+"name": &"walk_up",
+"speed": 5.0
+}]
