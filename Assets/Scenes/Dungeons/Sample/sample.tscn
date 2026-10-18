@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://di7e51basnts"]
+
+[ext_resource type="Script" uid="uid://bwfh00ukyrwar" path="res://Assets/Scripts/RoomManager.cs" id="1_sxqed"]
+[ext_resource type="AudioStream" uid="uid://btehdvsul5e1b" path="res://Assets/Sounds/03_-_Legend_of_Zelda_-_NES_-_Underworld_BGM.ogg" id="2_k8q6k"]
+[ext_resource type="PackedScene" uid="uid://dpe8lw62iuxnf" path="res://Assets/Scenes/Dungeons/Sample/Rooms/start.tscn" id="3_q5p4f"]
+[ext_resource type="PackedScene" uid="uid://d2dc0ilt0lwg8" path="res://Assets/Scenes/Dungeons/Sample/Rooms/sample_a.tscn" id="4_45e37"]
+[ext_resource type="Script" uid="uid://dmnd3nxclp4fy" path="res://Assets/Scripts/HiddenItem.cs" id="5_q75x5"]
+[ext_resource type="PackedScene" uid="uid://dwbn42562p6ma" path="res://Assets/Scenes/World/stairs.tscn" id="6_ddcet"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Dungeons/Sample/Rooms/sample_b.tscn" id="7_ykra2"]
+[ext_resource type="PackedScene" uid="uid://bh1pl0r4a3we0" path="res://Assets/Scenes/Dungeons/Sample/Rooms/sample_c.tscn" id="8_s0q0y"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Dungeons/Sample/Rooms/sample_d.tscn" id="9_fwpap"]
+[ext_resource type="PackedScene" uid="uid://p0abu23bwkno" path="res://Assets/Scenes/Dungeons/Sample/Rooms/sample_f.tscn" id="10_6xetq"]
+[ext_resource type="PackedScene" uid="uid://bamksisfgow6v" path="res://Assets/Scenes/Rooms/room_basement.tscn" id="11_q761k"]
+[ext_resource type="PackedScene" uid="uid://m85sx2wsp7bb" path="res://Assets/Scenes/lonk.tscn" id="12_anued"]
+[ext_resource type="PackedScene" uid="uid://c3j0si7otws1" path="res://Assets/Scenes/Dungeons/Sample/Rooms/room_7.tscn" id="12_k8q6k"]
+
+[node name="Sample" type="Node" unique_id=426916170 node_paths=PackedStringArray("MainCamera", "StartingRoom", "EntrancePoint")]
+script = ExtResource("1_sxqed")
+MainCamera = NodePath("Camera2D")
+StartingRoom = NodePath("Start")
+EntrancePoint = NodePath("Start/EntrancePoint")
+Music = ExtResource("2_k8q6k")
+metadata/dungeon_maker_generated = true
+
+[node name="Start" parent="." unique_id=1108621560 node_paths=PackedStringArray("leftRoom", "rightRoom", "upRoom", "downRoom") instance=ExtResource("3_q5p4f")]
+position = Vector2(256, 176)
+leftRoom = NodePath("../SampleD")
+rightRoom = NodePath("../SampleF")
+upRoom = NodePath("../SampleB")
+downRoom = NodePath(".")
+
+[node name="EntrancePoint" type="Marker2D" parent="Start" unique_id=173556589]
+position = Vector2(128, 136)
+metadata/dungeon_maker_generated = true
+
+[node name="SampleA" parent="." unique_id=1358709365 node_paths=PackedStringArray("rightRoom", "downRoom") instance=ExtResource("4_45e37")]
+rightRoom = NodePath("../SampleB")
+downRoom = NodePath("../SampleD")
+
+[node name="HiddenWarp0" type="Node2D" parent="SampleA" unique_id=283325606]
+position = Vector2(152, 88)
+script = ExtResource("5_q75x5")
+metadata/dungeon_maker_generated = true
+
+[node name="Warp0" parent="SampleA/HiddenWarp0" unique_id=1023097437 node_paths=PackedStringArray("Destination", "Arrival") instance=ExtResource("6_ddcet")]
+Destination = NodePath("../../../SampleBasement")
+Arrival = NodePath("../../../SampleBasement/WarpArrival0")
+metadata/dungeon_maker_generated = true
+
+[node name="WarpReturnArrival0" type="Marker2D" parent="SampleA" unique_id=382227250]
+position = Vector2(136, 88)
+metadata/dungeon_maker_generated = true
+
+[node name="SampleB" parent="." unique_id=1210409653 node_paths=PackedStringArray("leftRoom", "rightRoom", "downRoom") instance=ExtResource("7_ykra2")]
+position = Vector2(256, 0)
+leftRoom = NodePath("../SampleA")
+rightRoom = NodePath("../SampleC")
+downRoom = NodePath("../Start")
+
+[node name="SampleC" parent="." unique_id=1090759921 node_paths=PackedStringArray("leftRoom", "upRoom", "downRoom") instance=ExtResource("8_s0q0y")]
+position = Vector2(512, 0)
+leftRoom = NodePath("../SampleB")
+upRoom = NodePath("../Room7")
+downRoom = NodePath("../SampleF")
+
+[node name="SampleD" parent="." unique_id=952484806 node_paths=PackedStringArray("rightRoom", "upRoom") instance=ExtResource("9_fwpap")]
+position = Vector2(0, 176)
+rightRoom = NodePath("../Start")
+upRoom = NodePath("../SampleA")
+
+[node name="SampleF" parent="." unique_id=1148376942 node_paths=PackedStringArray("leftRoom", "upRoom") instance=ExtResource("10_6xetq")]
+position = Vector2(512, 176)
+leftRoom = NodePath("../Start")
+upRoom = NodePath("../SampleC")
+
+[node name="SampleBasement" parent="." unique_id=391949384 instance=ExtResource("11_q761k")]
+position = Vector2(0, 528)
+metadata/dungeon_maker_generated = true
+
+[node name="WarpArrival0" type="Marker2D" parent="SampleBasement" unique_id=1137480204]
+position = Vector2(56, 24)
+metadata/dungeon_maker_generated = true
+
+[node name="ReturnWarp0" parent="SampleBasement" unique_id=731214943 node_paths=PackedStringArray("Destination", "Arrival") instance=ExtResource("6_ddcet")]
+position = Vector2(56, 4)
+Destination = NodePath("../../SampleA")
+Arrival = NodePath("../../SampleA/WarpReturnArrival0")
+metadata/dungeon_maker_generated = true
+
+[node name="Room7" parent="." unique_id=1704210628 node_paths=PackedStringArray("downRoom") instance=ExtResource("12_k8q6k")]
+position = Vector2(512, -176)
+downRoom = NodePath("../SampleC")
+
+[node name="Lonk" parent="." unique_id=609894711 instance=ExtResource("12_anued")]
+position = Vector2(384, 312)
+metadata/dungeon_maker_generated = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=166125592]
+metadata/dungeon_maker_generated = true
+
+[connection signal="SecretRevealed" from="SampleA" to="SampleA/HiddenWarp0" method="Fire"]

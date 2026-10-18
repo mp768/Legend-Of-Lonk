@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DMDungeonTheme" format=3 uid="uid://bltwv5x7l8noy"]
+
+[ext_resource type="TileSet" path="res://Assets/Resources/dungeon_low_wall_tile_set.tres" id="1_fwq8j"]
+[ext_resource type="Script" path="res://addons/dungeon_maker/data/dm_dungeon_theme.gd" id="2_ea38x"]
+[ext_resource type="PackedScene" path="res://addons/dungeon_maker/themes/eagle/eagle_stamps.tscn" id="3_0vf4d"]
+[ext_resource type="TileSet" path="res://Assets/Resources/dungeon_tile_set.tres" id="4_tndsa"]
+
+[resource]
+script = ExtResource("2_ea38x")
+stamps = ExtResource("3_0vf4d")
+wall_tile_set = ExtResource("4_tndsa")
+low_wall_tile_set = ExtResource("1_fwq8j")
+entity_folders = PackedStringArray("res://Assets/Scenes/Enemies/", "res://Assets/Scenes/Collectibles/", "res://Assets/Scenes/World/")

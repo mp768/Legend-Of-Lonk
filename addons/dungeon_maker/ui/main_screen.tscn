@@ -1,0 +1,152 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/dungeon_maker/ui/dm_main_screen.gd" id="1_main"]
+[ext_resource type="Script" path="res://addons/dungeon_maker/ui/dm_world_view.gd" id="2_world"]
+[ext_resource type="Script" path="res://addons/dungeon_maker/ui/dm_outline.gd" id="3_outline"]
+[ext_resource type="Script" path="res://addons/dungeon_maker/ui/dm_palette.gd" id="4_palette"]
+[ext_resource type="Script" path="res://addons/dungeon_maker/ui/dm_inspector.gd" id="5_inspector"]
+
+[node name="DungeonMaker" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_main")
+
+[node name="Toolbar" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NewButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Start a new dungeon layout."
+text = "New"
+
+[node name="OpenButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Open a .dungeon.tres layout. Double-clicking one in the FileSystem dock does the same."
+text = "Open"
+
+[node name="SaveButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Save the layout (the editor's source data)."
+text = "Save"
+
+[node name="SaveAsButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Save the layout under a new name."
+text = "Save As"
+
+[node name="VSeparator" type="VSeparator" parent="Toolbar"]
+layout_mode = 2
+
+[node name="UndoButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Undo the last change (Ctrl/Cmd+Z works too)."
+flat = true
+
+[node name="RedoButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Redo (Ctrl/Cmd+Shift+Z works too)."
+flat = true
+
+[node name="VSeparator2" type="VSeparator" parent="Toolbar"]
+layout_mode = 2
+
+[node name="ValidateButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Check the layout for mistakes: unreachable rooms, soft-locks, missing keys and more."
+text = "Check"
+
+[node name="ExportButton" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Write the room scenes, the dungeon scene and the layout into the export folder. Build the C# project first."
+text = "Export"
+
+[node name="VSeparator3" type="VSeparator" parent="Toolbar"]
+layout_mode = 2
+
+[node name="ThemeLabel" type="Label" parent="Toolbar"]
+layout_mode = 2
+tooltip_text = "The theme the rooms are built from."
+mouse_filter = 1
+text = "Theme"
+
+[node name="ThemeSlot" type="HBoxContainer" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Toolbar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text_overrun_behavior = 3
+
+[node name="Body" type="HSplitContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Outline" type="VBoxContainer" parent="Body"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+script = ExtResource("3_outline")
+main_path = NodePath("../..")
+
+[node name="Center" type="HSplitContainer" parent="Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="World" type="VBoxContainer" parent="Body/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_world")
+main_path = NodePath("../../..")
+
+[node name="Side" type="VSplitContainer" parent="Body/Center"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+
+[node name="Palette" type="VBoxContainer" parent="Body/Center/Side"]
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+script = ExtResource("4_palette")
+main_path = NodePath("../../../..")
+
+[node name="Lower" type="VBoxContainer" parent="Body/Center/Side"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InspectorScroll" type="ScrollContainer" parent="Body/Center/Side/Lower"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Inspector" type="VBoxContainer" parent="Body/Center/Side/Lower/InspectorScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_inspector")
+main_path = NodePath("../../../../../..")
+
+[node name="IssuesTitle" type="Label" parent="Body/Center/Side/Lower"]
+layout_mode = 2
+tooltip_text = "Results of Check and Export. Click one to go to it."
+mouse_filter = 1
+text = "Problems"
+
+[node name="IssuesList" type="ItemList" parent="Body/Center/Side/Lower"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2

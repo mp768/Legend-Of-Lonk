@@ -1,0 +1,334 @@
+[gd_resource type="Resource" script_class="DMDungeonLayout" format=4 uid="uid://bx4kcewh6f5w"]
+
+[ext_resource type="Script" uid="uid://d0mfn7u6rmk0e" path="res://addons/dungeon_maker/data/dm_door_edge.gd" id="1_qa4rl"]
+[ext_resource type="Script" uid="uid://cryvn8n4m86sn" path="res://addons/dungeon_maker/data/dm_shutter_rule.gd" id="2_71exw"]
+[ext_resource type="AudioStream" uid="uid://btehdvsul5e1b" path="res://Assets/Sounds/03_-_Legend_of_Zelda_-_NES_-_Underworld_BGM.ogg" id="3_mm3jj"]
+[ext_resource type="Script" uid="uid://n0paacebvuv4" path="res://addons/dungeon_maker/data/dm_room_layout.gd" id="4_i6a16"]
+[ext_resource type="Script" uid="uid://csvdsiu1yfq8" path="res://addons/dungeon_maker/data/dm_placement.gd" id="5_s5vf5"]
+[ext_resource type="PackedScene" uid="uid://dd8wfpu8nrjek" path="res://Assets/Scenes/Collectibles/key.tscn" id="6_bb54g"]
+[ext_resource type="PackedScene" uid="uid://du416pbf2fmx0" path="res://Assets/Scenes/World/pushable_block.tscn" id="7_rvjej"]
+[ext_resource type="PackedScene" uid="uid://ognfmr8q7or8" path="res://Assets/Scenes/Enemies/keese.tscn" id="8_kpc8d"]
+[ext_resource type="PackedScene" uid="uid://duqbu1s7bj6l0" path="res://Assets/Scenes/Enemies/Stalfos.tscn" id="9_pfepp"]
+[ext_resource type="PackedScene" uid="uid://cto2e8dv8epjn" path="res://Assets/Scenes/Enemies/goriya.tscn" id="10_tlook"]
+[ext_resource type="PackedScene" path="res://Assets/Scenes/Collectibles/heart_container.tscn" id="11_xbgh8"]
+[ext_resource type="PackedScene" uid="uid://cl7o58u8btdfl" path="res://Assets/Scenes/Enemies/gel.tscn" id="12_cpjc4"]
+[ext_resource type="PackedScene" uid="uid://bamksisfgow6v" path="res://Assets/Scenes/Rooms/room_basement.tscn" id="13_lhtxx"]
+[ext_resource type="PackedScene" uid="uid://bvllk0snvqw8n" path="res://Assets/Scenes/Enemies/blade_trap.tscn" id="14_71exw"]
+[ext_resource type="Script" uid="uid://bm4330roa5rp7" path="res://addons/dungeon_maker/data/dm_dungeon_layout.gd" id="14_wkptx"]
+[ext_resource type="Resource" uid="uid://bltwv5x7l8noy" path="res://addons/dungeon_maker/themes/eagle/eagle_theme.tres" id="15_5dlyq"]
+[ext_resource type="Script" uid="uid://g5jhusiixewk" path="res://addons/dungeon_maker/data/dm_warp_link.gd" id="16_xq48d"]
+[ext_resource type="PackedScene" uid="uid://dwbn42562p6ma" path="res://Assets/Scenes/World/stairs.tscn" id="17_ai1l8"]
+
+[sub_resource type="Resource" id="Resource_5e3g0"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_87kat"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_y20cr"]
+script = ExtResource("1_qa4rl")
+room_a = 2
+room_b = 0
+shutter_a = SubResource("Resource_5e3g0")
+shutter_b = SubResource("Resource_87kat")
+
+[sub_resource type="Resource" id="Resource_ql2xd"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_u0y7m"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_ma8yq"]
+script = ExtResource("1_qa4rl")
+room_a = 1
+room_b = 2
+shutter_a = SubResource("Resource_ql2xd")
+shutter_b = SubResource("Resource_u0y7m")
+
+[sub_resource type="Resource" id="Resource_0jh25"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_jhlwo"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_1or4u"]
+script = ExtResource("1_qa4rl")
+room_a = 1
+room_b = 4
+shutter_a = SubResource("Resource_0jh25")
+shutter_b = SubResource("Resource_jhlwo")
+
+[sub_resource type="Resource" id="Resource_cfc5b"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_xixt5"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_am2le"]
+script = ExtResource("1_qa4rl")
+room_a = 2
+room_b = 3
+kind = 1
+shutter_a = SubResource("Resource_cfc5b")
+shutter_b = SubResource("Resource_xixt5")
+
+[sub_resource type="Resource" id="Resource_s7nhm"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_b0kty"]
+script = ExtResource("2_71exw")
+mode = 2
+block_id = 12
+
+[sub_resource type="Resource" id="Resource_xbg4v"]
+script = ExtResource("1_qa4rl")
+room_a = 3
+room_b = 5
+shutter_a = SubResource("Resource_s7nhm")
+shutter_b = SubResource("Resource_b0kty")
+
+[sub_resource type="Resource" id="Resource_qa4rl"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_71exw"]
+script = ExtResource("2_71exw")
+mode = 2
+block_id = 13
+
+[sub_resource type="Resource" id="Resource_mm3jj"]
+script = ExtResource("1_qa4rl")
+room_a = 0
+room_b = 5
+shutter_a = SubResource("Resource_qa4rl")
+shutter_b = SubResource("Resource_71exw")
+
+[sub_resource type="Resource" id="Resource_4pbps"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_nej3q"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_2nsvr"]
+script = ExtResource("1_qa4rl")
+room_a = 4
+room_b = 0
+kind = 1
+shutter_a = SubResource("Resource_4pbps")
+shutter_b = SubResource("Resource_nej3q")
+
+[sub_resource type="Resource" id="Resource_1q22c"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_uinee"]
+script = ExtResource("2_71exw")
+
+[sub_resource type="Resource" id="Resource_4yd1h"]
+script = ExtResource("1_qa4rl")
+room_a = 7
+room_b = 3
+shutter_a = SubResource("Resource_1q22c")
+shutter_b = SubResource("Resource_uinee")
+
+[sub_resource type="Resource" id="Resource_1j7bn"]
+script = ExtResource("5_s5vf5")
+id = 0
+scene = ExtResource("6_bb54g")
+position = Vector2i(132, 77)
+appears = 1
+
+[sub_resource type="Resource" id="Resource_r5ct0"]
+script = ExtResource("5_s5vf5")
+id = 14
+scene = ExtResource("12_cpjc4")
+position = Vector2i(96, 88)
+
+[sub_resource type="Resource" id="Resource_pqlk2"]
+script = ExtResource("4_i6a16")
+id = 0
+room_name = "Start"
+grid_pos = Vector2i(1, 1)
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAFAAAAAAAABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_s5vf5")]([SubResource("Resource_1j7bn"), SubResource("Resource_r5ct0")])
+
+[sub_resource type="Resource" id="Resource_nb6iu"]
+script = ExtResource("5_s5vf5")
+id = 6
+scene = ExtResource("7_rvjej")
+position = Vector2i(120, 88)
+overrides = {
+"AllowedDirection": Vector2(0, -1)
+}
+
+[sub_resource type="Resource" id="Resource_vcepg"]
+script = ExtResource("4_i6a16")
+id = 1
+room_name = "SampleA"
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_s5vf5")]([SubResource("Resource_nb6iu")])
+
+[sub_resource type="Resource" id="Resource_puyis"]
+script = ExtResource("5_s5vf5")
+id = 4
+scene = ExtResource("8_kpc8d")
+position = Vector2i(72, 104)
+
+[sub_resource type="Resource" id="Resource_hvrfo"]
+script = ExtResource("5_s5vf5")
+id = 5
+scene = ExtResource("9_pfepp")
+position = Vector2i(184, 104)
+
+[sub_resource type="Resource" id="Resource_5y4je"]
+script = ExtResource("4_i6a16")
+id = 2
+room_name = "SampleB"
+grid_pos = Vector2i(1, 0)
+tiles = PackedByteArray("AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAAAAAAAAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_s5vf5")]([SubResource("Resource_puyis"), SubResource("Resource_hvrfo")])
+
+[sub_resource type="Resource" id="Resource_45dal"]
+script = ExtResource("5_s5vf5")
+id = 10
+scene = ExtResource("10_tlook")
+position = Vector2i(136, 88)
+
+[sub_resource type="Resource" id="Resource_moadi"]
+script = ExtResource("5_s5vf5")
+id = 11
+scene = ExtResource("11_xbgh8")
+position = Vector2i(128, 56)
+appears = 1
+
+[sub_resource type="Resource" id="Resource_u4705"]
+script = ExtResource("4_i6a16")
+id = 3
+room_name = "SampleC"
+grid_pos = Vector2i(2, 0)
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_s5vf5")]([SubResource("Resource_45dal"), SubResource("Resource_moadi")])
+
+[sub_resource type="Resource" id="Resource_b5ote"]
+script = ExtResource("5_s5vf5")
+id = 1
+scene = ExtResource("9_pfepp")
+position = Vector2i(56, 64)
+
+[sub_resource type="Resource" id="Resource_pi3qi"]
+script = ExtResource("5_s5vf5")
+id = 2
+scene = ExtResource("9_pfepp")
+position = Vector2i(184, 120)
+
+[sub_resource type="Resource" id="Resource_2jhdm"]
+script = ExtResource("5_s5vf5")
+id = 3
+scene = ExtResource("6_bb54g")
+position = Vector2i(72, 120)
+appears = 1
+
+[sub_resource type="Resource" id="Resource_suqvm"]
+script = ExtResource("4_i6a16")
+id = 4
+room_name = "SampleD"
+grid_pos = Vector2i(0, 1)
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAgICAgICAAAAAAAAAgICAgICAAAAAAAAAgICAgICAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_s5vf5")]([SubResource("Resource_b5ote"), SubResource("Resource_pi3qi"), SubResource("Resource_2jhdm")])
+
+[sub_resource type="Resource" id="Resource_smg2o"]
+script = ExtResource("5_s5vf5")
+id = 8
+scene = ExtResource("12_cpjc4")
+position = Vector2i(88, 104)
+
+[sub_resource type="Resource" id="Resource_linsv"]
+script = ExtResource("5_s5vf5")
+id = 9
+scene = ExtResource("12_cpjc4")
+position = Vector2i(120, 72)
+
+[sub_resource type="Resource" id="Resource_uhq7b"]
+script = ExtResource("5_s5vf5")
+id = 12
+scene = ExtResource("7_rvjej")
+position = Vector2i(184, 72)
+
+[sub_resource type="Resource" id="Resource_i6a16"]
+script = ExtResource("5_s5vf5")
+id = 13
+scene = ExtResource("7_rvjej")
+position = Vector2i(168, 104)
+
+[sub_resource type="Resource" id="Resource_esqid"]
+script = ExtResource("4_i6a16")
+id = 5
+room_name = "SampleF"
+grid_pos = Vector2i(2, 1)
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_s5vf5")]([SubResource("Resource_smg2o"), SubResource("Resource_linsv"), SubResource("Resource_uhq7b"), SubResource("Resource_i6a16")])
+
+[sub_resource type="Resource" id="Resource_ty66b"]
+script = ExtResource("4_i6a16")
+id = 6
+room_name = "SampleBasement"
+off_grid = true
+custom_scene = ExtResource("13_lhtxx")
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+[sub_resource type="Resource" id="Resource_52yfm"]
+script = ExtResource("5_s5vf5")
+id = 15
+scene = ExtResource("9_pfepp")
+position = Vector2i(200, 56)
+
+[sub_resource type="Resource" id="Resource_170s1"]
+script = ExtResource("5_s5vf5")
+id = 16
+scene = ExtResource("9_pfepp")
+position = Vector2i(88, 88)
+
+[sub_resource type="Resource" id="Resource_45awx"]
+script = ExtResource("5_s5vf5")
+id = 17
+scene = ExtResource("14_71exw")
+position = Vector2i(216, 136)
+
+[sub_resource type="Resource" id="Resource_1ghtp"]
+script = ExtResource("5_s5vf5")
+id = 18
+scene = ExtResource("14_71exw")
+position = Vector2i(40, 136)
+
+[sub_resource type="Resource" id="Resource_8jpw8"]
+script = ExtResource("4_i6a16")
+id = 7
+room_name = "Room7"
+grid_pos = Vector2i(2, -1)
+tiles = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAAAFAAAAAAAAAAAAAAAAAAAABAQEBAQEBAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+placements = Array[ExtResource("5_s5vf5")]([SubResource("Resource_52yfm"), SubResource("Resource_170s1"), SubResource("Resource_45awx"), SubResource("Resource_1ghtp")])
+
+[sub_resource type="Resource" id="Resource_qdtej"]
+script = ExtResource("16_xq48d")
+from_room_id = 1
+from_position = Vector2i(152, 88)
+warp_scene = ExtResource("17_ai1l8")
+to_room_id = 6
+arrival_position = Vector2i(56, 24)
+appears = 2
+block_id = 6
+two_way = true
+return_position = Vector2i(56, 4)
+return_arrival_position = Vector2i(136, 88)
+
+[resource]
+script = ExtResource("14_wkptx")
+dungeon_name = "Sample"
+export_dir = "res://Assets/Scenes/Dungeons/Sample"
+theme = ExtResource("15_5dlyq")
+music = ExtResource("3_mm3jj")
+rooms = Array[ExtResource("4_i6a16")]([SubResource("Resource_pqlk2"), SubResource("Resource_vcepg"), SubResource("Resource_5y4je"), SubResource("Resource_u4705"), SubResource("Resource_suqvm"), SubResource("Resource_esqid"), SubResource("Resource_ty66b"), SubResource("Resource_8jpw8")])
+edges = Array[ExtResource("1_qa4rl")]([SubResource("Resource_y20cr"), SubResource("Resource_ma8yq"), SubResource("Resource_1or4u"), SubResource("Resource_am2le"), SubResource("Resource_xbg4v"), SubResource("Resource_mm3jj"), SubResource("Resource_2nsvr"), SubResource("Resource_4yd1h")])
+warps = Array[ExtResource("16_xq48d")]([SubResource("Resource_qdtej")])
+start_room_id = 0
+entrance_side = 2
+next_room_id = 8
+next_placement_id = 19
